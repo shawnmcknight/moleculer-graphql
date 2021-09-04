@@ -64,17 +64,8 @@ const query = `{
 }`;
 
 broker.start().then(() => {
-	// broker
-	// 	.call('posts.postById', { id: '1' })
-	// 	.then((result) => {
-	// 		console.log(result);
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err);
-	// 	});
-
 	broker
-		.call('posts.handleGraphQLRequest', { query })
+		.call('posts.$handleGraphQLRequest', { query })
 		.then((result) => {
 			console.log('graphQLresult', inspect(result, { showHidden: false, depth: null }));
 		})

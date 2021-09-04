@@ -17,7 +17,7 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 
 	return {
 		actions: {
-			handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
+			$handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
 				return this.graphQLExecutor.execute(ctx);
 			},
 		},
