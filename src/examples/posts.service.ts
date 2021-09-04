@@ -67,7 +67,16 @@ broker.start().then(() => {
 	broker
 		.call('posts.$handleGraphQLRequest', { query })
 		.then((result) => {
-			console.log('graphQLresult', inspect(result, { showHidden: false, depth: null }));
+			console.log('graphQLResult', inspect(result, { showHidden: false, depth: null }));
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+
+	broker
+		.call('posts.$resolveTypeDefs')
+		.then((result) => {
+			console.log('typeDefsResult', result);
 		})
 		.catch((err) => {
 			console.log(err);

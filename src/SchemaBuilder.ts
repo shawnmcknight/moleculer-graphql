@@ -19,7 +19,13 @@ class SchemaBuilder {
 
 	public constructor(service: Service, typeDefs: string, opts: SchemaBuilderOptions = {}) {
 		this.service = service;
-		this.typeDefs = typeDefs;
+
+		const { stitchingDirectivesTypeDefs } = stitchingDirectives();
+
+		this.typeDefs = /* GraphQL */ `
+			${stitchingDirectivesTypeDefs}
+			${typeDefs}
+		`;
 
 		const { resolvers } = opts;
 		this.resolvers = resolvers;
@@ -28,18 +34,19 @@ class SchemaBuilder {
 	public build(): GraphQLSchema {
 		const rootResolver = this.createRootResolver();
 
-		const { stitchingDirectivesTypeDefs, stitchingDirectivesValidator } = stitchingDirectives();
-
-		const typeDefs = /* GraphQL */ `
-			${stitchingDirectivesTypeDefs}
-			${this.typeDefs}
-		`;
-
 		const resolvers = { ...this.resolvers, ...rootResolver };
 
-		const schema = stitchingDirectivesValidator(makeExecutableSchema({ typeDefs, resolvers }));
+		const { stitchingDirectivesValidator } = stitchingDirectives();
+
+		const schema = stitchingDirectivesValidator(
+			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers })
+		);
 
 		return schema;
+	}
+
+	public getTypeDefs(): string {
+		return this.typeDefs;
 	}
 
 	private createRootResolver() {

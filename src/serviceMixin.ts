@@ -10,6 +10,7 @@ interface ServiceMixinOptions {
 
 interface GraphQLService extends Service {
 	graphQLExecutor: GraphQLExecutor;
+	schemaBuilder: SchemaBuilder;
 }
 
 export default function serviceMixin(opts: ServiceMixinOptions): Partial<ServiceSchema> {
@@ -20,14 +21,17 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 			$handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
 				return this.graphQLExecutor.execute(ctx);
 			},
+			$resolveTypeDefs(this: GraphQLService) {
+				return this.schemaBuilder.getTypeDefs();
+			},
 		},
 
 		events: {
 			'$broker.started': {
 				handler() {
-					const schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
+					this.schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
 
-					const schema = schemaBuilder.build();
+					const schema = this.schemaBuilder.build();
 
 					this.graphQLExecutor = new GraphQLExecutor(schema);
 				},
