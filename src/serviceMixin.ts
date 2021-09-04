@@ -12,10 +12,7 @@ interface GraphQLService extends Service {
 	graphQLExecutor: GraphQLExecutor;
 }
 
-export default function serviceMixin(
-	this: Service,
-	opts: ServiceMixinOptions
-): Partial<ServiceSchema> {
+export default function serviceMixin(opts: ServiceMixinOptions): Partial<ServiceSchema> {
 	const { typeDefs, resolvers } = opts;
 
 	return {
@@ -27,7 +24,7 @@ export default function serviceMixin(
 
 		events: {
 			'$broker.started': {
-				handler(this: Service) {
+				handler() {
 					const schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
 
 					const schema = schemaBuilder.build();

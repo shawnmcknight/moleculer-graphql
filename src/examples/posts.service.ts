@@ -26,7 +26,6 @@ const posts: Post[] = [
 broker.createService({
 	name: 'posts',
 	mixins: [
-		// @ts-ignore: foo
 		serviceMixin({
 			typeDefs,
 			resolvers: {
