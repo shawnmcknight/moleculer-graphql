@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
+import { inspect } from 'util';
 import type { Context } from 'moleculer';
 import { ServiceBroker } from 'moleculer';
 import serviceMixin from '../serviceMixin';
@@ -8,7 +9,13 @@ const typeDefs = readFileSync(path.join(__dirname, './posts.graphql'), 'utf8');
 
 const broker = new ServiceBroker();
 
-const posts = [
+interface Post {
+	id: string;
+	authorId: string;
+	message: string;
+}
+
+const posts: Post[] = [
 	{
 		id: '1',
 		authorId: '1',
@@ -18,8 +25,19 @@ const posts = [
 
 broker.createService({
 	name: 'posts',
-	// @ts-ignore: foo
-	mixins: [serviceMixin({ typeDefs })],
+	mixins: [
+		// @ts-ignore: foo
+		serviceMixin({
+			typeDefs,
+			resolvers: {
+				Post: {
+					author: (parent: Post) => {
+						return { id: parent.authorId };
+					},
+				},
+			},
+		}),
+	],
 	actions: {
 		postById: {
 			handler(ctx: Context<{ id: string }>) {
@@ -39,7 +57,9 @@ broker.createService({
 const query = `{
 	postById(id: "1") {
 		id
-		authorId
+		author {
+			id
+		}
 		message
 	}
 }`;
@@ -57,7 +77,7 @@ broker.start().then(() => {
 	broker
 		.call('posts.handleGraphQLRequest', { query })
 		.then((result) => {
-			console.log('graphQLresult', result);
+			console.log('graphQLresult', inspect(result, { showHidden: false, depth: null }));
 		})
 		.catch((err) => {
 			console.log(err);

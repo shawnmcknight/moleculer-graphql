@@ -13,6 +13,12 @@ module.exports = {
 			},
 		},
 		{
+			files: '*.graphql',
+			parser: '@graphql-eslint/eslint-plugin',
+			plugins: ['@graphql-eslint'],
+			rules: { 'prettier/prettier': ['error', { parser: 'graphql' }] },
+		},
+		{
 			files: '*.ts',
 			extends: [
 				'eslint:recommended',
@@ -50,6 +56,12 @@ module.exports = {
 			rules: {
 				'import/prefer-default-export': 'off',
 				'import/no-default-export': 'error',
+			},
+		},
+		{
+			files: '**/examples/**',
+			rules: {
+				'import/no-extraneous-dependencies': ['error', { optionalDependencies: false }],
 			},
 		},
 	],

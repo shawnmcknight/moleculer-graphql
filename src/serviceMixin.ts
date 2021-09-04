@@ -5,6 +5,7 @@ import SchemaBuilder from './SchemaBuilder';
 
 interface ServiceMixinOptions {
 	typeDefs: string;
+	resolvers?: Record<string, any>;
 }
 
 interface GraphQLService extends Service {
@@ -15,7 +16,7 @@ export default function serviceMixin(
 	this: Service,
 	opts: ServiceMixinOptions
 ): Partial<ServiceSchema> {
-	const { typeDefs } = opts;
+	const { typeDefs, resolvers } = opts;
 
 	return {
 		actions: {
@@ -27,7 +28,7 @@ export default function serviceMixin(
 		events: {
 			'$broker.started': {
 				handler(this: Service) {
-					const schemaBuilder = new SchemaBuilder(this, typeDefs);
+					const schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
 
 					const schema = schemaBuilder.build();
 

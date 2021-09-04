@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/shawnmcknight/moleculer-graphql#readme",
   "devDependencies": {
+    "@graphql-eslint/eslint-plugin": "^2.0.2",
     "@types/node": "14.17.12",
     "@typescript-eslint/eslint-plugin": "4.29.3",
     "@typescript-eslint/parser": "4.29.3",
@@ -38,7 +39,8 @@
     "typescript": "4.4.2"
   },
   "dependencies": {
-    "@graphql-tools/schema": "^8.1.2"
+    "@graphql-tools/schema": "^8.1.2",
+    "@graphql-tools/stitching-directives": "^2.1.0"
   },
   "peerDependencies": {
     "graphql": "^15.0.0"

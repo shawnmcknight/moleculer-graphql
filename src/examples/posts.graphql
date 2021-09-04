@@ -1,9 +1,13 @@
 type Post {
-  id: ID!
-  authorId: String!
-  message: String!
+	id: ID!
+	author: Author
+	message: String!
+}
+
+type Author @key(selectionSet: "{ id }") {
+	id: ID!
 }
 
 type Query {
-  postById(id: ID!): Post
+	postById(id: ID!): Post
 }

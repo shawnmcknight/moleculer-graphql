@@ -1,29 +1,48 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { GraphQLSchema } from 'graphql';
 import type { Service, Context } from 'moleculer';
 import { ensureArray } from './utils';
 
 type ActionResolver = (parent: unknown, args: Record<string, any>, ctx: Context) => unknown;
 
+interface SchemaBuilderOptions {
+	resolvers?: Record<string, any>;
+}
+
 class SchemaBuilder {
 	private service: Service;
 
 	private typeDefs: string;
 
-	public constructor(service: Service, typeDefs: string) {
+	private resolvers?: Record<string, any>;
+
+	public constructor(service: Service, typeDefs: string, opts: SchemaBuilderOptions = {}) {
 		this.service = service;
 		this.typeDefs = typeDefs;
+
+		const { resolvers } = opts;
+		this.resolvers = resolvers;
 	}
 
 	public build(): GraphQLSchema {
-		const resolvers = this.createResolvers();
+		const rootResolver = this.createRootResolver();
 
-		const schema = makeExecutableSchema({ typeDefs: this.typeDefs, resolvers });
+		const { stitchingDirectivesTypeDefs, stitchingDirectivesValidator } = stitchingDirectives();
+
+		const typeDefs = /* GraphQL */ `
+			${stitchingDirectivesTypeDefs}
+			${this.typeDefs}
+		`;
+
+		const resolvers = { ...this.resolvers, ...rootResolver };
+
+		const schema = stitchingDirectivesValidator(makeExecutableSchema({ typeDefs, resolvers }));
 
 		return schema;
 	}
 
-	private createResolvers() {
+	private createRootResolver() {
 		const actions = this.service.broker.registry.actions.list({
 			onlyLocal: true,
 			skipInternal: true,
