@@ -33,6 +33,7 @@ module.exports = {
 			},
 			plugins: ['@typescript-eslint'],
 			rules: {
+				'class-methods-use-this': 'off',
 				curly: ['error', 'all'],
 				'import/order': ['error', { alphabetize: { order: 'asc' } }],
 				'@typescript-eslint/array-type': 'error',
