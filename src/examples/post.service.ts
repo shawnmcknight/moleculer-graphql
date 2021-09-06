@@ -4,7 +4,7 @@ import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import serviceMixin from '../serviceMixin';
 
-const typeDefs = readFileSync(path.join(__dirname, './posts.graphql'), 'utf8');
+const typeDefs = readFileSync(path.join(__dirname, './post.graphql'), 'utf8');
 
 interface Post {
 	id: string;
@@ -20,12 +20,12 @@ const posts: Post[] = [
 	},
 ];
 
-class PostsService extends Service {
+class PostService extends Service {
 	public constructor(broker: ServiceBroker) {
 		super(broker);
 
 		this.parseServiceSchema({
-			name: 'posts',
+			name: 'post',
 			mixins: [
 				serviceMixin({
 					typeDefs,
@@ -43,8 +43,6 @@ class PostsService extends Service {
 					handler(ctx: Context<{ id: string }>) {
 						const { id } = ctx.params;
 
-						console.log(`called postById with ${id}`);
-
 						const result = posts.find((post) => post.id === id);
 
 						return result;
@@ -58,4 +56,4 @@ class PostsService extends Service {
 	}
 }
 
-export default PostsService;
+export default PostService;
