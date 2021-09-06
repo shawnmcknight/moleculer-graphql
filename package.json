@@ -4,6 +4,7 @@
   "description": "GraphQL mixins for Moleculer microservices",
   "main": "index.js",
   "scripts": {
+    "example": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner ./examples/*.service.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

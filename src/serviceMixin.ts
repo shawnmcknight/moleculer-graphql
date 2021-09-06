@@ -34,7 +34,7 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 			const schema = schemaBuilder.build();
 
 			this.settings.$graphql = {
-				typeDefs: this.schemaBuilder.getTypeDefs(),
+				typeDefs: schemaBuilder.getTypeDefs(),
 			};
 
 			this.graphQLExecutor = new GraphQLExecutor(schema);
