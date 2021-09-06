@@ -2,7 +2,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { GraphQLSchema } from 'graphql';
 import type { Service, Context } from 'moleculer';
-import { ensureArray } from './utils';
+import { ensureArray, buildFullActionName } from './utils';
 
 type ActionResolver = (parent: unknown, args: Record<string, unknown>, ctx: Context) => unknown;
 
@@ -103,17 +103,11 @@ class SchemaBuilder {
 	}
 
 	private makeActionResolver(actionName: string): ActionResolver {
-		const fullActionName = this.buildFullActionName(actionName);
+		const fullActionName = buildFullActionName(this.service.name, actionName, this.service.version);
 
 		return (parent, args, ctx) => {
 			return ctx.call(fullActionName, args);
 		};
-	}
-
-	private buildFullActionName(actionName: string): string {
-		const prefix = this.service.version != null ? `v${this.service.version}.` : '';
-
-		return `${prefix}${this.service.name}.${actionName}`;
 	}
 }
 

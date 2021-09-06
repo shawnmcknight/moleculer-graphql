@@ -6,6 +6,7 @@ import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
 import type { Context, Service, ServiceSchema } from 'moleculer';
 import type { GraphQLRequest } from './serviceMixin';
+import { buildFullActionName } from './utils';
 
 class GatewayStitcher {
 	private service: Service;
@@ -47,12 +48,10 @@ class GatewayStitcher {
 		});
 	}
 
-	private makeRemoteExecutor(service: ServiceSchema): Executor<Context> {
-		const { name: serviceName, version } = service;
+	private makeRemoteExecutor(serviceSchema: ServiceSchema): Executor<Context> {
+		const { name: serviceName, version } = serviceSchema;
 
-		const prefix = version != null ? `v${version}.` : '';
-
-		const actionName = `${prefix}${serviceName}.$handleGraphQLRequest`;
+		const actionName = buildFullActionName(serviceName, '$handleGraphQLRequest', version);
 
 		// @ts-ignore: TODO
 		return async ({
