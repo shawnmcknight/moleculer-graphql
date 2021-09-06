@@ -2,7 +2,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { GraphQLSchema } from 'graphql';
 import type { Service, Context } from 'moleculer';
-import { ensureArray, buildFullActionName } from './utils';
+import { ensureArray, buildFullActionName } from '../utils';
 
 type ActionResolver = (parent: unknown, args: Record<string, unknown>, ctx: Context) => unknown;
 

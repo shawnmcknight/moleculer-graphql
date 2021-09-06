@@ -20,7 +20,7 @@ class RequestHandler {
 
 	private graphQLExecutor: GraphQLExecutor;
 
-	private playgroundPath = path.join(__dirname, 'playground', 'playground.html');
+	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
 	private playgroundStat = fs.statSync(this.playgroundPath);
 

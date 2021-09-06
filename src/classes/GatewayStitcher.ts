@@ -5,8 +5,8 @@ import type { Executor, ExecutionResult } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
 import type { Context, Service, ServiceSchema } from 'moleculer';
-import type { GraphQLRequest } from './mixins/serviceMixin';
-import { buildFullActionName } from './utils';
+import type { GraphQLRequest } from '../mixins/serviceMixin';
+import { buildFullActionName } from '../utils';
 
 class GatewayStitcher {
 	private service: Service;
