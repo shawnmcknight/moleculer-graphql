@@ -1,7 +1,7 @@
 import type { ServerResponse } from 'http';
 import type { Service, ServiceSchema } from 'moleculer';
 import RequestHandler from './RequestHandler';
-import type { Request } from './RequestParser';
+import type { Request } from './RequestHandler';
 
 interface GatewayService extends Service {
 	requestHandler: RequestHandler;

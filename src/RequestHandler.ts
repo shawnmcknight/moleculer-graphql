@@ -2,16 +2,23 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
+import type { ExecutionResult, GraphQLSchema } from 'graphql';
 import httpError from 'http-errors';
-import type { Request, GraphQLParams } from './RequestParser';
+import type { IncomingRequest } from 'moleculer-web';
+import GraphQLExecutor from './GraphQLExecutor';
+import type { GraphQLParams } from './RequestParser';
 import RequestParser from './RequestParser';
 
 interface RequestHandlerOptions {
 	showGraphiQL?: boolean;
 }
 
+export type Request = IncomingRequest & { url: string; body?: unknown };
+
 class RequestHandler {
 	private requestParser: RequestParser = new RequestParser();
+
+	private graphQLExecutor: GraphQLExecutor;
 
 	private playgroundPath = path.join(__dirname, 'playground.html');
 
@@ -19,12 +26,14 @@ class RequestHandler {
 
 	private showGraphiQL: boolean;
 
-	public constructor(opts: RequestHandlerOptions = {}) {
+	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions = {}) {
+		this.graphQLExecutor = new GraphQLExecutor(schema);
+
 		const { showGraphiQL = false } = opts;
 		this.showGraphiQL = showGraphiQL;
 	}
 
-	public async handle(req: Request, res: ServerResponse): Promise<void> {
+	public async handle(req: Request, res: ServerResponse): Promise<void | ExecutionResult> {
 		// GraphQL HTTP only supports GET and POST methods.
 		if (req.method !== 'GET' && req.method !== 'POST') {
 			throw httpError(405, 'GraphQL only supports GET and POST requests.', {
@@ -42,6 +51,8 @@ class RequestHandler {
 			}
 			throw httpError(400, 'Must provide query string.');
 		}
+
+		return this.graphQLExecutor.execute(req.$ctx, query, variables, operationName);
 
 		return res.end();
 	}

@@ -1,4 +1,3 @@
-import type { IncomingMessage } from 'http';
 import querystring from 'querystring';
 import { URLSearchParams } from 'url';
 import type { Gunzip, Inflate } from 'zlib';
@@ -7,6 +6,7 @@ import type { ParsedMediaType } from 'content-type';
 import contentType from 'content-type';
 import getStream, { MaxBufferError } from 'get-stream';
 import httpError from 'http-errors';
+import type { Request } from './RequestHandler';
 
 export interface GraphQLParams {
 	query: string | null;
@@ -14,8 +14,6 @@ export interface GraphQLParams {
 	operationName: string | null;
 	raw: boolean;
 }
-
-export type Request = IncomingMessage & { url: string; body?: unknown };
 
 /**
  * RegExp to match an Object-opening brace "{" as the first non-space

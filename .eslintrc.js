@@ -65,5 +65,13 @@ module.exports = {
 				'import/no-extraneous-dependencies': ['error', { optionalDependencies: false }],
 			},
 		},
+		{
+			files: '*.d.ts',
+			rules: {
+				'max-classes-per-file': 'off',
+				'@typescript-eslint/explicit-member-accessibility': 'off',
+				'@typescript-eslint/lines-between-class-members': 'off',
+			},
+		},
 	],
 };

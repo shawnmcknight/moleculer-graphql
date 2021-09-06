@@ -2,12 +2,6 @@ import type { GraphQLSchema, ExecutionResult } from 'graphql';
 import { Source, execute, parse, getOperationAST } from 'graphql';
 import type { Context } from 'moleculer';
 
-export interface GraphQLRequest {
-	query: string;
-	variables: Readonly<Record<string, unknown>>;
-	operationName: string | null;
-}
-
 class GraphQLExecutor {
 	private schema: GraphQLSchema;
 
@@ -15,9 +9,12 @@ class GraphQLExecutor {
 		this.schema = schema;
 	}
 
-	public async execute(ctx: Context<GraphQLRequest>): Promise<ExecutionResult> {
-		const { query, variables, operationName } = ctx.params;
-
+	public async execute(
+		ctx: Context,
+		query: string,
+		variables: Readonly<Record<string, unknown>> | null,
+		operationName: string | null
+	): Promise<ExecutionResult> {
 		const documentAST = parse(new Source(query, 'GraphQL request'));
 		const operationAST = getOperationAST(documentAST, operationName);
 
