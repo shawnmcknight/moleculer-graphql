@@ -1,13 +1,10 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import { inspect } from 'util';
-import type { Context } from 'moleculer';
-import { ServiceBroker } from 'moleculer';
+import type { Context, ServiceBroker } from 'moleculer';
+import { Service } from 'moleculer';
 import serviceMixin from '../serviceMixin';
 
 const typeDefs = readFileSync(path.join(__dirname, './posts.graphql'), 'utf8');
-
-const broker = new ServiceBroker();
 
 interface Post {
 	id: string;
@@ -23,62 +20,42 @@ const posts: Post[] = [
 	},
 ];
 
-broker.createService({
-	name: 'posts',
-	mixins: [
-		serviceMixin({
-			typeDefs,
-			resolvers: {
-				Post: {
-					author: (parent: Post) => {
-						return { id: parent.authorId };
+class PostsService extends Service {
+	public constructor(broker: ServiceBroker) {
+		super(broker);
+
+		this.parseServiceSchema({
+			name: 'posts',
+			mixins: [
+				serviceMixin({
+					typeDefs,
+					resolvers: {
+						Post: {
+							author: (parent: Post) => {
+								return { id: parent.authorId };
+							},
+						},
+					},
+				}),
+			],
+			actions: {
+				postById: {
+					handler(ctx: Context<{ id: string }>) {
+						const { id } = ctx.params;
+
+						console.log(`called postById with ${id}`);
+
+						const result = posts.find((post) => post.id === id);
+
+						return result;
+					},
+					graphql: {
+						query: 'postById',
 					},
 				},
 			},
-		}),
-	],
-	actions: {
-		postById: {
-			handler(ctx: Context<{ id: string }>) {
-				const { id } = ctx.params;
-
-				const result = posts.find((post) => post.id === id);
-
-				return result;
-			},
-			graphql: {
-				query: 'postById',
-			},
-		},
-	},
-});
-
-const query = `{
-	postById(id: "1") {
-		id
-		author {
-			id
-		}
-		message
+		});
 	}
-}`;
+}
 
-broker.start().then(() => {
-	broker
-		.call('posts.$handleGraphQLRequest', { query })
-		.then((result) => {
-			console.log('graphQLResult', inspect(result, { showHidden: false, depth: null }));
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-
-	broker
-		.call('posts.$resolveTypeDefs')
-		.then((result) => {
-			console.log('typeDefsResult', result);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-});
+export default PostsService;

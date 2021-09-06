@@ -1,6 +1,7 @@
 import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
+import { inspect } from 'util';
 import accepts from 'accepts';
 import type { ExecutionResult, GraphQLSchema } from 'graphql';
 import httpError from 'http-errors';
@@ -33,7 +34,7 @@ class RequestHandler {
 		this.showGraphiQL = showGraphiQL;
 	}
 
-	public async handle(req: Request, res: ServerResponse): Promise<void | ExecutionResult> {
+	public async handle(req: Request, res: ServerResponse): Promise<void> {
 		// GraphQL HTTP only supports GET and POST methods.
 		if (req.method !== 'GET' && req.method !== 'POST') {
 			throw httpError(405, 'GraphQL only supports GET and POST requests.', {
@@ -47,14 +48,16 @@ class RequestHandler {
 
 		if (query == null) {
 			if (this.canDisplayGraphiQL(req, params)) {
-				return this.respondWithGraphiQL(res);
+				this.respondWithGraphiQL(res);
+				return;
 			}
 			throw httpError(400, 'Must provide query string.');
 		}
 
-		return this.graphQLExecutor.execute(req.$ctx, query, variables, operationName);
+		const result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName);
 
-		return res.end();
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		res.end(JSON.stringify(result));
 	}
 
 	/**

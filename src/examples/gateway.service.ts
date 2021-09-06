@@ -1,9 +1,14 @@
-import { ServiceBroker } from 'moleculer';
+import type { ServiceBroker } from 'moleculer';
+import { Service } from 'moleculer';
 import ApiService from 'moleculer-web';
 import gatewayMixin from '../gatewayMixin';
 
-const broker = new ServiceBroker();
+class GatewayService extends Service {
+	public constructor(broker: ServiceBroker) {
+		super(broker);
 
-broker.createService({ name: 'gateway', mixins: [ApiService, gatewayMixin()] });
+		this.parseServiceSchema({ name: 'gateway', mixins: [ApiService, gatewayMixin()] });
+	}
+}
 
-broker.start();
+export default GatewayService;

@@ -1,5 +1,6 @@
 import type { SubschemaConfig } from '@graphql-tools/delegate';
 import { stitchSchemas } from '@graphql-tools/stitch';
+import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { Executor, ExecutionResult } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
@@ -37,7 +38,13 @@ class GatewayStitcher {
 			throw new Error('No registered GraphQL services');
 		}
 
-		return stitchSchemas({ subschemas });
+		const { stitchingDirectivesTransformer } = stitchingDirectives();
+
+		return stitchSchemas({
+			// @ts-ignore: TODO
+			subschemaConfigTransforms: [stitchingDirectivesTransformer],
+			subschemas,
+		});
 	}
 
 	private makeRemoteExecutor(service: ServiceSchema): Executor<Context> {

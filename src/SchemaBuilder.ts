@@ -50,19 +50,24 @@ class SchemaBuilder {
 	}
 
 	private createRootResolver() {
-		const actions = this.service.broker.registry.actions.list({
-			onlyLocal: true,
-			skipInternal: true,
-		});
-
 		interface ActionResolvers {
 			queryResolvers: Record<string, ActionResolver>;
 			mutationResolvers: Record<string, ActionResolver>;
 		}
 
-		const { queryResolvers, mutationResolvers } = actions.reduce<ActionResolvers>(
-			(acc, actionSchema) => {
-				const { graphql } = actionSchema.action;
+		if (this.service.schema.actions == null) {
+			return {};
+		}
+
+		const { queryResolvers, mutationResolvers } = Object.entries(
+			this.service.schema.actions
+		).reduce<ActionResolvers>(
+			(acc, [actionName, actionSchema]) => {
+				if (typeof actionSchema !== 'object') {
+					return acc;
+				}
+
+				const { graphql } = actionSchema;
 
 				if (graphql == null) {
 					return acc;
@@ -72,7 +77,7 @@ class SchemaBuilder {
 					const queries = ensureArray(graphql.query);
 
 					queries.forEach((query) => {
-						acc.queryResolvers[query] = this.makeActionResolver(actionSchema.name);
+						acc.queryResolvers[query] = this.makeActionResolver(actionName);
 					});
 				}
 
@@ -80,7 +85,7 @@ class SchemaBuilder {
 					const mutations = ensureArray(graphql.mutation);
 
 					mutations.forEach((mutation) => {
-						acc.mutationResolvers[mutation] = this.makeActionResolver(actionSchema.name);
+						acc.mutationResolvers[mutation] = this.makeActionResolver(actionName);
 					});
 				}
 
@@ -108,7 +113,7 @@ class SchemaBuilder {
 	private buildFullActionName(actionName: string): string {
 		const prefix = this.service.version != null ? `v${this.service.version}.` : '';
 
-		return `${prefix}${actionName}`;
+		return `${prefix}${this.service.name}.${actionName}`;
 	}
 }
 

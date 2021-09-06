@@ -1,0 +1,8 @@
+type Author @canonical {
+	id: ID!
+	name: String!
+}
+
+type Query {
+	authorById(id: ID!): Author @merge(keyField: "id")
+}

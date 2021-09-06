@@ -1,0 +1,53 @@
+import { readFileSync } from 'fs';
+import path from 'path';
+import type { Context, ServiceBroker } from 'moleculer';
+import { Service } from 'moleculer';
+import serviceMixin from '../serviceMixin';
+
+const typeDefs = readFileSync(path.join(__dirname, './authors.graphql'), 'utf8');
+
+interface Author {
+	id: string;
+	name: string;
+}
+
+const authors: Author[] = [
+	{
+		id: '1',
+		name: 'O.J. Simpson',
+	},
+];
+
+class AuthorService extends Service {
+	public constructor(broker: ServiceBroker) {
+		super(broker);
+		this.parseServiceSchema({
+			name: 'authors',
+
+			mixins: [
+				serviceMixin({
+					typeDefs,
+				}),
+			],
+
+			actions: {
+				authorById: {
+					handler(ctx: Context<{ id: string }>) {
+						const { id } = ctx.params;
+
+						console.log(`called authorById with ${id}`);
+
+						const result = authors.find((author) => author.id === id);
+
+						return result;
+					},
+					graphql: {
+						query: 'authorById',
+					},
+				},
+			},
+		});
+	}
+}
+
+export default AuthorService;

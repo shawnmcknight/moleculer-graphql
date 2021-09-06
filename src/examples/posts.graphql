@@ -1,4 +1,4 @@
-type Post {
+type Post @canonical {
 	id: ID!
 	author: Author
 	message: String!
