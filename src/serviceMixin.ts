@@ -5,7 +5,7 @@ import SchemaBuilder from './SchemaBuilder';
 
 interface ServiceMixinOptions {
 	typeDefs: string;
-	resolvers?: Record<string, any>;
+	resolvers?: Record<string, unknown>;
 }
 
 interface GraphQLService extends Service {

@@ -4,10 +4,10 @@ import type { GraphQLSchema } from 'graphql';
 import type { Service, Context } from 'moleculer';
 import { ensureArray } from './utils';
 
-type ActionResolver = (parent: unknown, args: Record<string, any>, ctx: Context) => unknown;
+type ActionResolver = (parent: unknown, args: Record<string, unknown>, ctx: Context) => unknown;
 
 interface SchemaBuilderOptions {
-	resolvers?: Record<string, any>;
+	resolvers?: Record<string, unknown>;
 }
 
 class SchemaBuilder {
@@ -15,7 +15,7 @@ class SchemaBuilder {
 
 	private typeDefs: string;
 
-	private resolvers?: Record<string, any>;
+	private resolvers?: Record<string, unknown>;
 
 	public constructor(service: Service, typeDefs: string, opts: SchemaBuilderOptions = {}) {
 		this.service = service;
