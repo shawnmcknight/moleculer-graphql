@@ -1,9 +1,8 @@
 import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
-import { inspect } from 'util';
 import accepts from 'accepts';
-import type { ExecutionResult, GraphQLSchema } from 'graphql';
+import type { GraphQLSchema } from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';
 import GraphQLExecutor from './GraphQLExecutor';
@@ -21,7 +20,7 @@ class RequestHandler {
 
 	private graphQLExecutor: GraphQLExecutor;
 
-	private playgroundPath = path.join(__dirname, 'playground.html');
+	private playgroundPath = path.join(__dirname, 'playground', 'playground.html');
 
 	private playgroundStat = fs.statSync(this.playgroundPath);
 
