@@ -119,5 +119,9 @@ declare module 'moleculer-web' {
 		$service: Service;
 	}
 
-	export default ServiceSchema;
+	const ApiGateway: ServiceSchema = {
+		name: 'api',
+	};
+
+	export default ApiGateway;
 }

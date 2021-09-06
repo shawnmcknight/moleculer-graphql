@@ -35,6 +35,7 @@ module.exports = {
 			rules: {
 				'class-methods-use-this': 'off',
 				curly: ['error', 'all'],
+				'object-shorthand': 'off',
 				'import/order': ['error', { alphabetize: { order: 'asc' } }],
 				'@typescript-eslint/array-type': 'error',
 				'@typescript-eslint/ban-ts-comment': [

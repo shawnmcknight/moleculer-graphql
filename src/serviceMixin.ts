@@ -7,14 +7,21 @@ interface ServiceMixinOptions {
 	resolvers?: Record<string, unknown>;
 }
 
-interface GraphQLService extends Service {
+interface GraphQLSettings {
+	typeDefs: string;
+}
+interface GraphQLServiceSettings {
+	$graphql: GraphQLSettings;
+}
+
+interface GraphQLService extends Service<GraphQLServiceSettings> {
 	graphQLExecutor: GraphQLExecutor;
 	schemaBuilder: SchemaBuilder;
 }
 
 export interface GraphQLRequest {
 	query: string;
-	variables: Readonly<Record<string, unknown>>;
+	variables: Readonly<Record<string, unknown>> | null;
 	operationName: string | null;
 }
 
@@ -27,17 +34,18 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 				const { query, variables, operationName } = ctx.params;
 				return this.graphQLExecutor.execute(ctx, query, variables, operationName);
 			},
-			$resolveTypeDefs(this: GraphQLService) {
-				return this.schemaBuilder.getTypeDefs();
-			},
 		},
 
 		events: {
 			'$broker.started': {
-				handler() {
+				handler(this: GraphQLService) {
 					this.schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
 
 					const schema = this.schemaBuilder.build();
+
+					this.settings.$graphql = {
+						typeDefs: this.schemaBuilder.getTypeDefs(),
+					};
 
 					this.graphQLExecutor = new GraphQLExecutor(schema);
 				},

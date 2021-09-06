@@ -106,7 +106,7 @@ class SchemaBuilder {
 	}
 
 	private buildFullActionName(actionName: string): string {
-		const prefix = this.service.version != null ? `v${this.service.version}` : '';
+		const prefix = this.service.version != null ? `v${this.service.version}.` : '';
 
 		return `${prefix}${actionName}`;
 	}
