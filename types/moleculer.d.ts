@@ -1,12 +1,10 @@
-import type { ActionCatalogActionSchema } from 'moleculer';
-
-declare module 'moleculer' {
+export module 'moleculer' {
 	export interface GraphQLActionSchema {
 		query?: string | readonly string[];
 		mutation?: string | readonly string[];
 	}
 
-	export interface ActionCatalogActionSchema {
+	export interface ActionSchema {
 		graphql?: GraphQLActionSchema;
 	}
 }

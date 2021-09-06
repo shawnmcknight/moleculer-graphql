@@ -494,7 +494,7 @@ declare namespace Moleculer {
 		basePath?: string;
 	}
 
-	type ActionSchema<S = ServiceSettingSchema> = {
+	interface ActionSchema<S = ServiceSettingSchema> {
 		name?: string;
 		rest?: RestSchema | string | string[];
 		visibility?: ActionVisibility;
@@ -510,7 +510,7 @@ declare namespace Moleculer {
 		hooks?: ActionHooks;
 
 		[key: string]: any;
-	} & ThisType<Service<S>>;
+	}
 
 	type EventSchema<S = ServiceSettingSchema> = {
 		name?: string;
@@ -526,7 +526,7 @@ declare namespace Moleculer {
 	} & ThisType<Service<S>>;
 
 	type ServiceActionsSchema<S = ServiceSettingSchema> = {
-		[key: string]: ActionSchema | ActionHandler | boolean;
+		[key: string]: (ActionSchema & ThisType<Service<S>>) | ActionHandler | boolean;
 	} & ThisType<Service<S>>;
 
 	class BrokerNode {
@@ -578,7 +578,7 @@ declare namespace Moleculer {
 
 		endpoint: Endpoint | null;
 
-		action: ActionSchema | null;
+		action: (ActionSchema & ThisType<Service<S>>) | null;
 
 		event: EventSchema | null;
 
@@ -701,7 +701,7 @@ declare namespace Moleculer {
 	) => Promise<any>;
 	type Middleware = {
 		[name: string]:
-			| ((handler: ActionHandler, action: ActionSchema) => any)
+			| ((handler: ActionHandler, action: ActionSchema & ThisType<Service<S>>) => any)
 			| ((handler: ActionHandler, event: ServiceEvent) => any)
 			| ((handler: ActionHandler) => any)
 			| ((service: Service) => any)
@@ -718,7 +718,11 @@ declare namespace Moleculer {
 		list: Middleware[];
 
 		add(mw: string | Middleware | MiddlewareInit): void;
-		wrapHandler(method: string, handler: ActionHandler, def: ActionSchema): typeof handler;
+		wrapHandler(
+			method: string,
+			handler: ActionHandler,
+			def: ActionSchema & ThisType<Service<S>>
+		): typeof handler;
 		callHandlers(method: string, args: any[], opts: MiddlewareCallHandlerOptions): Promise<void>;
 		callSyncHandlers(method: string, args: any[], opts: MiddlewareCallHandlerOptions): void;
 		count(): number;
@@ -1070,7 +1074,7 @@ declare namespace Moleculer {
 
 	interface ActionEndpoint extends Endpoint {
 		service: Service;
-		action: ActionSchema;
+		action: ActionSchema & ThisType<Service<S>>;
 	}
 
 	interface EventEndpoint extends Endpoint {
@@ -1438,7 +1442,7 @@ declare namespace Moleculer {
 		init(broker: ServiceBroker): void;
 		compile(schema: GenericObject): Function;
 		validate(params: GenericObject, schema: GenericObject): boolean;
-		middleware(): (handler: ActionHandler, action: ActionSchema) => any;
+		middleware(): (handler: ActionHandler, action: ActionSchema & ThisType<Service<S>>) => any;
 		convertSchemaToMoleculer(schema: any): GenericObject;
 	}
 
