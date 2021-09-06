@@ -1,6 +1,6 @@
 import type { Service, ServiceSchema, Context } from 'moleculer';
-import GraphQLExecutor from './GraphQLExecutor';
-import SchemaBuilder from './SchemaBuilder';
+import GraphQLExecutor from '../GraphQLExecutor';
+import SchemaBuilder from '../SchemaBuilder';
 
 interface ServiceMixinOptions {
 	typeDefs: string;

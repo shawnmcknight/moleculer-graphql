@@ -1,8 +1,8 @@
 import type { ServerResponse } from 'http';
 import type { Service, ServiceSchema } from 'moleculer';
-import GatewayStitcher from './GatewayStitcher';
-import RequestHandler from './RequestHandler';
-import type { Request } from './RequestHandler';
+import GatewayStitcher from '../GatewayStitcher';
+import RequestHandler from '../RequestHandler';
+import type { Request } from '../RequestHandler';
 
 interface GatewayService extends Service {
 	rebuildSchema: boolean;
