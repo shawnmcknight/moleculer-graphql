@@ -4,7 +4,9 @@
   "description": "GraphQL mixins for Moleculer microservices",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "example": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner ./examples/*.service.ts",
+    "test": "npm run typecheck",
+    "typecheck": "tsc --noEmit && echo \"tsc: no typecheck errors\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,10 @@
   },
   "homepage": "https://github.com/shawnmcknight/moleculer-graphql#readme",
   "devDependencies": {
+    "@graphql-eslint/eslint-plugin": "2.0.2",
+    "@types/accepts": "1.3.5",
+    "@types/content-type": "1.1.5",
+    "@types/http-errors": "1.8.1",
     "@types/node": "14.17.12",
     "@typescript-eslint/eslint-plugin": "4.29.3",
     "@typescript-eslint/parser": "4.29.3",
@@ -30,9 +36,26 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-prettier": "3.4.1",
+    "graphql": "15.5.1",
+    "moleculer": "0.14.16",
+    "moleculer-web": "0.10.2",
     "prettier": "2.3.2",
     "rimraf": "3.0.2",
-    "ts-node": "^10.2.1",
+    "ts-node": "10.2.1",
     "typescript": "4.4.2"
+  },
+  "dependencies": {
+    "@graphql-tools/schema": "^8.1.2",
+    "@graphql-tools/stitch": "^8.3.1",
+    "@graphql-tools/stitching-directives": "^2.1.0",
+    "accepts": "^1.3.7",
+    "content-type": "^1.0.4",
+    "get-stream": "^6.0.1",
+    "http-errors": "^1.8.0",
+    "zlib": "^1.0.5"
+  },
+  "peerDependencies": {
+    "graphql": "^15.0.0",
+    "moleculer-web": "^0.10.0"
   }
 }

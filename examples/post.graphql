@@ -1,0 +1,13 @@
+type Post @canonical {
+	id: ID!
+	author: Author
+	message: String!
+}
+
+type Author @key(selectionSet: "{ id }") {
+	id: ID!
+}
+
+type Query {
+	postById(id: ID!): Post
+}
