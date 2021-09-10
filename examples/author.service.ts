@@ -16,6 +16,10 @@ const authors: Author[] = [
 		id: '1',
 		name: 'O.J. Simpson',
 	},
+	{
+		id: '2',
+		name: 'John Steinbeck',
+	},
 ];
 
 class AuthorService extends Service {
@@ -41,6 +45,20 @@ class AuthorService extends Service {
 					},
 					graphql: {
 						query: 'authorById',
+					},
+				},
+				authorsById: {
+					handler(ctx: Context<{ ids: string[] }>) {
+						const { ids } = ctx.params;
+
+						const result = authors.filter((author) => {
+							return ids.includes(author.id);
+						});
+
+						return result;
+					},
+					graphql: {
+						query: 'authorsById',
 					},
 				},
 			},

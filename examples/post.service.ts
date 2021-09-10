@@ -18,6 +18,11 @@ const posts: Post[] = [
 		authorId: '1',
 		message: 'This is a test',
 	},
+	{
+		id: '2',
+		authorId: '2',
+		message: "How can we live without our lives? How will we know it's us without our past?",
+	},
 ];
 
 class PostService extends Service {
@@ -49,6 +54,20 @@ class PostService extends Service {
 					},
 					graphql: {
 						query: 'postById',
+					},
+				},
+				postsById: {
+					handler(ctx: Context<{ ids: string[] }>) {
+						const { ids } = ctx.params;
+
+						const result = posts.filter((post) => {
+							return ids.includes(post.id);
+						});
+
+						return result;
+					},
+					graphql: {
+						query: 'postsById',
 					},
 				},
 			},

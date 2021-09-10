@@ -4,5 +4,7 @@ type Author @canonical {
 }
 
 type Query {
-	authorById(id: ID!): Author @merge(keyField: "id")
+	authorById(id: ID!): Author
+
+	authorsById(ids: [ID!]): [Author] @merge(keyField: "id")
 }

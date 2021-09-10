@@ -10,4 +10,6 @@ type Author @key(selectionSet: "{ id }") {
 
 type Query {
 	postById(id: ID!): Post
+
+	postsById(ids: [ID!]): [Post]
 }
