@@ -4,8 +4,8 @@ import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { Executor, ExecutionResult } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
-import type { Context, Service, ServiceSchema } from 'moleculer';
-import type { GraphQLRequest } from '../mixins/serviceMixin';
+import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
+import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
 
 class GatewayStitcher {
@@ -20,15 +20,17 @@ class GatewayStitcher {
 
 		const subschemas = allServices.reduce<SubschemaConfig<unknown, unknown, unknown, Context>[]>(
 			(acc, service) => {
-				if (service.settings?.$graphql?.typeDefs == null) {
+				if (!this.isGraphQLServiceSettings(service.settings)) {
 					return acc;
 				}
 
-				const schema = buildSchema(service.settings.$graphql.typeDefs);
+				const { typeDefs, subschemaConfig } = service.settings.$graphql;
+
+				const schema = buildSchema(typeDefs);
 
 				const executor = this.makeRemoteExecutor(service);
 
-				acc.push({ schema, executor });
+				acc.push({ ...subschemaConfig, schema, executor });
 
 				return acc;
 			},
@@ -75,6 +77,12 @@ class GatewayStitcher {
 
 			return result;
 		};
+	}
+
+	private isGraphQLServiceSettings(
+		settings?: ServiceSettingSchema
+	): settings is GraphQLServiceSettings {
+		return settings?.$graphql != null;
 	}
 }
 

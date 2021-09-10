@@ -1,15 +1,22 @@
+import type { SubschemaConfig } from '@graphql-tools/delegate';
+import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema, Context } from 'moleculer';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
+
+type SubschemaConfigOmittedProps = 'schema' | 'executor';
+type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedProps>;
 
 interface ServiceMixinOptions {
 	typeDefs: string;
 	resolvers?: Record<string, unknown>;
+	subschemaConfig?: ServiceMixinSubschemaConfig;
 }
 
 interface GraphQLSettings {
 	typeDefs: string;
+	subschemaConfig: ServiceMixinSubschemaConfig;
 }
-interface GraphQLServiceSettings {
+export interface GraphQLServiceSettings {
 	$graphql: GraphQLSettings;
 }
 
@@ -24,7 +31,11 @@ export interface GraphQLRequest {
 }
 
 export default function serviceMixin(opts: ServiceMixinOptions): Partial<ServiceSchema> {
-	const { typeDefs, resolvers } = opts;
+	const { typeDefs, resolvers, subschemaConfig } = opts;
+
+	const defaultedSubschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, subschemaConfig, {
+		batch: true,
+	});
 
 	return {
 		created(this: GraphQLService) {
@@ -34,6 +45,7 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 
 			this.settings.$graphql = {
 				typeDefs: schemaBuilder.getTypeDefs(),
+				subschemaConfig: defaultedSubschemaConfig,
 			};
 
 			this.graphQLExecutor = new GraphQLExecutor(schema);
