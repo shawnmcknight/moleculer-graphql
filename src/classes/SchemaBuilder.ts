@@ -1,13 +1,13 @@
+import { mergeResolvers } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
+import type { IResolvers, IFieldResolver } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import type { Service, Context } from 'moleculer';
 import { ensureArray, buildFullActionName } from '../utils';
 
-type ActionResolver = (parent: unknown, args: Record<string, unknown>, ctx: Context) => unknown;
-
 interface SchemaBuilderOptions {
-	resolvers?: Record<string, unknown>;
+	resolvers?: IResolvers<unknown, Context>;
 }
 
 class SchemaBuilder {
@@ -15,7 +15,7 @@ class SchemaBuilder {
 
 	private typeDefs: string;
 
-	private resolvers?: Record<string, unknown>;
+	private resolvers?: IResolvers<unknown, Context>;
 
 	public constructor(service: Service, typeDefs: string, opts: SchemaBuilderOptions = {}) {
 		this.service = service;
@@ -34,7 +34,7 @@ class SchemaBuilder {
 	public build(): GraphQLSchema {
 		const rootResolver = this.createRootResolver();
 
-		const resolvers = { ...this.resolvers, ...rootResolver };
+		const resolvers = mergeResolvers([rootResolver, this.resolvers]);
 
 		const { stitchingDirectivesValidator } = stitchingDirectives();
 
@@ -49,10 +49,10 @@ class SchemaBuilder {
 		return this.typeDefs;
 	}
 
-	private createRootResolver() {
+	private createRootResolver(): IResolvers<unknown, Context> {
 		interface ActionResolvers {
-			queryResolvers: Record<string, ActionResolver>;
-			mutationResolvers: Record<string, ActionResolver>;
+			queryResolvers: Record<string, IFieldResolver<unknown, Context>>;
+			mutationResolvers: Record<string, IFieldResolver<unknown, Context>>;
 		}
 
 		if (this.service.schema.actions == null) {
@@ -102,7 +102,7 @@ class SchemaBuilder {
 		return rootResolver;
 	}
 
-	private makeActionResolver(actionName: string): ActionResolver {
+	private makeActionResolver(actionName: string): IFieldResolver<unknown, Context> {
 		const fullActionName = buildFullActionName(this.service.name, actionName, this.service.version);
 
 		return (parent, args, ctx) => {

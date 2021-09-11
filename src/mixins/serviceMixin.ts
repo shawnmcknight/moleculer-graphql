@@ -1,4 +1,5 @@
 import type { SubschemaConfig } from '@graphql-tools/delegate';
+import type { IResolvers } from '@graphql-tools/utils';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema, Context } from 'moleculer';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
@@ -8,7 +9,7 @@ type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedP
 
 interface ServiceMixinOptions {
 	typeDefs: string;
-	resolvers?: Record<string, unknown>;
+	resolvers?: IResolvers<unknown, Context>;
 	subschemaConfig?: ServiceMixinSubschemaConfig;
 }
 
