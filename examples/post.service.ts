@@ -12,6 +12,10 @@ interface Post {
 	message: string;
 }
 
+interface PostAuthor {
+	id: string;
+}
+
 const posts: Post[] = [
 	{
 		id: '1',
@@ -35,9 +39,25 @@ class PostService extends Service {
 				serviceMixin({
 					typeDefs,
 					resolvers: {
+						Author: {
+							posts: (parent: PostAuthor) => {
+								return posts.filter((post) => {
+									return parent.id === post.authorId;
+								});
+							},
+						},
 						Post: {
-							author: (parent: Post) => {
+							author: (parent: Post): PostAuthor => {
 								return { id: parent.authorId };
+							},
+						},
+						Query: {
+							postAuthorById: (parent: unknown, args: { authorIds: string[] }): PostAuthor[] => {
+								const { authorIds } = args;
+
+								return authorIds.map((id: string) => {
+									return { id };
+								});
 							},
 						},
 					},

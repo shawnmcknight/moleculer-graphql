@@ -6,10 +6,13 @@ type Post @canonical {
 
 type Author @key(selectionSet: "{ id }") {
 	id: ID!
+	posts: [Post]
 }
 
 type Query {
 	postById(id: ID!): Post
 
-	postsById(ids: [ID!]): [Post]
+	postsById(ids: [ID!]): [Post] @merge(keyField: "id")
+
+	postAuthorById(authorIds: [ID!]!): [Author]! @merge(keyField: "id")
 }
