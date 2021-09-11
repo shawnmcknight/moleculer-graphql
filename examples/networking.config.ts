@@ -4,7 +4,7 @@ const brokerOptions: BrokerOptions = {
 	transporter: {
 		type: 'TCP',
 	},
-	logLevel: (process.env.LOGLEVEL as LogLevels | undefined) ?? 'debug',
+	logLevel: (process.env.LOGLEVEL as LogLevels | undefined) ?? 'info',
 	logger: {
 		type: 'Console',
 		options: {
