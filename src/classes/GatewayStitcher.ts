@@ -18,13 +18,23 @@ class GatewayStitcher {
 	public stitch(): GraphQLSchema {
 		const allServices = this.service.broker.registry.getServiceList({});
 
+		const processedServiceNames = new Set<string>();
+
 		const subschemas = allServices.reduce<SubschemaConfig<unknown, unknown, unknown, Context>[]>(
 			(acc, service) => {
-				if (!this.isGraphQLServiceSettings(service.settings)) {
+				const { name: serviceName, settings: serviceSettings } = service;
+
+				if (processedServiceNames.has(serviceName)) {
 					return acc;
 				}
 
-				const { typeDefs, subschemaConfig } = service.settings.$graphql;
+				processedServiceNames.add(serviceName);
+
+				if (!this.isGraphQLServiceSettings(serviceSettings)) {
+					return acc;
+				}
+
+				const { typeDefs, subschemaConfig } = serviceSettings.$graphql;
 
 				const schema = buildSchema(typeDefs);
 

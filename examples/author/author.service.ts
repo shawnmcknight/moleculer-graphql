@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
-import { serviceMixin } from '../src';
+import { serviceMixin } from '../../src';
 
 const typeDefs = readFileSync(path.join(__dirname, './author.graphql'), 'utf8');
 
