@@ -61,7 +61,7 @@ module.exports = {
 			},
 		},
 		{
-			files: '**/examples/**',
+			files: ['**/examples/**', '**/scripts/**'],
 			rules: {
 				'import/no-extraneous-dependencies': ['error', { optionalDependencies: false }],
 			},
