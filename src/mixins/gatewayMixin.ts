@@ -14,7 +14,7 @@ export interface MixinOptions {
 	routeOptions: object | null;
 }
 
-export default function gatewayMixin(mixinOptions: MixinOptions): Partial<ServiceSchema> {
+export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<ServiceSchema> {
 	return {
 		created(this: GatewayService) {
 			this.rebuildSchema = true;
