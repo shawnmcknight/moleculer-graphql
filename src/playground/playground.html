@@ -52,7 +52,7 @@
       type="application/javascript"
     ></script>
     <script>
-      function graphQLFetcher(graphQLParams) {
+      function graphQLFetcher(graphQLParams, options = {}) {
         return fetch(
           window.location.href,
           {
@@ -60,6 +60,7 @@
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
+							...options.headers,
             },
             body: JSON.stringify(graphQLParams),
             credentials: 'omit',
@@ -75,6 +76,7 @@
         React.createElement(GraphiQL, {
           fetcher: graphQLFetcher,
           defaultVariableEditorOpen: true,
+          headerEditorEnabled: true,
         }),
         document.getElementById('graphiql'),
       );
