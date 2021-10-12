@@ -58,9 +58,9 @@
           {
             method: 'post',
             headers: {
-              ...options.headers,
               Accept: 'application/json',
               'Content-Type': 'application/json',
+							...options.headers,
             },
             body: JSON.stringify(graphQLParams),
             credentials: 'omit',
@@ -76,7 +76,7 @@
         React.createElement(GraphiQL, {
           fetcher: graphQLFetcher,
           defaultVariableEditorOpen: true,
-          headerEditorEnabled: true
+          headerEditorEnabled: true,
         }),
         document.getElementById('graphiql'),
       );
