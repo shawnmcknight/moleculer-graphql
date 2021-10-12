@@ -1,7 +1,7 @@
 {
   "name": "moleculer-graphql",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.0-alpha.1",
   "description": "GraphQL mixins for Moleculer microservices",
   "main": "index.js",
   "scripts": {
