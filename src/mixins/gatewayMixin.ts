@@ -1,8 +1,9 @@
 import type { ServerResponse } from 'http';
+import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
+import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
 import type { Request } from '../classes';
-import { defaultsDeep } from 'lodash';
 
 interface GatewayService extends Service {
 	rebuildSchema: boolean;
@@ -11,7 +12,7 @@ interface GatewayService extends Service {
 }
 
 export interface MixinOptions {
-	routeOptions: object | null;
+	routeOptions?: Route;
 }
 
 export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<ServiceSchema> {
@@ -35,13 +36,13 @@ export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<S
 					},
 				},
 
-				mappingPolicy: "restrict",
+				mappingPolicy: 'restrict',
 
 				bodyParsers: {
 					json: true,
 					urlencoded: { extended: true },
 				},
-			});
+			}) as Route;
 
 			this.settings.routes.unshift(route);
 		},
