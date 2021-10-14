@@ -72,7 +72,7 @@ declare module 'moleculer-web' {
 		optionsSuccessStatus?: number;
 	}
 
-	class Route {
+	export class Route {
 		callOptions: any;
 		cors: CorsOptions;
 		etag: boolean | 'weak' | 'strong' | Function;
