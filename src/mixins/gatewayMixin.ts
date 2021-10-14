@@ -38,10 +38,7 @@ export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<S
 
 				mappingPolicy: 'restrict',
 
-				bodyParsers: {
-					json: true,
-					urlencoded: { extended: true },
-				},
+				bodyParsers: false,
 			}) as Route;
 
 			this.settings.routes.unshift(route);
