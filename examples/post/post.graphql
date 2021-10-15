@@ -2,6 +2,7 @@ type Post @canonical {
 	id: ID!
 	author: Author
 	message: String!
+	error: String!
 }
 
 type Author @key(selectionSet: "{ id }") {

@@ -2,7 +2,13 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import type { GraphQLSchema } from 'graphql';
+import { GraphQLError, formatError } from 'graphql';
+import type {
+	GraphQLSchema,
+	ValidationRule,
+	ExecutionResult,
+	FormattedExecutionResult,
+} from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';
 import GraphQLExecutor from './GraphQLExecutor';
@@ -11,6 +17,7 @@ import RequestParser from './RequestParser';
 
 interface RequestHandlerOptions {
 	showGraphiQL?: boolean;
+	validationRules?: readonly ValidationRule[];
 }
 
 export type Request = IncomingRequest & { url: string; body?: unknown };
@@ -26,37 +33,81 @@ class RequestHandler {
 
 	private showGraphiQL: boolean;
 
+	private validationRules?: readonly ValidationRule[];
+
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions = {}) {
 		this.graphQLExecutor = new GraphQLExecutor(schema);
 
-		const { showGraphiQL = false } = opts;
+		const { showGraphiQL = false, validationRules } = opts;
 		this.showGraphiQL = showGraphiQL;
+		this.validationRules = validationRules;
 	}
 
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
-		// GraphQL HTTP only supports GET and POST methods.
-		if (req.method !== 'GET' && req.method !== 'POST') {
-			throw httpError(405, 'GraphQL only supports GET and POST requests.', {
-				headers: { Allow: 'GET, POST' },
-			});
-		}
-
-		const params = await this.requestParser.parse(req);
-
-		const { query, variables, operationName } = params;
-
-		if (query == null) {
-			if (this.canDisplayGraphiQL(req, params)) {
-				this.respondWithGraphiQL(res);
-				return;
+		let result: ExecutionResult;
+		try {
+			// GraphQL HTTP only supports GET and POST methods.
+			if (req.method !== 'GET' && req.method !== 'POST') {
+				throw httpError(405, 'GraphQL only supports GET and POST requests.', {
+					headers: { Allow: 'GET, POST' },
+				});
 			}
-			throw httpError(400, 'Must provide query string.');
+
+			const params = await this.requestParser.parse(req);
+
+			const { query, variables, operationName } = params;
+
+			if (query == null) {
+				if (this.canDisplayGraphiQL(req, params)) {
+					this.respondWithGraphiQL(res);
+					return;
+				}
+				throw httpError(400, 'Must provide query string.');
+			}
+
+			result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName, {
+				validationRules: this.validationRules,
+			});
+		} catch (rawError: unknown) {
+			// If an error was caught, report the httpError status, or 500.
+			const error = httpError(500, rawError instanceof Error ? rawError : String(rawError));
+
+			res.statusCode = error.status;
+
+			const { headers } = error;
+			if (headers != null) {
+				Object.entries(headers).forEach(([key, value]) => {
+					res.setHeader(key, String(value));
+				});
+			}
+
+			if (error.graphqlErrors == null) {
+				const graphqlError = new GraphQLError(
+					error.message,
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					error,
+				);
+				result = { data: undefined, errors: [graphqlError] };
+			} else {
+				result = { data: undefined, errors: error.graphqlErrors };
+			}
 		}
 
-		const result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName);
+		if (res.statusCode === 200 && result.data == null) {
+			res.statusCode = 500;
+		}
 
-		res.writeHead(200, { 'Content-Type': 'application/json' });
-		res.end(JSON.stringify(result));
+		// Format any encountered errors.
+		const formattedResult: FormattedExecutionResult = {
+			...result,
+			errors: result.errors?.map(formatError),
+		};
+
+		res.setHeader('Content-Type', 'application/json');
+		res.end(JSON.stringify(formattedResult));
 	}
 
 	/**
