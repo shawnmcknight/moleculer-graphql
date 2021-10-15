@@ -1,5 +1,6 @@
 import type { ServerResponse } from 'http';
 import { printSchema } from 'graphql';
+import type { ValidationRule } from 'graphql';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
@@ -12,24 +13,32 @@ interface GatewayService extends Service {
 	requestHandler: RequestHandler;
 }
 
-export interface MixinOptions {
+export interface GatewayMixinOptions {
 	routeOptions?: Route;
+	validationRules?: readonly ValidationRule[];
 }
 
-export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<ServiceSchema> {
+export default function gatewayMixin(
+	mixinOptions: GatewayMixinOptions = {},
+): Partial<ServiceSchema> {
+	const { routeOptions, validationRules } = mixinOptions;
+
 	return {
 		created(this: GatewayService) {
 			this.rebuildSchema = true;
 			this.gatewayStitcher = new GatewayStitcher(this);
 
-			const route = defaultsDeep(mixinOptions.routeOptions, {
+			const route = defaultsDeep(routeOptions, {
 				path: '/graphql',
 				aliases: {
 					'/': (req: Request, res: ServerResponse) => {
 						if (this.rebuildSchema) {
 							const schema = this.gatewayStitcher.stitch();
 
-							this.requestHandler = new RequestHandler(schema, { showGraphiQL: true });
+							this.requestHandler = new RequestHandler(schema, {
+								showGraphiQL: true,
+								validationRules,
+							});
 							this.rebuildSchema = false;
 
 							this.broker.broadcast('graphql.schema.updated', {

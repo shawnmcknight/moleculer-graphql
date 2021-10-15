@@ -39,7 +39,7 @@ class SchemaBuilder {
 		const { stitchingDirectivesValidator } = stitchingDirectives();
 
 		const schema = stitchingDirectivesValidator(
-			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers })
+			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers }),
 		);
 
 		return schema;
@@ -60,7 +60,7 @@ class SchemaBuilder {
 		}
 
 		const { queryResolvers, mutationResolvers } = Object.entries(
-			this.service.schema.actions
+			this.service.schema.actions,
 		).reduce<ActionResolvers>(
 			(acc, [actionName, actionSchema]) => {
 				if (typeof actionSchema !== 'object') {
@@ -91,7 +91,7 @@ class SchemaBuilder {
 
 				return acc;
 			},
-			{ queryResolvers: {}, mutationResolvers: {} }
+			{ queryResolvers: {}, mutationResolvers: {} },
 		);
 
 		const rootResolver = {
