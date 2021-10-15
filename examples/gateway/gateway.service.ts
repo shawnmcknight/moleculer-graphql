@@ -1,4 +1,4 @@
-import type { ServiceBroker } from 'moleculer';
+import type { ServiceBroker, ServiceSchema } from 'moleculer';
 import { Service } from 'moleculer';
 import ApiService from 'moleculer-web';
 import { gatewayMixin } from '../../src';
@@ -11,6 +11,12 @@ class GatewayService extends Service {
 			name: 'gateway',
 			mixins: [ApiService, gatewayMixin()],
 			dependencies: ['author', 'post'],
+
+			events: {
+				'graphql.schema.updated'(this: ServiceSchema, schema: string) {
+					this.logger.info('GraphQL schema updated:', schema);
+				},
+			},
 		});
 	}
 }

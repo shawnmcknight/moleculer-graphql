@@ -1,4 +1,5 @@
 import type { ServerResponse } from 'http';
+import { printSchema } from 'graphql';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
@@ -30,6 +31,10 @@ export default function gatewayMixin(mixinOptions: MixinOptions = {}): Partial<S
 
 							this.requestHandler = new RequestHandler(schema, { showGraphiQL: true });
 							this.rebuildSchema = false;
+
+							this.broker.broadcast('graphql.schema.updated', {
+								schema: printSchema(schema),
+							});
 						}
 
 						return this.requestHandler.handle(req, res);

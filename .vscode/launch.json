@@ -1,0 +1,28 @@
+{
+  "configurations": [
+    {
+      "name": "Launch example",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "example"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+  {
+    "name": "Attach by Process ID",
+    "processId": "${command:PickProcess}",
+    "request": "attach",
+    "skipFiles": [
+      "<node_internals>/**"
+    ],
+    "type": "pwa-node",
+    "restart": true
+  }
+  ]
+
+}
