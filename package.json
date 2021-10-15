@@ -50,7 +50,7 @@
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-airbnb-typescript": "14.0.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.24.2",
+    "eslint-plugin-import": "2.25.2",
     "eslint-plugin-prettier": "3.4.1",
     "fs-extra": "10.0.0",
     "graphql": "15.5.1",
