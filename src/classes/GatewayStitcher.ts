@@ -44,7 +44,7 @@ class GatewayStitcher {
 
 				return acc;
 			},
-			[]
+			[],
 		);
 
 		if (subschemas.length === 0) {
@@ -90,7 +90,7 @@ class GatewayStitcher {
 	}
 
 	private isGraphQLServiceSettings(
-		settings?: ServiceSettingSchema
+		settings?: ServiceSettingSchema,
 	): settings is GraphQLServiceSettings {
 		return settings?.$graphql != null;
 	}

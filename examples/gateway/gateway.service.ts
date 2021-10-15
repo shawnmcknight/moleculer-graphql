@@ -1,3 +1,4 @@
+import depthLimit from 'graphql-depth-limit';
 import type { ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import ApiService from 'moleculer-web';
@@ -9,7 +10,7 @@ class GatewayService extends Service {
 
 		this.parseServiceSchema({
 			name: 'gateway',
-			mixins: [ApiService, gatewayMixin()],
+			mixins: [ApiService, gatewayMixin({ validationRules: [depthLimit(10)] })],
 			dependencies: ['author', 'post'],
 		});
 	}

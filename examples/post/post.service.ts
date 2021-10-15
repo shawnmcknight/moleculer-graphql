@@ -40,19 +40,29 @@ class PostService extends Service {
 					typeDefs,
 					resolvers: {
 						Author: {
-							posts: (parent: PostAuthor) => {
+							posts: (parent: PostAuthor, args, context: Context) => {
+								context.broker.logger.debug('Executing Author.posts resolver');
 								return posts.filter((post) => {
 									return parent.id === post.authorId;
 								});
 							},
 						},
 						Post: {
-							author: (parent: Post): PostAuthor => {
+							author: (parent: Post, args, context: Context): PostAuthor => {
+								context.broker.logger.debug('Executing Post.author resolver');
 								return { id: parent.authorId };
+							},
+							error: (): never => {
+								throw new Error('Test of a property which throws errors');
 							},
 						},
 						Query: {
-							postAuthorById: (parent: unknown, args: { authorIds: string[] }): PostAuthor[] => {
+							postAuthorById: (
+								parent: unknown,
+								args: { authorIds: string[] },
+								context: Context,
+							): PostAuthor[] => {
+								context.broker.logger.debug('Executing Query.postAuthorById resolver');
 								const { authorIds } = args;
 
 								return authorIds.map((id: string) => {
