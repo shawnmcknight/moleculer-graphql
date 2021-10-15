@@ -688,9 +688,9 @@ declare namespace Moleculer {
 		handler?: ServiceEventHandler | ServiceEventLegacyHandler;
 	} & ThisType<Service<S>>;
 
-	type ServiceEvents = {
+	type ServiceEvents<S = ServiceSettingSchema> = {
 		[key: string]: ServiceEventHandler | ServiceEventLegacyHandler | ServiceEvent;
-	};
+	} & ThisType<Service<S>>;
 
 	type ServiceMethods = { [key: string]: (...args: any[]) => any } & ThisType<Service>;
 

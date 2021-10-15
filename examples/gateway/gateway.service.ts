@@ -1,5 +1,5 @@
 import depthLimit from 'graphql-depth-limit';
-import type { ServiceBroker, ServiceSchema } from 'moleculer';
+import type { ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import ApiService from 'moleculer-web';
 import { gatewayMixin } from '../../src';
@@ -14,7 +14,7 @@ class GatewayService extends Service {
 			dependencies: ['author', 'post'],
 
 			events: {
-				'graphql.schema.updated'(this: ServiceSchema, schema: string) {
+				'graphql.schema.updated'(schema: string) {
 					this.logger.info('GraphQL schema updated:', schema);
 				},
 			},
