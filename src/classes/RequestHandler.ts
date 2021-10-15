@@ -38,8 +38,9 @@ class RequestHandler {
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions = {}) {
 		this.graphQLExecutor = new GraphQLExecutor(schema);
 
-		const { showGraphiQL = false, validationRules } = opts;
-		this.showGraphiQL = showGraphiQL;
+		const { showGraphiQL, validationRules } = opts;
+
+		this.showGraphiQL = showGraphiQL ?? process.env.NODE_ENV !== 'production';
 		this.validationRules = validationRules;
 	}
 

@@ -15,13 +15,14 @@ interface GatewayService extends Service {
 
 export interface GatewayMixinOptions {
 	routeOptions?: Route;
+	showGraphiQL?: boolean;
 	validationRules?: readonly ValidationRule[];
 }
 
 export default function gatewayMixin(
 	mixinOptions: GatewayMixinOptions = {},
 ): Partial<ServiceSchema> {
-	const { routeOptions, validationRules } = mixinOptions;
+	const { routeOptions, validationRules, showGraphiQL } = mixinOptions;
 
 	return {
 		created(this: GatewayService) {
@@ -36,7 +37,7 @@ export default function gatewayMixin(
 							const schema = this.gatewayStitcher.stitch();
 
 							this.requestHandler = new RequestHandler(schema, {
-								showGraphiQL: true,
+								showGraphiQL,
 								validationRules,
 							});
 							this.rebuildSchema = false;
