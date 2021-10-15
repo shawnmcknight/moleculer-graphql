@@ -2,7 +2,7 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import { GraphQLError, formatError } from 'graphql';
+import { GraphQLError, formatError, specifiedRules } from 'graphql';
 import type {
 	GraphQLSchema,
 	ValidationRule,
@@ -11,11 +11,13 @@ import type {
 } from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';
+import { disableIntrospectionRule } from '../validationRules';
 import GraphQLExecutor from './GraphQLExecutor';
 import type { GraphQLParams } from './RequestParser';
 import RequestParser from './RequestParser';
 
 interface RequestHandlerOptions {
+	introspection?: boolean;
 	showGraphiQL?: boolean;
 	validationRules?: readonly ValidationRule[];
 }
@@ -33,15 +35,21 @@ class RequestHandler {
 
 	private showGraphiQL: boolean;
 
-	private validationRules?: readonly ValidationRule[];
+	private validationRules: readonly ValidationRule[];
 
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions = {}) {
 		this.graphQLExecutor = new GraphQLExecutor(schema);
 
-		const { showGraphiQL, validationRules } = opts;
+		const {
+			showGraphiQL,
+			introspection = process.env.NODE_ENV !== 'production',
+			validationRules = [],
+		} = opts;
 
-		this.showGraphiQL = showGraphiQL ?? process.env.NODE_ENV !== 'production';
-		this.validationRules = validationRules;
+		this.showGraphiQL = introspection && (showGraphiQL ?? process.env.NODE_ENV !== 'production');
+		this.validationRules = introspection
+			? [...specifiedRules, ...validationRules]
+			: [disableIntrospectionRule, ...specifiedRules, ...validationRules];
 	}
 
 	public async handle(req: Request, res: ServerResponse): Promise<void> {

@@ -1,5 +1,5 @@
 import type { GraphQLSchema, ExecutionResult, ValidationRule } from 'graphql';
-import { Source, execute, parse, getOperationAST, specifiedRules, validate } from 'graphql';
+import { Source, execute, parse, getOperationAST, validate } from 'graphql';
 import httpError from 'http-errors';
 import type { Context } from 'moleculer';
 
@@ -26,10 +26,7 @@ class GraphQLExecutor {
 		const documentAST = parse(new Source(query, 'GraphQL request'));
 		const operationAST = getOperationAST(documentAST, operationName);
 
-		const validationErrors = validate(this.schema, documentAST, [
-			...validationRules,
-			...specifiedRules,
-		]);
+		const validationErrors = validate(this.schema, documentAST, validationRules);
 
 		if (validationErrors.length > 0) {
 			// Return 400: Bad Request if any validation errors exist.
