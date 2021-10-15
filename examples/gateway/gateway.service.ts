@@ -1,5 +1,5 @@
-import type { ServiceBroker, ServiceSchema } from 'moleculer';
 import depthLimit from 'graphql-depth-limit';
+import type { ServiceBroker, ServiceSchema } from 'moleculer';
 import { Service } from 'moleculer';
 import ApiService from 'moleculer-web';
 import { gatewayMixin } from '../../src';
