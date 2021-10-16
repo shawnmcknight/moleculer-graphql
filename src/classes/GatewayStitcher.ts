@@ -5,6 +5,7 @@ import type { Executor, ExecutionResult } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
 import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
+import type { GraphQLContext } from 'src/factories';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
 
@@ -60,7 +61,9 @@ class GatewayStitcher {
 		});
 	}
 
-	private makeRemoteExecutor(serviceSchema: ServiceSchema): Executor<Context> {
+	private makeRemoteExecutor<TGraphQLContext extends GraphQLContext>(
+		serviceSchema: ServiceSchema,
+	): Executor<TGraphQLContext> {
 		const { name: serviceName, version } = serviceSchema;
 
 		const actionName = buildFullActionName(serviceName, '$handleGraphQLRequest', version);
@@ -78,7 +81,7 @@ class GatewayStitcher {
 
 			const query = typeof document === 'string' ? document : print(document);
 
-			const result = await context.call<ExecutionResult, GraphQLRequest>(actionName, {
+			const result = await context.$ctx.call<ExecutionResult, GraphQLRequest>(actionName, {
 				query,
 				// @ts-ignore: TODO
 				variables,

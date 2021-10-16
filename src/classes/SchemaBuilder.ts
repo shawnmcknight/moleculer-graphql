@@ -3,21 +3,26 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { IResolvers, IFieldResolver } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
-import type { Service, Context } from 'moleculer';
+import type { Service } from 'moleculer';
+import type { GraphQLContext } from '../factories';
 import { ensureArray, buildFullActionName } from '../utils';
 
-interface SchemaBuilderOptions {
-	resolvers?: IResolvers<unknown, Context>;
+interface SchemaBuilderOptions<TGraphQLContext extends GraphQLContext> {
+	resolvers?: IResolvers<unknown, TGraphQLContext>;
 }
 
-class SchemaBuilder {
+class SchemaBuilder<TGraphQLContext extends GraphQLContext> {
 	private service: Service;
 
 	private typeDefs: string;
 
-	private resolvers?: IResolvers<unknown, Context>;
+	private resolvers?: IResolvers<unknown, TGraphQLContext>;
 
-	public constructor(service: Service, typeDefs: string, opts: SchemaBuilderOptions = {}) {
+	public constructor(
+		service: Service,
+		typeDefs: string,
+		opts: SchemaBuilderOptions<TGraphQLContext> = {},
+	) {
 		this.service = service;
 
 		const { stitchingDirectivesTypeDefs } = stitchingDirectives();
@@ -49,10 +54,10 @@ class SchemaBuilder {
 		return this.typeDefs;
 	}
 
-	private createRootResolver(): IResolvers<unknown, Context> {
+	private createRootResolver(): IResolvers<unknown, TGraphQLContext> {
 		interface ActionResolvers {
-			queryResolvers: Record<string, IFieldResolver<unknown, Context>>;
-			mutationResolvers: Record<string, IFieldResolver<unknown, Context>>;
+			queryResolvers: Record<string, IFieldResolver<unknown, TGraphQLContext>>;
+			mutationResolvers: Record<string, IFieldResolver<unknown, TGraphQLContext>>;
 		}
 
 		if (this.service.schema.actions == null) {
@@ -102,11 +107,11 @@ class SchemaBuilder {
 		return rootResolver;
 	}
 
-	private makeActionResolver(actionName: string): IFieldResolver<unknown, Context> {
+	private makeActionResolver(actionName: string): IFieldResolver<unknown, TGraphQLContext> {
 		const fullActionName = buildFullActionName(this.service.name, actionName, this.service.version);
 
-		return (parent, args, ctx) => {
-			return ctx.call(fullActionName, args);
+		return (parent, args, graphQLContext) => {
+			return graphQLContext.$ctx.call(fullActionName, args);
 		};
 	}
 }

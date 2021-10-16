@@ -40,16 +40,16 @@ class PostService extends Service {
 					typeDefs,
 					resolvers: {
 						Author: {
-							posts: (parent: PostAuthor, args, context: Context) => {
-								context.broker.logger.debug('Executing Author.posts resolver');
+							posts: (parent: PostAuthor, args, context) => {
+								context.$ctx.broker.logger.debug('Executing Author.posts resolver');
 								return posts.filter((post) => {
 									return parent.id === post.authorId;
 								});
 							},
 						},
 						Post: {
-							author: (parent: Post, args, context: Context): PostAuthor => {
-								context.broker.logger.debug('Executing Post.author resolver');
+							author: (parent: Post, args, context): PostAuthor => {
+								context.$ctx.broker.logger.debug('Executing Post.author resolver');
 								return { id: parent.authorId };
 							},
 							error: (): never => {
@@ -60,9 +60,9 @@ class PostService extends Service {
 							postAuthorById: (
 								parent: unknown,
 								args: { authorIds: string[] },
-								context: Context,
+								context,
 							): PostAuthor[] => {
-								context.broker.logger.debug('Executing Query.postAuthorById resolver');
+								context.$ctx.broker.logger.debug('Executing Query.postAuthorById resolver');
 								const { authorIds } = args;
 
 								return authorIds.map((id: string) => {

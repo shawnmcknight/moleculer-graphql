@@ -3,13 +3,16 @@ import type { IResolvers } from '@graphql-tools/utils';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema, Context } from 'moleculer';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
+import { contextFactory as defaultContextFactory } from '../factories';
+import type { GraphQLContextFactory, GraphQLContext } from '../factories';
 
 type SubschemaConfigOmittedProps = 'schema' | 'executor';
 type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedProps>;
 
-interface ServiceMixinOptions {
+interface ServiceMixinOptions<TGraphQLContext extends GraphQLContext> {
 	typeDefs: string;
-	resolvers?: IResolvers<unknown, Context>;
+	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
+	resolvers?: IResolvers<unknown, TGraphQLContext>;
 	subschemaConfig?: ServiceMixinSubschemaConfig;
 }
 
@@ -31,8 +34,10 @@ export interface GraphQLRequest {
 	operationName: string | null;
 }
 
-export default function serviceMixin(opts: ServiceMixinOptions): Partial<ServiceSchema> {
-	const { typeDefs, resolvers, subschemaConfig } = opts;
+export default function serviceMixin<TGraphQLContext extends GraphQLContext = GraphQLContext>(
+	opts: ServiceMixinOptions<TGraphQLContext>,
+): Partial<ServiceSchema> {
+	const { typeDefs, resolvers, subschemaConfig, contextFactory = defaultContextFactory } = opts;
 
 	const defaultedSubschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, subschemaConfig, {
 		batch: true,
@@ -53,9 +58,12 @@ export default function serviceMixin(opts: ServiceMixinOptions): Partial<Service
 		},
 
 		actions: {
-			$handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
+			async $handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
 				const { query, variables, operationName } = ctx.params;
-				return this.graphQLExecutor.execute(ctx, query, variables, operationName);
+
+				const graphQLContext = await contextFactory(ctx);
+
+				return this.graphQLExecutor.execute(graphQLContext, query, variables, operationName);
 			},
 		},
 	};

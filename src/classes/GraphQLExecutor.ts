@@ -1,7 +1,7 @@
 import type { GraphQLSchema, ExecutionResult, ValidationRule } from 'graphql';
 import { Source, execute, parse, getOperationAST, validate } from 'graphql';
 import httpError from 'http-errors';
-import type { Context } from 'moleculer';
+import type { GraphQLContext } from '../factories';
 
 interface ExecuteOptions {
 	validationRules?: readonly ValidationRule[];
@@ -14,8 +14,8 @@ class GraphQLExecutor {
 		this.schema = schema;
 	}
 
-	public async execute(
-		ctx: Context,
+	public async execute<TGraphQLContext extends GraphQLContext>(
+		graphQLContext: TGraphQLContext,
 		query: string,
 		variables: Readonly<Record<string, unknown>> | null,
 		operationName: string | null,
@@ -38,7 +38,7 @@ class GraphQLExecutor {
 		const result = await execute({
 			schema: this.schema,
 			document: documentAST,
-			contextValue: ctx,
+			contextValue: graphQLContext,
 			variableValues: variables,
 			operationName,
 		});
