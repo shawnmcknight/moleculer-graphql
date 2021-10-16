@@ -1,21 +1,28 @@
 import type { GraphQLSchema, ExecutionResult, ValidationRule } from 'graphql';
 import { Source, execute, parse, getOperationAST, validate } from 'graphql';
 import httpError from 'http-errors';
-import type { GraphQLContext } from '../factories';
+import type { Context } from 'moleculer';
+import type { GraphQLContext, GraphQLContextFactory } from '../factories';
 
 interface ExecuteOptions {
 	validationRules?: readonly ValidationRule[];
 }
 
-class GraphQLExecutor {
+class GraphQLExecutor<TGraphQLContext extends GraphQLContext = GraphQLContext> {
 	private schema: GraphQLSchema;
 
-	public constructor(schema: GraphQLSchema) {
+	private contextFactory: GraphQLContextFactory<TGraphQLContext>;
+
+	public constructor(
+		schema: GraphQLSchema,
+		contextFactory: GraphQLContextFactory<TGraphQLContext>,
+	) {
 		this.schema = schema;
+		this.contextFactory = contextFactory;
 	}
 
-	public async execute<TGraphQLContext extends GraphQLContext>(
-		graphQLContext: TGraphQLContext,
+	public async execute(
+		ctx: Context,
 		query: string,
 		variables: Readonly<Record<string, unknown>> | null,
 		operationName: string | null,
@@ -34,6 +41,8 @@ class GraphQLExecutor {
 				graphqlErrors: validationErrors,
 			});
 		}
+
+		const graphQLContext = await this.contextFactory(ctx);
 
 		const result = await execute({
 			schema: this.schema,

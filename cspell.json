@@ -1,0 +1,17 @@
+{
+  "language": "en",
+  "ignorePaths": [
+    ".eslintcache",
+    "node_modules",
+    "coverage",
+
+    "cspell.json",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json"
+  ],
+  "words": [
+    "graphiql",
+    "moleculer"
+  ]
+}

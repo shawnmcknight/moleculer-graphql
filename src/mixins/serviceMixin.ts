@@ -54,16 +54,14 @@ export default function serviceMixin<TGraphQLContext extends GraphQLContext = Gr
 				subschemaConfig: defaultedSubschemaConfig,
 			};
 
-			this.graphQLExecutor = new GraphQLExecutor(schema);
+			this.graphQLExecutor = new GraphQLExecutor(schema, contextFactory);
 		},
 
 		actions: {
 			async $handleGraphQLRequest(this: GraphQLService, ctx: Context<GraphQLRequest>) {
 				const { query, variables, operationName } = ctx.params;
 
-				const graphQLContext = await contextFactory(ctx);
-
-				return this.graphQLExecutor.execute(graphQLContext, query, variables, operationName);
+				return this.graphQLExecutor.execute(ctx, query, variables, operationName);
 			},
 		},
 	};
