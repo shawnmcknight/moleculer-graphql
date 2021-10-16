@@ -6,6 +6,8 @@ import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
 import type { Request } from '../classes';
+import { contextFactory as defaultContextFactory } from '../factories';
+import type { GraphQLContextFactory, GraphQLContext } from '../factories';
 
 interface GatewayService extends Service {
 	rebuildSchema: boolean;
@@ -13,17 +15,24 @@ interface GatewayService extends Service {
 	requestHandler: RequestHandler;
 }
 
-export interface GatewayMixinOptions {
+export interface GatewayMixinOptions<TGraphQLContext extends GraphQLContext> {
+	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	routeOptions?: Route;
 	showGraphiQL?: boolean;
 	validationRules?: readonly ValidationRule[];
 }
 
-export default function gatewayMixin(
-	mixinOptions: GatewayMixinOptions = {},
+export default function gatewayMixin<TGraphQLContext extends GraphQLContext = GraphQLContext>(
+	mixinOptions: GatewayMixinOptions<TGraphQLContext> = {},
 ): Partial<ServiceSchema> {
-	const { introspection, routeOptions, validationRules, showGraphiQL } = mixinOptions;
+	const {
+		introspection,
+		routeOptions,
+		validationRules,
+		showGraphiQL,
+		contextFactory = defaultContextFactory,
+	} = mixinOptions;
 
 	return {
 		created(this: GatewayService) {
@@ -37,7 +46,7 @@ export default function gatewayMixin(
 						if (this.rebuildSchema) {
 							const schema = this.gatewayStitcher.stitch();
 
-							this.requestHandler = new RequestHandler(schema, {
+							this.requestHandler = new RequestHandler(schema, contextFactory, {
 								introspection,
 								showGraphiQL,
 								validationRules,

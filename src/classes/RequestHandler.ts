@@ -11,6 +11,7 @@ import type {
 } from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';
+import type { GraphQLContextFactory } from '../factories';
 import { disableIntrospectionRule } from '../validationRules';
 import GraphQLExecutor from './GraphQLExecutor';
 import type { GraphQLParams } from './RequestParser';
@@ -25,6 +26,8 @@ interface RequestHandlerOptions {
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
 class RequestHandler {
+	private contextFactory: GraphQLContextFactory;
+
 	private requestParser: RequestParser = new RequestParser();
 
 	private graphQLExecutor: GraphQLExecutor;
@@ -37,7 +40,12 @@ class RequestHandler {
 
 	private validationRules: readonly ValidationRule[];
 
-	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions = {}) {
+	public constructor(
+		schema: GraphQLSchema,
+		contextFactory: GraphQLContextFactory,
+		opts: RequestHandlerOptions = {},
+	) {
+		this.contextFactory = contextFactory;
 		this.graphQLExecutor = new GraphQLExecutor(schema);
 
 		const {
@@ -74,7 +82,9 @@ class RequestHandler {
 				throw httpError(400, 'Must provide query string.');
 			}
 
-			result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName, {
+			const graphQLContext = await this.contextFactory(req.$ctx);
+
+			result = await this.graphQLExecutor.execute(graphQLContext, query, variables, operationName, {
 				validationRules: this.validationRules,
 			});
 		} catch (rawError: unknown) {

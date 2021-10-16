@@ -81,7 +81,7 @@ class RequestParser {
 			return { query: body };
 		}
 
-		// Already parsed body we didn't recognise? Parse nothing.
+		// Already parsed body we didn't recognize? Parse nothing.
 		if (body != null) {
 			return {};
 		}
