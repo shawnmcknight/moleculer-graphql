@@ -26,8 +26,6 @@ interface RequestHandlerOptions {
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
 class RequestHandler {
-	private contextFactory: GraphQLContextFactory;
-
 	private requestParser: RequestParser = new RequestParser();
 
 	private graphQLExecutor: GraphQLExecutor;
@@ -45,8 +43,7 @@ class RequestHandler {
 		contextFactory: GraphQLContextFactory,
 		opts: RequestHandlerOptions = {},
 	) {
-		this.contextFactory = contextFactory;
-		this.graphQLExecutor = new GraphQLExecutor(schema);
+		this.graphQLExecutor = new GraphQLExecutor(schema, contextFactory);
 
 		const {
 			showGraphiQL,
@@ -82,9 +79,7 @@ class RequestHandler {
 				throw httpError(400, 'Must provide query string.');
 			}
 
-			const graphQLContext = await this.contextFactory(req.$ctx);
-
-			result = await this.graphQLExecutor.execute(graphQLContext, query, variables, operationName, {
+			result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName, {
 				validationRules: this.validationRules,
 			});
 		} catch (rawError: unknown) {
