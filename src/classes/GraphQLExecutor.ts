@@ -2,21 +2,30 @@ import type { GraphQLSchema, ExecutionResult, ValidationRule } from 'graphql';
 import { Source, execute, parse, getOperationAST, validate } from 'graphql';
 import httpError from 'http-errors';
 import type { Context } from 'moleculer';
-import type { GraphQLContext, GraphQLContextFactory } from '../factories';
+
+export type GraphQLContextFactory<TGraphQLContext extends Record<string, unknown>> =
+	() => Promise<TGraphQLContext>;
+
+export type GraphQLContext<TGraphQLContext extends Record<string, unknown>> = TGraphQLContext & {
+	$ctx: Context;
+};
+
+interface GraphQLExecutorOptions<TGraphQLContext extends Record<string, unknown>> {
+	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
+}
 
 interface ExecuteOptions {
 	validationRules?: readonly ValidationRule[];
 }
 
-class GraphQLExecutor<TGraphQLContext extends GraphQLContext = GraphQLContext> {
+class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 	private schema: GraphQLSchema;
 
-	private contextFactory: GraphQLContextFactory<TGraphQLContext>;
+	private contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 
-	public constructor(
-		schema: GraphQLSchema,
-		contextFactory: GraphQLContextFactory<TGraphQLContext>,
-	) {
+	public constructor(schema: GraphQLSchema, opts: GraphQLExecutorOptions<TGraphQLContext> = {}) {
+		const { contextFactory } = opts;
+
 		this.schema = schema;
 		this.contextFactory = contextFactory;
 	}
@@ -42,7 +51,7 @@ class GraphQLExecutor<TGraphQLContext extends GraphQLContext = GraphQLContext> {
 			});
 		}
 
-		const graphQLContext = await this.contextFactory(ctx);
+		const graphQLContext = await this.createGraphQLContext(ctx);
 
 		const result = await execute({
 			schema: this.schema,
@@ -53,6 +62,14 @@ class GraphQLExecutor<TGraphQLContext extends GraphQLContext = GraphQLContext> {
 		});
 
 		return result;
+	}
+
+	/** Generate the GraphQL Context object */
+	private async createGraphQLContext(ctx: Context) {
+		return {
+			...(await this.contextFactory?.()),
+			$ctx: ctx,
+		};
 	}
 }
 

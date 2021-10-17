@@ -11,13 +11,14 @@ import type {
 } from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';
-import type { GraphQLContextFactory } from '../factories';
 import { disableIntrospectionRule } from '../validationRules';
+import type { GraphQLContextFactory } from './GraphQLExecutor';
 import GraphQLExecutor from './GraphQLExecutor';
 import type { GraphQLParams } from './RequestParser';
 import RequestParser from './RequestParser';
 
-interface RequestHandlerOptions {
+interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
+	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	showGraphiQL?: boolean;
 	validationRules?: readonly ValidationRule[];
@@ -25,10 +26,10 @@ interface RequestHandlerOptions {
 
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
-class RequestHandler {
+class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 	private requestParser: RequestParser = new RequestParser();
 
-	private graphQLExecutor: GraphQLExecutor;
+	private graphQLExecutor: GraphQLExecutor<TGraphQLContext>;
 
 	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
@@ -38,18 +39,15 @@ class RequestHandler {
 
 	private validationRules: readonly ValidationRule[];
 
-	public constructor(
-		schema: GraphQLSchema,
-		contextFactory: GraphQLContextFactory,
-		opts: RequestHandlerOptions = {},
-	) {
-		this.graphQLExecutor = new GraphQLExecutor(schema, contextFactory);
-
+	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
 		const {
+			contextFactory,
 			showGraphiQL,
 			introspection = process.env.NODE_ENV !== 'production',
 			validationRules = [],
 		} = opts;
+
+		this.graphQLExecutor = new GraphQLExecutor(schema, { contextFactory });
 
 		this.showGraphiQL = introspection && (showGraphiQL ?? process.env.NODE_ENV !== 'production');
 		this.validationRules = introspection
