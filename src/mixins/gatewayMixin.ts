@@ -5,17 +5,15 @@ import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
-import type { Request } from '../classes';
-import { contextFactory as defaultContextFactory } from '../factories';
-import type { GraphQLContextFactory, GraphQLContext } from '../factories';
+import type { Request, GraphQLContextFactory } from '../classes';
 
-interface GatewayService extends Service {
+interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
 	gatewayStitcher: GatewayStitcher;
-	requestHandler: RequestHandler;
+	requestHandler: RequestHandler<TGraphQLContext>;
 }
 
-export interface GatewayMixinOptions<TGraphQLContext extends GraphQLContext> {
+export interface GatewayMixinOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	routeOptions?: Route;
@@ -23,19 +21,14 @@ export interface GatewayMixinOptions<TGraphQLContext extends GraphQLContext> {
 	validationRules?: readonly ValidationRule[];
 }
 
-export default function gatewayMixin<TGraphQLContext extends GraphQLContext = GraphQLContext>(
-	mixinOptions: GatewayMixinOptions<TGraphQLContext> = {},
-): Partial<ServiceSchema> {
-	const {
-		introspection,
-		routeOptions,
-		validationRules,
-		showGraphiQL,
-		contextFactory = defaultContextFactory,
-	} = mixinOptions;
+export default function gatewayMixin<
+	TGraphQLContext extends Record<string, unknown> = Record<never, never>,
+>(mixinOptions: GatewayMixinOptions<TGraphQLContext> = {}): Partial<ServiceSchema> {
+	const { introspection, routeOptions, validationRules, showGraphiQL, contextFactory } =
+		mixinOptions;
 
 	return {
-		created(this: GatewayService) {
+		created(this: GatewayService<TGraphQLContext>) {
 			this.rebuildSchema = true;
 			this.gatewayStitcher = new GatewayStitcher(this);
 
@@ -46,7 +39,8 @@ export default function gatewayMixin<TGraphQLContext extends GraphQLContext = Gr
 						if (this.rebuildSchema) {
 							const schema = this.gatewayStitcher.stitch();
 
-							this.requestHandler = new RequestHandler(schema, contextFactory, {
+							this.requestHandler = new RequestHandler(schema, {
+								contextFactory,
 								introspection,
 								showGraphiQL,
 								validationRules,
@@ -71,7 +65,7 @@ export default function gatewayMixin<TGraphQLContext extends GraphQLContext = Gr
 		},
 
 		events: {
-			'$services.changed'(this: GatewayService) {
+			'$services.changed'(this: GatewayService<TGraphQLContext>) {
 				this.rebuildSchema = true;
 			},
 		},

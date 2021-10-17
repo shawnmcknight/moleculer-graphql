@@ -5,9 +5,9 @@ import type { Executor, ExecutionResult } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { print, buildSchema } from 'graphql';
 import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
-import type { GraphQLContext } from 'src/factories';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
+import type { GraphQLContext } from '.';
 
 class GatewayStitcher {
 	private service: Service;
@@ -61,9 +61,9 @@ class GatewayStitcher {
 		});
 	}
 
-	private makeRemoteExecutor<TGraphQLContext extends GraphQLContext>(
+	private makeRemoteExecutor<TGraphQLContext extends Record<string, unknown>>(
 		serviceSchema: ServiceSchema,
-	): Executor<TGraphQLContext> {
+	): Executor<GraphQLContext<TGraphQLContext>> {
 		const { name: serviceName, version } = serviceSchema;
 
 		const actionName = buildFullActionName(serviceName, '$handleGraphQLRequest', version);

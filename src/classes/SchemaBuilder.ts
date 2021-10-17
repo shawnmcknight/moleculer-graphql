@@ -4,19 +4,19 @@ import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { IResolvers, IFieldResolver } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
-import type { GraphQLContext } from '../factories';
 import { ensureArray, buildFullActionName } from '../utils';
+import type { GraphQLContext } from '.';
 
-interface SchemaBuilderOptions<TGraphQLContext extends GraphQLContext> {
-	resolvers?: IResolvers<unknown, TGraphQLContext>;
+interface SchemaBuilderOptions<TGraphQLContext extends Record<string, unknown>> {
+	resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
 }
 
-class SchemaBuilder<TGraphQLContext extends GraphQLContext> {
+class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 	private service: Service;
 
 	private typeDefs: string;
 
-	private resolvers?: IResolvers<unknown, TGraphQLContext>;
+	private resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
 
 	public constructor(
 		service: Service,
@@ -56,8 +56,8 @@ class SchemaBuilder<TGraphQLContext extends GraphQLContext> {
 
 	private createRootResolver(): IResolvers<unknown, TGraphQLContext> {
 		interface ActionResolvers {
-			queryResolvers: Record<string, IFieldResolver<unknown, TGraphQLContext>>;
-			mutationResolvers: Record<string, IFieldResolver<unknown, TGraphQLContext>>;
+			queryResolvers: Record<string, IFieldResolver<unknown, GraphQLContext<TGraphQLContext>>>;
+			mutationResolvers: Record<string, IFieldResolver<unknown, GraphQLContext<TGraphQLContext>>>;
 		}
 
 		if (this.service.schema.actions == null) {
@@ -107,7 +107,9 @@ class SchemaBuilder<TGraphQLContext extends GraphQLContext> {
 		return rootResolver;
 	}
 
-	private makeActionResolver(actionName: string): IFieldResolver<unknown, TGraphQLContext> {
+	private makeActionResolver(
+		actionName: string,
+	): IFieldResolver<unknown, GraphQLContext<TGraphQLContext>> {
 		const fullActionName = buildFullActionName(this.service.name, actionName, this.service.version);
 
 		return (parent, args, graphQLContext) => {
