@@ -3,18 +3,19 @@ import path from 'path';
 import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import { serviceMixin } from '../../src';
+import type { AuthorByIdParams, AuthorByIdResult } from '../author/types';
+import type {
+	Post,
+	PostAuthor,
+	PostByIdParams,
+	PostByIdResult,
+	PostsByIdParams,
+	PostsByIdResult,
+	PostCreateParams,
+	PostCreateResult,
+} from './types';
 
 const typeDefs = readFileSync(path.join(__dirname, './post.graphql'), 'utf8');
-
-interface Post {
-	id: string;
-	authorId: string;
-	message: string;
-}
-
-interface PostAuthor {
-	id: string;
-}
 
 const posts: Post[] = [
 	{
@@ -47,6 +48,7 @@ class PostService extends Service {
 								});
 							},
 						},
+
 						Post: {
 							author: (parent: Post, args, context): PostAuthor => {
 								context.$ctx.broker.logger.debug('Executing Post.author resolver');
@@ -56,6 +58,7 @@ class PostService extends Service {
 								throw new Error('Test of a property which throws errors');
 							},
 						},
+
 						Query: {
 							postAuthorById: (
 								parent: unknown,
@@ -75,29 +78,66 @@ class PostService extends Service {
 			],
 			actions: {
 				postById: {
-					handler(ctx: Context<{ id: string }>) {
+					handler(ctx: Context<PostByIdParams>): PostByIdResult {
 						const { id } = ctx.params;
 
 						const result = posts.find((post) => post.id === id);
 
-						return result;
+						return result ?? null;
 					},
 					graphql: {
 						query: 'postById',
 					},
 				},
+
 				postsById: {
-					handler(ctx: Context<{ ids: string[] }>) {
+					handler(ctx: Context<PostsByIdParams>): PostsByIdResult {
 						const { ids } = ctx.params;
 
-						const result = posts.filter((post) => {
-							return ids.includes(post.id);
+						const result = ids.map((id) => {
+							return posts.find((post) => post.id === id) ?? null;
 						});
 
 						return result;
 					},
 					graphql: {
 						query: 'postsById',
+					},
+				},
+
+				postCreate: {
+					async handler(ctx: Context<PostCreateParams>): Promise<PostCreateResult> {
+						const {
+							post: { authorId, message },
+						} = ctx.params;
+
+						const author = await ctx.call<AuthorByIdResult, AuthorByIdParams>('author.authorById', {
+							id: authorId,
+						});
+
+						if (author == null) {
+							throw new Error('AuthorId not found');
+						}
+
+						const nextId = String(
+							Math.max(
+								...posts.map(({ id }) => {
+									return Number(id);
+								}),
+							) + 1,
+						);
+
+						const post: Post = {
+							id: nextId,
+							authorId,
+							message,
+						};
+
+						posts.push(post);
+						return post;
+					},
+					graphql: {
+						mutation: 'postCreate',
 					},
 				},
 			},

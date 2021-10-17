@@ -17,3 +17,12 @@ type Query {
 
 	postAuthorById(authorIds: [ID!]!): [Author]! @merge(keyField: "id")
 }
+
+input PostCreateInput {
+	authorId: String!
+	message: String!
+}
+
+type Mutation {
+	postCreate(post: PostCreateInput): Post!
+}

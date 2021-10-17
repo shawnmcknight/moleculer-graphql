@@ -8,3 +8,11 @@ type Query {
 
 	authorsById(ids: [ID!]): [Author] @merge(keyField: "id")
 }
+
+input AuthorCreateInput {
+	name: String!
+}
+
+type Mutation {
+	authorCreate(author: AuthorCreateInput): Author!
+}
