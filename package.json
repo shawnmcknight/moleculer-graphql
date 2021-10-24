@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@graphql-tools/merge": "^8.2.0",
-    "@graphql-tools/schema": "^8.2.0",
+    "@graphql-tools/schema": "^8.3.0",
     "@graphql-tools/stitch": "^8.4.0",
     "@graphql-tools/stitching-directives": "^2.2.0",
     "@graphql-tools/utils": "^8.5.0",
