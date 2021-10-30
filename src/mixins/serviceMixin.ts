@@ -2,7 +2,7 @@ import type { SubschemaConfig } from '@graphql-tools/delegate';
 import type { IResolvers } from '@graphql-tools/utils';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema, Context } from 'moleculer';
-import type { GraphQLContextFactory, GraphQLContext } from '../classes';
+import type { GraphQLContextFactory, GraphQLContext, SchemaDirectiveTransformer } from '../classes';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
 
 type SubschemaConfigOmittedProps = 'schema' | 'executor';
@@ -12,6 +12,7 @@ interface ServiceMixinOptions<TGraphQLContext extends Record<string, unknown>> {
 	typeDefs: string;
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
+	schemaDirectiveTransformers?: readonly SchemaDirectiveTransformer[];
 	subschemaConfig?: ServiceMixinSubschemaConfig;
 }
 
@@ -37,7 +38,8 @@ export interface GraphQLRequest {
 export default function serviceMixin<
 	TGraphQLContext extends Record<string, unknown> = Record<never, never>,
 >(opts: ServiceMixinOptions<TGraphQLContext>): Partial<ServiceSchema> {
-	const { typeDefs, resolvers, subschemaConfig, contextFactory } = opts;
+	const { typeDefs, resolvers, subschemaConfig, schemaDirectiveTransformers, contextFactory } =
+		opts;
 
 	const defaultedSubschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, subschemaConfig, {
 		batch: true,
@@ -45,7 +47,10 @@ export default function serviceMixin<
 
 	return {
 		created(this: GraphQLService<TGraphQLContext>) {
-			const schemaBuilder = new SchemaBuilder(this, typeDefs, { resolvers });
+			const schemaBuilder = new SchemaBuilder(this, typeDefs, {
+				resolvers,
+				schemaDirectiveTransformers,
+			});
 
 			const schema = schemaBuilder.build();
 
