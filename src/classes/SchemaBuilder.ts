@@ -7,8 +7,11 @@ import type { Service } from 'moleculer';
 import { ensureArray, buildFullActionName } from '../utils';
 import type { GraphQLContext } from '.';
 
+export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
+
 interface SchemaBuilderOptions<TGraphQLContext extends Record<string, unknown>> {
 	resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
+	schemaDirectiveTransformers?: readonly SchemaDirectiveTransformer[];
 }
 
 class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
@@ -17,6 +20,8 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 	private typeDefs: string;
 
 	private resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
+
+	private schemaDirectiveTransformers: readonly SchemaDirectiveTransformer[];
 
 	public constructor(
 		service: Service,
@@ -32,8 +37,9 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 			${typeDefs}
 		`;
 
-		const { resolvers } = opts;
+		const { resolvers, schemaDirectiveTransformers } = opts;
 		this.resolvers = resolvers;
+		this.schemaDirectiveTransformers = ensureArray(schemaDirectiveTransformers);
 	}
 
 	public build(): GraphQLSchema {
@@ -43,9 +49,13 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 
 		const { stitchingDirectivesValidator } = stitchingDirectives();
 
-		const schema = stitchingDirectivesValidator(
+		const baseSchema = stitchingDirectivesValidator(
 			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers }),
 		);
+
+		const schema = this.schemaDirectiveTransformers.reduce((acc, schemaDirectiveTransformer) => {
+			return schemaDirectiveTransformer(acc);
+		}, baseSchema);
 
 		return schema;
 	}

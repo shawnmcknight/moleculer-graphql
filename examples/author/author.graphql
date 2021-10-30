@@ -1,6 +1,7 @@
 type Author @canonical {
 	id: ID!
 	name: String!
+	email: String! @lower
 }
 
 type Query {

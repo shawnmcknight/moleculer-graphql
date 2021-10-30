@@ -1,6 +1,7 @@
 export interface Author {
 	id: string;
 	name: string;
+	email: string;
 }
 
 export interface AuthorByIdParams {
@@ -15,6 +16,7 @@ export type AuthorsByIdResult = (Author | null)[];
 
 export interface AuthorCreate {
 	name: string;
+	email: string;
 }
 export interface AuthorCreateParams {
 	author: AuthorCreate;
