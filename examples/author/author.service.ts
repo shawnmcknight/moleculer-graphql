@@ -3,6 +3,7 @@ import path from 'path';
 import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import { serviceMixin } from '../../src';
+import { lowerDirectiveFactory } from '../directives';
 import type {
 	Author,
 	AuthorByIdParams,
@@ -19,12 +20,17 @@ const authors: Author[] = [
 	{
 		id: '1',
 		name: 'O.J. Simpson',
+		email: 'OJ@THEJUICE.COM',
 	},
 	{
 		id: '2',
 		name: 'John Steinbeck',
+		email: 'GrapesOfWrathLover77@gmail.com',
 	},
 ];
+
+const { typeDefs: lowerDirectiveTypeDefs, transformer: lowerDirectiveTransformer } =
+	lowerDirectiveFactory('lower');
 
 class AuthorService extends Service {
 	public constructor(broker: ServiceBroker) {
@@ -34,7 +40,11 @@ class AuthorService extends Service {
 
 			mixins: [
 				serviceMixin({
-					typeDefs,
+					typeDefs: /* GraphQL */ `
+						${lowerDirectiveTypeDefs}
+						${typeDefs}
+					`,
+					schemaDirectiveTransformers: [lowerDirectiveTransformer],
 				}),
 			],
 
@@ -70,7 +80,7 @@ class AuthorService extends Service {
 				authorCreate: {
 					handler(ctx: Context<AuthorCreateParams>): AuthorCreateResult {
 						const {
-							author: { name },
+							author: { name, email },
 						} = ctx.params;
 
 						const nextId = String(
@@ -84,6 +94,7 @@ class AuthorService extends Service {
 						const author: Author = {
 							id: nextId,
 							name,
+							email,
 						};
 
 						authors.push(author);
