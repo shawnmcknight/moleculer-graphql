@@ -47,9 +47,9 @@ export interface GraphQLRequest {
 export default function serviceMixin<
 	TGraphQLContext extends Record<string, unknown> = Record<never, never>,
 >(opts: ServiceMixinOptions<TGraphQLContext>): Partial<ServiceSchema> {
-	const { subschemaConfig, schemaDirectiveTransformers, contextFactory } = opts;
+	const { schemaDirectiveTransformers, contextFactory } = opts;
 
-	const defaultedSubschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, subschemaConfig, {
+	const subschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, opts.subschemaConfig, {
 		batch: true,
 	});
 
@@ -71,7 +71,7 @@ export default function serviceMixin<
 
 			this.settings.$graphql = {
 				typeDefs: schemaBuilder.getTypeDefs(),
-				subschemaConfig: defaultedSubschemaConfig,
+				subschemaConfig,
 			};
 
 			this.graphQLExecutor = new GraphQLExecutor(schema, { contextFactory });
