@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.0-alpha.4] - 2021-11-14
+### Added
+- Allow `typeDefs` and `resolvers` in `serviceMixin` options to be specified via function rather than explicit values ([#64](https://github.com/shawnmcknight/moleculer-graphql/pull/64))
+- Allow custom directives to be specified ([#54](https://github.com/shawnmcknight/moleculer-graphql/pull/54))
+- Added mutation examples ([#33](https://github.com/shawnmcknight/moleculer-graphql/pull/33))
+
 ## [0.0.0-alpha.3] - 2021-10-17
 ### Added
 - Enable dependabot ([#11](https://github.com/shawnmcknight/moleculer-graphql/pull/11))
