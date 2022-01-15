@@ -56,7 +56,7 @@
     "graphql": "15.7.2",
     "graphql-depth-limit": "1.1.0",
     "moleculer": "0.14.18",
-    "moleculer-repl": "0.6.6",
+    "moleculer-repl": "0.7.0",
     "moleculer-web": "0.10.3",
     "prettier": "2.4.1",
     "rimraf": "3.0.2",
