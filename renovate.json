@@ -26,6 +26,12 @@
         "peerDependencies"
       ],
       "rangeStrategy": "widen"
+    },
+    {
+      "matchDepTypes": [
+        "engines"
+      ],
+      "rangeStrategy": "auto"
     }
   ]
 }
