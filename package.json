@@ -88,5 +88,6 @@
   },
   "engines": {
     "node": ">=12.11.0"
-  }
+  },
+  "types": "./index.d.ts"
 }
