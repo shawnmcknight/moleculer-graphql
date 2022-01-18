@@ -1,2 +1,5 @@
+# Local override typings
+typings
+
 # Build output
 dist

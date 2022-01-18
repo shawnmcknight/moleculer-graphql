@@ -1,5 +1,5 @@
-import type { GraphQLSchema, ExecutionResult, ValidationRule } from 'graphql';
-import { Source, execute, parse, getOperationAST, validate } from 'graphql';
+import type { ExecutionResult, GraphQLSchema, ValidationRule } from 'graphql';
+import { execute, parse, Source, validate } from 'graphql';
 import httpError from 'http-errors';
 import type { Context } from 'moleculer';
 
@@ -40,7 +40,6 @@ class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 		const { validationRules = [] } = opts;
 
 		const documentAST = parse(new Source(query, 'GraphQL request'));
-		const operationAST = getOperationAST(documentAST, operationName);
 
 		const validationErrors = validate(this.schema, documentAST, validationRules);
 

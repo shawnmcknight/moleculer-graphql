@@ -9,10 +9,10 @@ import type {
 	PostAuthor,
 	PostByIdParams,
 	PostByIdResult,
-	PostsByIdParams,
-	PostsByIdResult,
 	PostCreateParams,
 	PostCreateResult,
+	PostsByIdParams,
+	PostsByIdResult,
 } from './types';
 
 const typeDefs = readFileSync(path.join(__dirname, './post.graphql'), 'utf8');
@@ -43,9 +43,7 @@ class PostService extends Service {
 						Author: {
 							posts: (parent: PostAuthor, args, context) => {
 								context.$ctx.broker.logger.debug('Executing Author.posts resolver');
-								return posts.filter((post) => {
-									return parent.id === post.authorId;
-								});
+								return posts.filter((post) => parent.id === post.authorId);
 							},
 						},
 
@@ -68,9 +66,7 @@ class PostService extends Service {
 								context.$ctx.broker.logger.debug('Executing Query.postAuthorById resolver');
 								const { authorIds } = args;
 
-								return authorIds.map((id: string) => {
-									return { id };
-								});
+								return authorIds.map((id: string) => ({ id }));
 							},
 						},
 					},
@@ -94,9 +90,7 @@ class PostService extends Service {
 					handler(ctx: Context<PostsByIdParams>): PostsByIdResult {
 						const { ids } = ctx.params;
 
-						const result = ids.map((id) => {
-							return posts.find((post) => post.id === id) ?? null;
-						});
+						const result = ids.map((id) => posts.find((post) => post.id === id) ?? null);
 
 						return result;
 					},
@@ -119,13 +113,7 @@ class PostService extends Service {
 							throw new Error('AuthorId not found');
 						}
 
-						const nextId = String(
-							Math.max(
-								...posts.map(({ id }) => {
-									return Number(id);
-								}),
-							) + 1,
-						);
+						const nextId = String(Math.max(...posts.map(({ id }) => Number(id))) + 1);
 
 						const post: Post = {
 							id: nextId,

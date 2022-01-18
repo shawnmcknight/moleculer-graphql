@@ -1,9 +1,9 @@
 import type { SubschemaConfig } from '@graphql-tools/delegate';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
-import type { Executor, ExecutionResult } from '@graphql-tools/utils';
+import type { ExecutionResult, Executor } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
-import { print, buildSchema } from 'graphql';
+import { buildSchema, print } from 'graphql';
 import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';

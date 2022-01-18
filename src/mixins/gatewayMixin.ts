@@ -5,7 +5,7 @@ import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
-import type { Request, GraphQLContextFactory } from '../classes';
+import type { GraphQLContextFactory, Request } from '../classes';
 
 interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
@@ -47,9 +47,13 @@ export default function gatewayMixin<
 							});
 							this.rebuildSchema = false;
 
-							this.broker.broadcast('graphql.schema.updated', {
-								schema: printSchema(schema),
-							});
+							this.broker
+								.broadcast('graphql.schema.updated', {
+									schema: printSchema(schema),
+								})
+								.catch((err) => {
+									this.logger.error(err);
+								});
 						}
 
 						return this.requestHandler.handle(req, res);

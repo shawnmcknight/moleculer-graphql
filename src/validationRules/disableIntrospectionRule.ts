@@ -2,6 +2,7 @@ import type { ValidationContext, ValidationRule } from 'graphql';
 import { GraphQLError } from 'graphql';
 
 const disableIntrospectionRule: ValidationRule = (context: ValidationContext) => ({
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	Field(node) {
 		if (node.name.value === '__schema' || node.name.value === '__type') {
 			context.reportError(
