@@ -1,7 +1,7 @@
-export { default as gatewayMixin, GatewayMixinOptions } from './gatewayMixin';
+export { default as gatewayMixin, type GatewayMixinOptions } from './gatewayMixin';
 export {
 	default as serviceMixin,
-	ResolversFactory,
-	ServiceMixinOptions,
-	TypeDefsFactory,
+	type ResolversFactory,
+	type ServiceMixinOptions,
+	type TypeDefsFactory,
 } from './serviceMixin';

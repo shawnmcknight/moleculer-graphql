@@ -2,12 +2,12 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import { GraphQLError, formatError, specifiedRules } from 'graphql';
+import { formatError, GraphQLError, specifiedRules } from 'graphql';
 import type {
-	GraphQLSchema,
-	ValidationRule,
 	ExecutionResult,
 	FormattedExecutionResult,
+	GraphQLSchema,
+	ValidationRule,
 } from 'graphql';
 import httpError from 'http-errors';
 import type { IncomingRequest } from 'moleculer-web';

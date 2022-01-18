@@ -1,8 +1,8 @@
 import type { SubschemaConfig } from '@graphql-tools/delegate';
 import type { IResolvers } from '@graphql-tools/utils';
 import { defaultsDeep } from 'lodash';
-import type { Service, ServiceSchema, Context, ServiceSettingSchema } from 'moleculer';
-import type { GraphQLContextFactory, GraphQLContext, SchemaDirectiveTransformer } from '../classes';
+import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
+import type { GraphQLContext, GraphQLContextFactory, SchemaDirectiveTransformer } from '../classes';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
 
 type SubschemaConfigOmittedProps = 'schema' | 'executor';

@@ -1,10 +1,10 @@
 import { mergeResolvers } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
-import type { IResolvers, IFieldResolver } from '@graphql-tools/utils';
+import type { IFieldResolver, IResolvers } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
-import { ensureArray, buildFullActionName } from '../utils';
+import { buildFullActionName, ensureArray } from '../utils';
 import type { GraphQLContext } from '.';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
@@ -53,9 +53,10 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers }),
 		);
 
-		const schema = this.schemaDirectiveTransformers.reduce((acc, schemaDirectiveTransformer) => {
-			return schemaDirectiveTransformer(acc);
-		}, baseSchema);
+		const schema = this.schemaDirectiveTransformers.reduce(
+			(acc, schemaDirectiveTransformer) => schemaDirectiveTransformer(acc),
+			baseSchema,
+		);
 
 		return schema;
 	}
@@ -122,9 +123,7 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 	): IFieldResolver<unknown, GraphQLContext<TGraphQLContext>> {
 		const fullActionName = buildFullActionName(this.service.name, actionName, this.service.version);
 
-		return (parent, args, graphQLContext) => {
-			return graphQLContext.$ctx.call(fullActionName, args);
-		};
+		return (parent, args, graphQLContext) => graphQLContext.$ctx.call(fullActionName, args);
 	}
 }
 

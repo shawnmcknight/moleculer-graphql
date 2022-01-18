@@ -8,10 +8,10 @@ import type {
 	Author,
 	AuthorByIdParams,
 	AuthorByIdResult,
-	AuthorsByIdParams,
-	AuthorsByIdResult,
 	AuthorCreateParams,
 	AuthorCreateResult,
+	AuthorsByIdParams,
+	AuthorsByIdResult,
 } from './types';
 
 const typeDefs = readFileSync(path.join(__dirname, './author.graphql'), 'utf8');
@@ -66,9 +66,7 @@ class AuthorService extends Service {
 					handler(ctx: Context<AuthorsByIdParams>): AuthorsByIdResult {
 						const { ids } = ctx.params;
 
-						const result = ids.map((id) => {
-							return authors.find((author) => author.id === id) ?? null;
-						});
+						const result = ids.map((id) => authors.find((author) => author.id === id) ?? null);
 
 						return result;
 					},
@@ -83,13 +81,7 @@ class AuthorService extends Service {
 							author: { name, email },
 						} = ctx.params;
 
-						const nextId = String(
-							Math.max(
-								...authors.map(({ id }) => {
-									return Number(id);
-								}),
-							) + 1,
-						);
+						const nextId = String(Math.max(...authors.map(({ id }) => Number(id))) + 1);
 
 						const author: Author = {
 							id: nextId,

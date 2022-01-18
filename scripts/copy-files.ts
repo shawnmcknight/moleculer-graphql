@@ -37,11 +37,7 @@ const copyStaticAssetFolder = async (folderName: string): Promise<void> => {
 const copyStaticAssets = async (): Promise<void> => {
 	const staticAssetsFolders = ['./playground'] as const;
 
-	await Promise.all(
-		staticAssetsFolders.map((folderName) => {
-			return copyStaticAssetFolder(folderName);
-		})
-	);
+	await Promise.all(staticAssetsFolders.map((folderName) => copyStaticAssetFolder(folderName)));
 
 	console.log('Successfuly copied all static assets');
 };
@@ -58,11 +54,7 @@ const copyFile = async (fileName: string): Promise<void> => {
 const copyMeta = async (): Promise<void> => {
 	const filesToCopy = ['README.md', 'CHANGELOG.md', 'LICENSE'];
 
-	await Promise.all(
-		filesToCopy.map((fileName) => {
-			return copyFile(fileName);
-		})
-	);
+	await Promise.all(filesToCopy.map((fileName) => copyFile(fileName)));
 
 	console.log('Successfully copied all meta files');
 };
