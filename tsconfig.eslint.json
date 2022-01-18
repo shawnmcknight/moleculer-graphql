@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "allowJs": true
+    "allowJs": true,
+    "noEmit": true,
   },
   "extends": "./tsconfig.json",
   "include": [
