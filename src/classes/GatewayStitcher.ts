@@ -4,7 +4,7 @@ import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { ExecutionResult, Executor } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { buildSchema, print } from 'graphql';
-import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
+import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
 import type { GraphQLContext } from '.';
@@ -16,37 +16,36 @@ class GatewayStitcher {
 		this.service = service;
 	}
 
-	public stitch(): GraphQLSchema {
+	public stitch<TGraphQLContext extends Record<string, unknown>>(): GraphQLSchema {
 		const allServices = this.service.broker.registry.getServiceList({});
 
 		const processedServiceNames = new Set<string>();
 
-		const subschemas = allServices.reduce<SubschemaConfig<unknown, unknown, unknown, Context>[]>(
-			(acc, service) => {
-				const { name: serviceName, settings: serviceSettings } = service;
+		const subschemas = allServices.reduce<
+			SubschemaConfig<unknown, unknown, unknown, GraphQLContext<TGraphQLContext>>[]
+		>((acc, service) => {
+			const { name: serviceName, settings: serviceSettings } = service;
 
-				if (processedServiceNames.has(serviceName)) {
-					return acc;
-				}
-
-				processedServiceNames.add(serviceName);
-
-				if (!this.isGraphQLServiceSettings(serviceSettings)) {
-					return acc;
-				}
-
-				const { typeDefs, subschemaConfig } = serviceSettings.$graphql;
-
-				const schema = buildSchema(typeDefs);
-
-				const executor = this.makeRemoteExecutor(service);
-
-				acc.push({ ...subschemaConfig, schema, executor });
-
+			if (processedServiceNames.has(serviceName)) {
 				return acc;
-			},
-			[],
-		);
+			}
+
+			processedServiceNames.add(serviceName);
+
+			if (!this.isGraphQLServiceSettings(serviceSettings)) {
+				return acc;
+			}
+
+			const { typeDefs, subschemaConfig } = serviceSettings.$graphql;
+
+			const schema = buildSchema(typeDefs);
+
+			const executor = this.makeRemoteExecutor(service);
+
+			acc.push({ ...subschemaConfig, schema, executor });
+
+			return acc;
+		}, []);
 
 		if (subschemas.length === 0) {
 			throw new Error('No registered GraphQL services');
@@ -54,7 +53,7 @@ class GatewayStitcher {
 
 		const { stitchingDirectivesTransformer } = stitchingDirectives();
 
-		return stitchSchemas<Context>({
+		return stitchSchemas<GraphQLContext<TGraphQLContext>>({
 			// @ts-ignore: TODO
 			subschemaConfigTransforms: [stitchingDirectivesTransformer],
 			subschemas,
