@@ -31,3 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.0-alpha.1] - 2021-10-12
 ### Added
 - Initial alpha release
+
+[Unreleased]: https://github.com/shawnmcknight/moleculer-graphql/compare/0.0.0-alpha.4...HEAD
+[0.0.0-alpha.4]: https://github.com/shawnmcknight/moleculer-graphql/compare/0.0.0-alpha.3...0.0.0-alpha.4
+[0.0.0-alpha.3]: https://github.com/shawnmcknight/moleculer-graphql/compare/0.0.0-alpha.2...0.0.0-alpha.3
+[0.0.0-alpha.2]: https://github.com/shawnmcknight/moleculer-graphql/compare/0.0.0-alpha.1...0.0.0-alpha.2
+[0.0.0-alpha.1]: https://github.com/shawnmcknight/moleculer-graphql/releases/tag/0.0.0-alpha.1
