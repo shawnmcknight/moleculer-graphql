@@ -54,7 +54,7 @@ class GatewayStitcher {
 
 		const { stitchingDirectivesTransformer } = stitchingDirectives();
 
-		return stitchSchemas({
+		return stitchSchemas<Context>({
 			// @ts-ignore: TODO
 			subschemaConfigTransforms: [stitchingDirectivesTransformer],
 			subschemas,
