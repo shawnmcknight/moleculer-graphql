@@ -1,11 +1,19 @@
 module.exports = {
 	printWidth: 100,
 	tabWidth: 2,
-	useTabs: true,
+	useTabs: false,
 	semi: true,
 	singleQuote: true,
-	trailingComma: "all",
+	trailingComma: 'all',
 	bracketSpacing: true,
-	arrowParens: "always",
-	parser: "typescript",
-}
+	bracketSameLine: false,
+	arrowParens: 'always',
+	overrides: [
+		{
+			files: ['*.{js,jsx,ts,tsx,d.ts,css,html,graphql}'],
+			options: {
+				useTabs: true,
+			},
+		},
+	],
+};

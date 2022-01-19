@@ -1,6 +1,3 @@
-# root configuration files
-!.*.js
-
 # Local override typings
 typings
 

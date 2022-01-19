@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "noEmit": true,
+    "noEmit": true
   },
   "extends": "./tsconfig.json",
   "include": [
@@ -10,6 +10,6 @@
     "scripts/**/*", // scripts folder
     "./*.js", // root javascript files
     "./.*.js", // root javascript config files
-     "__mocks__/**/*" // jest mocks
+    "__mocks__/**/*" // jest mocks
   ]
 }

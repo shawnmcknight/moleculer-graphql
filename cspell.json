@@ -10,8 +10,5 @@
     "package-lock.json",
     "tsconfig.json"
   ],
-  "words": [
-    "graphiql",
-    "moleculer"
-  ]
+  "words": ["graphiql", "moleculer"]
 }
