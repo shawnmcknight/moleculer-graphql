@@ -95,9 +95,5 @@
   "engines": {
     "node": ">=12.11.0"
   },
-  "types": "./index.d.ts",
-  "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*": "prettier --ignore-unknown --write"
-  }
+  "types": "./index.d.ts"
 }
