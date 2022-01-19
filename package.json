@@ -5,7 +5,7 @@
   "description": "GraphQL mixins for Moleculer microservices",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build:tsc && npm run build:copy-files",
+    "build": "npm-run-all build:tsc build:copy-files",
     "build:copy-files": "ts-node ./scripts/copy-files.ts",
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "npm run clean:build",
@@ -21,7 +21,8 @@
     "lint:clear": "rimraf ./.eslintcache",
     "prebuild": "npm run clean:build",
     "prettier": "prettier . --check",
-    "prettier:fix": "prettier . --fix",
+    "prettier:fix": "prettier . --write",
+    "style:fix": "npm-run-all prettier:fix lint:fix",
     "test": "npm-run-all --parallel typecheck prettier lint",
     "typecheck": "tsc --noEmit && echo \"tsc: no typecheck errors\""
   },
