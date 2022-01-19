@@ -12,8 +12,8 @@ import type { GraphQLContext } from '.';
 class GatewayStitcher {
 	private service: Service;
 
-	public constructor(service: Service) {
-		this.service = service;
+	public constructor(test: Service) {
+		this.service = test;
 	}
 
 	public stitch<TGraphQLContext extends Record<string, unknown>>(): GraphQLSchema {
