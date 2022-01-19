@@ -7,7 +7,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 		'plugin:@typescript-eslint/recommended-requiring-type-checking',
 		'plugin:import/typescript',
-		'plugin:prettier/recommended',
+		'prettier',
 	],
 
 	env: { es2021: true, node: true, 'jest/globals': true },
@@ -17,21 +17,7 @@ module.exports = {
 	parserOptions: { tsconfigRootDir: __dirname, project: './tsconfig.eslint.json' },
 
 	rules: {
-		// enable prettier configuration
-		'prettier/prettier': [
-			'error',
-			{
-				printWidth: 100,
-				tabWidth: 2,
-				useTabs: true,
-				semi: true,
-				singleQuote: true,
-				trailingComma: 'all',
-				bracketSpacing: true,
-				bracketSameLine: false,
-				arrowParens: 'always',
-			},
-		],
+
 
 		// disable rules turned on by @typescript-eslint/recommended-requiring-type-checking which are too noisy
 		// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-requiring-type-checking.ts

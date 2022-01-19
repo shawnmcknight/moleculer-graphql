@@ -39,7 +39,7 @@ const copyStaticAssets = async (): Promise<void> => {
 
 	await Promise.all(staticAssetsFolders.map((folderName) => copyStaticAssetFolder(folderName)));
 
-	console.log('Successfuly copied all static assets');
+	console.log('Successfully copied all static assets');
 };
 
 /** Copy the specified file to the build folder */
