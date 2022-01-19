@@ -17,8 +17,6 @@ module.exports = {
 	parserOptions: { tsconfigRootDir: __dirname, project: './tsconfig.eslint.json' },
 
 	rules: {
-
-
 		// disable rules turned on by @typescript-eslint/recommended-requiring-type-checking which are too noisy
 		// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-requiring-type-checking.ts
 		'@typescript-eslint/no-unsafe-argument': 'off',
@@ -34,11 +32,6 @@ module.exports = {
 
 		// allow class methods which do not use this
 		'class-methods-use-this': 'off',
-
-		// arrow-body-style and prefer-arrow-callback must be manually enabled because prettier/recommended is disabling it
-		// see https://github.com/prettier/eslint-config-prettier/blob/master/CHANGELOG.md v4.0.0
-		'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: false }],
-		'prefer-arrow-callback': ['error', { allowNamedFunctions: false, allowUnboundThis: true }],
 
 		// Allow use of ForOfStatement - no-restricted-syntax does not allow us to turn off a rule. This block overrides the airbnb rule entirely
 		// https://github.com/airbnb/javascript/blob/7152396219e290426a03e47837e53af6bcd36bbe/packages/eslint-config-airbnb-base/rules/style.js#L257-L263
