@@ -5,7 +5,6 @@ module.exports = {
 		'plugin:jest/recommended',
 		'plugin:jest/style',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:@typescript-eslint/recommended-requiring-type-checking',
 		'plugin:import/typescript',
 		'prettier',
 	],
@@ -17,16 +16,6 @@ module.exports = {
 	parserOptions: { tsconfigRootDir: __dirname, project: './tsconfig.eslint.json' },
 
 	rules: {
-		// disable rules turned on by @typescript-eslint/recommended-requiring-type-checking which are too noisy
-		// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-requiring-type-checking.ts
-		'@typescript-eslint/no-unsafe-argument': 'off',
-		'@typescript-eslint/no-unsafe-assignment': 'off',
-		'@typescript-eslint/no-unsafe-call': 'off',
-		'@typescript-eslint/no-unsafe-member-access': 'off',
-		'@typescript-eslint/no-unsafe-return': 'off',
-		'@typescript-eslint/restrict-template-expressions': 'off',
-		'@typescript-eslint/unbound-method': 'off',
-
 		// enforce curly brace usage
 		curly: ['error', 'all'],
 
@@ -107,10 +96,9 @@ module.exports = {
 			// do not enforce format on property names
 			{ selector: 'property', format: null },
 			// PascalCase for classes and TypeScript keywords
-			{
-				selector: ['typeLike'],
-				format: ['PascalCase'],
-			},
+			{ selector: ['typeLike'], format: ['PascalCase'] },
+			// allow quoted object method properties
+			{ selector: ['objectLiteralMethod'], format: null, modifiers: ['requiresQuotes'] },
 		],
 
 		// disallow parameter properties in favor of explicit class declarations
@@ -120,7 +108,18 @@ module.exports = {
 	overrides: [
 		{
 			files: ['**/*.ts'],
+			extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
 			rules: {
+				// disable rules turned on by @typescript-eslint/recommended-requiring-type-checking which are too noisy
+				// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-requiring-type-checking.ts
+				'@typescript-eslint/no-unsafe-argument': 'off',
+				'@typescript-eslint/no-unsafe-assignment': 'off',
+				'@typescript-eslint/no-unsafe-call': 'off',
+				'@typescript-eslint/no-unsafe-member-access': 'off',
+				'@typescript-eslint/no-unsafe-return': 'off',
+				'@typescript-eslint/restrict-template-expressions': 'off',
+				'@typescript-eslint/unbound-method': 'off',
+
 				// force explicit member accessibility modifiers
 				'@typescript-eslint/explicit-member-accessibility': 'error',
 			},
@@ -136,7 +135,11 @@ module.exports = {
 		},
 
 		{
-			files: ['**/*.test.ts'],
+			files: [
+				'**/test/**/*.[jt]s?(x)',
+				'**/__tests__/**/*.[jt]s?(x)',
+				'**/?(*.)+(spec|test).[jt]s?(x)',
+			],
 			rules: {
 				// allow tests to create multiple classes
 				'max-classes-per-file': 'off',
@@ -146,18 +149,6 @@ module.exports = {
 
 				// allow import with CommonJS export
 				'import/no-import-module-exports': 'off',
-
-				// allow dev dependencies
-				'import/no-extraneous-dependencies': [
-					'error',
-					{ devDependencies: true, optionalDependencies: false, peerDependencies: false },
-				],
-
-				// allow explicit any in tests
-				'@typescript-eslint/no-explicit-any': 'off',
-
-				// allow non-null-assertions
-				'@typescript-eslint/no-non-null-assertion': 'off',
 
 				// disallow use of "it" for test blocks
 				'jest/consistent-test-it': ['error', { fn: 'test', withinDescribe: 'test' }],
@@ -188,6 +179,17 @@ module.exports = {
 
 				// prefer called with
 				'jest/prefer-called-with': 'error',
+			},
+		},
+
+		{
+			files: ['**/test/**/*.ts?(x)', '**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
+			rules: {
+				// allow explicit any in tests
+				'@typescript-eslint/no-explicit-any': 'off',
+
+				// allow non-null-assertions
+				'@typescript-eslint/no-non-null-assertion': 'off',
 
 				// allow empty arrow functions
 				'@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
@@ -195,7 +197,12 @@ module.exports = {
 		},
 
 		{
-			files: ['**/examples/**', '**/scripts/**'],
+			files: [
+				'**/__tests__/**/*.[jt]s?(x)',
+				'**/?(*.)+(spec|test).[jt]s?(x)',
+				'**/examples/**/*.ts?(x)',
+				'**/scripts/*.ts?(x)',
+			],
 			rules: {
 				// allow dev dependencies
 				'import/no-extraneous-dependencies': [
