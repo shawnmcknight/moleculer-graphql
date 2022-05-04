@@ -5,7 +5,7 @@ import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'mole
 import type { GraphQLContext, GraphQLContextFactory, SchemaDirectiveTransformer } from '../classes';
 import { GraphQLExecutor, SchemaBuilder } from '../classes';
 
-type SubschemaConfigOmittedProps = 'schema' | 'executor';
+type SubschemaConfigOmittedProps = 'schema' | 'executor' | 'merge';
 type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedProps>;
 
 export type TypeDefsFactory<TGraphQLContext extends Record<string, unknown>> = (
