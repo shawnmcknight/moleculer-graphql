@@ -1,4 +1,3 @@
-import querystring from 'querystring';
 import { URLSearchParams } from 'url';
 import type { Gunzip, Inflate } from 'zlib';
 import zlib from 'zlib';
@@ -100,8 +99,10 @@ class RequestParser {
 					}
 				}
 				throw httpError(400, 'POST body sent invalid JSON.');
-			case 'application/x-www-form-urlencoded':
-				return querystring.parse(rawBody);
+			case 'application/x-www-form-urlencoded': {
+				const params = new URLSearchParams(rawBody);
+				return Object.fromEntries(params);
+			}
 			default:
 				return {};
 		}
