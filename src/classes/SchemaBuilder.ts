@@ -50,7 +50,7 @@ class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
 		const { stitchingDirectivesValidator } = stitchingDirectives();
 
 		const baseSchema = stitchingDirectivesValidator(
-			makeExecutableSchema({ typeDefs: this.typeDefs, resolvers }),
+			makeExecutableSchema<GraphQLContext<TGraphQLContext>>({ typeDefs: this.typeDefs, resolvers }),
 		);
 
 		const schema = this.schemaDirectiveTransformers.reduce(
