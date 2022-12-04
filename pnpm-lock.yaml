@@ -26,7 +26,7 @@ specifiers:
   eslint-config-prettier: 8.5.0
   eslint-plugin-import: 2.26.0
   eslint-plugin-jest: 26.9.0
-  fs-extra: 10.1.0
+  fs-extra: 11.1.0
   get-stream: ^6.0.1
   graphql: 16.6.0
   graphql-depth-limit: 1.1.0
@@ -76,7 +76,7 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.29.0
   eslint-plugin-import: 2.26.0_ub3senzxbs32f65wl7xoyha6lu
   eslint-plugin-jest: 26.9.0_tolehw7iq3ehsknlmvsjiqpuvq
-  fs-extra: 10.1.0
+  fs-extra: 11.1.0
   graphql: 16.6.0
   graphql-depth-limit: 1.1.0_graphql@16.6.0
   husky: 8.0.2
@@ -2431,9 +2431,9 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /fs-extra/10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
+  /fs-extra/11.1.0:
+    resolution: {integrity: sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw==}
+    engines: {node: '>=14.14'}
     dependencies:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
