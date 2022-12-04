@@ -4,7 +4,7 @@
       "name": "Launch example",
       "request": "launch",
       "runtimeArgs": ["run-script", "example"],
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
     },
