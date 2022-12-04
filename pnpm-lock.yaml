@@ -25,7 +25,7 @@ specifiers:
   eslint-config-airbnb-typescript: 17.0.0
   eslint-config-prettier: 8.5.0
   eslint-plugin-import: 2.26.0
-  eslint-plugin-jest: 26.9.0
+  eslint-plugin-jest: 27.1.6
   fs-extra: 11.1.0
   get-stream: ^6.0.1
   graphql: 16.6.0
@@ -75,7 +75,7 @@ devDependencies:
   eslint-config-airbnb-typescript: 17.0.0_ditimktmhxbwnln2dq52zljtdq
   eslint-config-prettier: 8.5.0_eslint@8.29.0
   eslint-plugin-import: 2.26.0_ub3senzxbs32f65wl7xoyha6lu
-  eslint-plugin-jest: 26.9.0_viyypx6jif7igzoeonyt7nfjd4
+  eslint-plugin-jest: 27.1.6_viyypx6jif7igzoeonyt7nfjd4
   fs-extra: 11.1.0
   graphql: 16.6.0
   graphql-depth-limit: 1.1.0_graphql@16.6.0
@@ -2142,12 +2142,12 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-jest/26.9.0_viyypx6jif7igzoeonyt7nfjd4:
-    resolution: {integrity: sha512-TWJxWGp1J628gxh2KhaH1H1paEdgE2J61BBF1I59c6xWeL5+D1BzMxGDN/nXAfX+aSkR5u80K+XhskK6Gwq9ng==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  /eslint-plugin-jest/27.1.6_viyypx6jif7igzoeonyt7nfjd4:
+    resolution: {integrity: sha512-XA7RFLSrlQF9IGtAmhddkUkBuICCTuryfOTfCSWcZHiHb69OilIH05oozH2XA6CEOtztnOd0vgXyvxZodkxGjg==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.0.0
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      eslint: ^7.0.0 || ^8.0.0
       jest: '*'
     peerDependenciesMeta:
       '@typescript-eslint/eslint-plugin':
