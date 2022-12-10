@@ -1,0 +1,17 @@
+{
+  "folders": [
+	{
+		"name": "✨ @shawnmcknight/moleculer-graphql-monorepo",
+		"path": ".."
+	},
+	{
+		"name": "@shawnmcknight/eslint-config",
+		"path": "../internal/eslint-config"
+	},
+	{
+		"name": "📦 @shawnmcknight/moleculer-graphql",
+		"path": "../packages/moleculer-graphql"
+	}
+],
+  "settings": {}
+}
