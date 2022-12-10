@@ -2,10 +2,6 @@
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
-    "paths": {
-      "moleculer": ["./typings/moleculer"],
-      "moleculer-web": ["./typings/moleculer-web"]
-    },
     "noUnusedLocals": true /* Enable error reporting when a local variables aren't read. */,
     "noImplicitOverride": true /* Ensure overriding members in derived classes are marked with an override modifier. */ /* Specify a set of entries that re-map imports to additional lookup locations. */,
     "allowUnreachableCode": false /* Disable error reporting for unreachable code. */,

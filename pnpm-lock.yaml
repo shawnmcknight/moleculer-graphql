@@ -52,6 +52,7 @@ importers:
       '@graphql-tools/stitch': ^8.7.32
       '@graphql-tools/stitching-directives': ^2.3.23
       '@graphql-tools/utils': ^9.1.3
+      '@shawnmcknight/tsconfig': workspace:^
       '@types/accepts': 1.3.5
       '@types/content-type': 1.1.5
       '@types/fs-extra': 9.0.13
@@ -88,6 +89,7 @@ importers:
       '@graphql-tools/stitch': 8.7.32_graphql@16.6.0
       '@graphql-tools/stitching-directives': 2.3.23_graphql@16.6.0
       '@graphql-tools/utils': 9.1.3_graphql@16.6.0
+      '@shawnmcknight/tsconfig': link:../../internal/tsconfig
       accepts: 1.3.8
       content-type: 1.0.4
       get-stream: 6.0.1
