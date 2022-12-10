@@ -3,6 +3,11 @@
   "description": "Basic example of moleculer-graphql",
   "private": true,
   "scripts": {
+    "example:networking:author": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./src/networking.config.ts ./src/author/author.service.ts",
+    "example:networking:post": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./src/networking.config.ts ./src/post/post.service.ts",
+    "example:networking:gateway": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --repl --config ./src/networking.config.ts ./src/gateway/gateway.service.ts",
+    "example:networking": "concurrently -k --handle-input --default-input-target gateway -n author,post,gateway pnpm:example:networking:author pnpm:example:networking:post pnpm:example:networking:gateway",
+    "example": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --config ./src/local.config.ts \"./src/**/*.service.ts\"",
     "lint": "TIMING=1 eslint . --ext js,ts --cache",
     "lint:fix": "TIMING=1 eslint . --ext js,ts --fix --cache",
     "lint:nocache": "TIMING=1 eslint . --ext js,ts",

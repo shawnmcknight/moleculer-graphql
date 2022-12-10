@@ -13,11 +13,11 @@ class GatewayService extends Service {
 			mixins: [ApiService, gatewayMixin({ validationRules: [depthLimit(10)] })],
 			dependencies: ['author', 'post'],
 
-			events: {
-				'graphql.schema.updated'(schema: string) {
-					this.logger.info('GraphQL schema updated:', schema);
-				},
-			},
+			// events: {
+			// 	'graphql.schema.updated'(schema: string) {
+			// 		this.logger.info('GraphQL schema updated:', schema);
+			// 	},
+			// },
 		});
 	}
 }

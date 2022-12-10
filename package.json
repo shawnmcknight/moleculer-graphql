@@ -5,11 +5,7 @@
   "description": "Monorepo for moleculer-graphql",
   "scripts": {
     "build": "turbo run build",
-    "example:networking:author": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./examples/networking.config.ts ./examples/author/author.service.ts",
-    "example:networking:post": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./examples/networking.config.ts ./examples/post/post.service.ts",
-    "example:networking:gateway": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --repl --config ./examples/networking.config.ts ./examples/gateway/gateway.service.ts",
-    "example:networking": "concurrently -k --handle-input --default-input-target gateway -n author,post,gateway pnpm:example:networking:author pnpm:example:networking:post pnpm:example:networking:gateway",
-    "example": "ts-node -- ./node_modules/moleculer/bin/moleculer-runner --repl --config ./examples/local.config.ts ./examples/**/*.service.ts",
+    "example": "turbo run example",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
     "test": "concurrently --max-processes 1 pnpm:typecheck pnpm:prettier pnpm:lint",
