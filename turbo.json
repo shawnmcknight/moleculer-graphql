@@ -1,6 +1,17 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
+    "build": {
+      "dependsOn": ["clean", "^build"],
+      "env": ["NODE_ENV"],
+      "outputs": ["dist/**"],
+      "outputMode": "full"
+    },
+    "clean": {
+      "outputs": [],
+      "outputMode": "full",
+      "cache": false
+    },
     "lint": {
       "dependsOn": ["^forceInternalDependencies"],
       "outputs": [],

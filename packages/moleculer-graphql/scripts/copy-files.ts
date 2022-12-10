@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import path from 'path';
 import fse from 'fs-extra';
 
@@ -66,4 +65,5 @@ Promise.all([copyStaticAssets(), copyMeta(), createPackageFile()])
 	})
 	.catch((err) => {
 		console.error('Error copying files', err);
+		process.exit(1);
 	});
