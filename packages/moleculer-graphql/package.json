@@ -5,7 +5,14 @@
   "version": "0.0.0-alpha.4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "TIMING=1 eslint . --ext js,ts --cache",
+    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix --cache",
+    "lint:nocache": "TIMING=1 eslint . --ext js,ts",
+    "lint:clear": "rimraf ./.eslintcache",
+    "prettier": "prettier . --ignore-unknown --check",
+    "prettier:fix": "prettier . --ignore-unknown --write",
+    "style:fix": "pnpm run prettier:fix && pnpm run lint:fix",
+    "typecheck": "tsc --noEmit && echo \"tsc: no typecheck errors\""
   },
   "repository": {
     "type": "git",
