@@ -8,11 +8,12 @@ const buildPath = path.resolve(process.cwd(), './dist');
 const createPackageFile = async (): Promise<void> => {
 	const source = path.resolve(process.cwd(), './package.json');
 	const packageFile = await fse.readFile(source, 'utf8');
-	const { scripts, devDependencies, ...packageDataOther } = JSON.parse(packageFile);
+	const { scripts, devDependencies, types, ...packageDataOther } = JSON.parse(packageFile);
 
 	const newPackageData = {
 		...packageDataOther,
 		private: false,
+		types: './index.d.ts',
 	};
 
 	const minimalPackage = JSON.stringify(newPackageData, null, 2);

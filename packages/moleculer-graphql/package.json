@@ -4,6 +4,7 @@
   "private": true,
   "version": "0.0.0-alpha.4",
   "main": "index.js",
+  "types": "src/index.ts",
   "scripts": {
     "build": "pnpm run build:tsc && pnpm run build:copy-files",
     "build:copy-files": "ts-node ./scripts/copy-files.ts",
@@ -36,7 +37,6 @@
   "engines": {
     "node": ">=16.18.0"
   },
-  "types": "./index.d.ts",
   "dependencies": {
     "@graphql-tools/merge": "^8.3.14",
     "@graphql-tools/schema": "^9.0.12",
