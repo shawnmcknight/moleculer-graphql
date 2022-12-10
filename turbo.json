@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "lint": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "prettier": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "typecheck": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "forceInternalDependencies": {
+      "inputs": [],
+      "outputs": []
+    }
+  }
+}
