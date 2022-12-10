@@ -1,17 +1,33 @@
 {
   "folders": [
-	{
-		"name": "✨ @shawnmcknight/moleculer-graphql-monorepo",
-		"path": ".."
-	},
-	{
-		"name": "@shawnmcknight/eslint-config",
-		"path": "../internal/eslint-config"
-	},
-	{
-		"name": "📦 @shawnmcknight/moleculer-graphql",
-		"path": "../packages/moleculer-graphql"
-	}
-],
-  "settings": {}
+    {
+      "name": "✨ @shawnmcknight/moleculer-graphql-monorepo",
+      "path": ".."
+    },
+    {
+      "name": "🛠️ @shawnmcknight/eslint-config",
+      "path": "../internal/eslint-config"
+    },
+    {
+      "name": "📦 @shawnmcknight/moleculer-graphql",
+      "path": "../packages/moleculer-graphql"
+    }
+  ],
+  "settings": {
+    "files.eol": "\n",
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "monorepoWorkspace.folders.regex.libs": "common|package|lib|private",
+    "monorepoWorkspace.folders.regex.apps": "app|web|frontend",
+    "monorepoWorkspace.folders.regex.tools": "tool|script|util|config",
+    "monorepoWorkspace.folders.prefix.tools": "🛠️ ",
+    "monorepoWorkspace.folders.custom": [
+      { "regex": "test", "prefix": "🧪 " },
+      { "regex": "service|api|backend", "prefix": "🏭 " }
+    ]
+  }
 }
