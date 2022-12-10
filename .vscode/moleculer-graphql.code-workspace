@@ -9,6 +9,10 @@
       "path": "../internal/eslint-config"
     },
     {
+      "name": "🛠️ @shawnmcknight/tsconfig",
+      "path": "../internal/tsconfig"
+    },
+    {
       "name": "📦 @shawnmcknight/moleculer-graphql",
       "path": "../packages/moleculer-graphql"
     }
@@ -23,7 +27,7 @@
     },
     "monorepoWorkspace.folders.regex.libs": "common|package|lib|private",
     "monorepoWorkspace.folders.regex.apps": "app|web|frontend",
-    "monorepoWorkspace.folders.regex.tools": "tool|script|util|config",
+    "monorepoWorkspace.folders.regex.tools": "tool|script|util|internal",
     "monorepoWorkspace.folders.prefix.tools": "🛠️ ",
     "monorepoWorkspace.folders.custom": [
       { "regex": "test", "prefix": "🧪 " },

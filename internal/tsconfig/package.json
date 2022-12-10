@@ -1,0 +1,12 @@
+{
+  "name": "@shawnmcknight/tsconfig",
+  "description": "Typescript configuration for moleculer-graphql monorepo",
+  "private": true,
+  "sideEffects": false,
+  "dependencies": {
+    "@tsconfig/node16": "1.0.3"
+  },
+  "peerDependencies": {
+    "typescript": "^4.9.4"
+  }
+}
