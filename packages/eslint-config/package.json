@@ -1,0 +1,13 @@
+{
+  "name": "@shawnmcknight/eslint-config",
+  "description": "Eslint configuration for moleculer-graphql monorepo",
+  "private": true,
+  "sideEffects": false,
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
