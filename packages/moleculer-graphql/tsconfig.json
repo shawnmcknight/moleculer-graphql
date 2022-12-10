@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "moleculer": ["./typings/moleculer"],
-      "moleculer-web": ["./typings/moleculer-web"]
+      "moleculer": ["./node_modules/@shawnmcknight/type-overrides/moleculer"],
+      "moleculer-web": ["./node_modules/@shawnmcknight/type-overrides/moleculer-web"]
     }
   }
 }

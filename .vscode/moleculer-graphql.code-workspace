@@ -13,6 +13,10 @@
       "path": "../internal/tsconfig"
     },
     {
+      "name": "🛠️ @shawnmcknight/type-overrides",
+      "path": "../internal/type-overrides"
+    },
+    {
       "name": "📦 @shawnmcknight/moleculer-graphql",
       "path": "../packages/moleculer-graphql"
     }
