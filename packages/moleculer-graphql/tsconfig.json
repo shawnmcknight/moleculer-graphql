@@ -1,7 +1,9 @@
 {
   "extends": "@shawnmcknight/tsconfig/tsconfig.json",
-  "paths": {
-    "moleculer": ["./typings/moleculer"],
-    "moleculer-web": ["./typings/moleculer-web"]
+  "compilerOptions": {
+    "paths": {
+      "moleculer": ["./typings/moleculer"],
+      "moleculer-web": ["./typings/moleculer-web"]
+    }
   }
 }
