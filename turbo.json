@@ -12,12 +12,6 @@
       "outputMode": "full",
       "cache": false
     },
-    "example": {
-      "dependsOn": ["build"],
-      "outputs": [],
-      "outputMode": "full",
-      "cache": false
-    },
     "lint": {
       "dependsOn": ["^forceInternalDependencies"],
       "outputs": [],

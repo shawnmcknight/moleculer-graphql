@@ -5,7 +5,8 @@
   "description": "Monorepo for moleculer-graphql",
   "scripts": {
     "build": "turbo run build",
-    "example": "turbo run example",
+    "example": "pnpm run build && pnpm --filter=@shawnmcknight/example-basic run example",
+    "example:networking": "pnpm run build && pnpm --filter=@shawnmcknight/example-basic run example:networking",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
     "test": "concurrently --max-processes 1 pnpm:typecheck pnpm:prettier pnpm:lint",
