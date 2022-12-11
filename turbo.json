@@ -1,0 +1,35 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["clean", "^build"],
+      "env": ["NODE_ENV"],
+      "outputs": ["dist/**"],
+      "outputMode": "full"
+    },
+    "clean": {
+      "outputs": [],
+      "outputMode": "full",
+      "cache": false
+    },
+    "lint": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "prettier": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "typecheck": {
+      "dependsOn": ["^forceInternalDependencies"],
+      "outputs": [],
+      "outputMode": "full"
+    },
+    "forceInternalDependencies": {
+      "inputs": [],
+      "outputs": []
+    }
+  }
+}

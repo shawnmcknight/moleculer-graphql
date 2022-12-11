@@ -1,0 +1,10 @@
+{
+  "extends": "@shawnmcknight/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "moleculer": ["./node_modules/@shawnmcknight/type-overrides/moleculer"],
+      "moleculer-web": ["./node_modules/@shawnmcknight/type-overrides/moleculer-web"]
+    }
+  }
+}

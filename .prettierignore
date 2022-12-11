@@ -1,9 +1,3 @@
-# Local override typings
-typings
-
-# Build output
-dist
-
 # Automatically generated pnpm lockfile
 pnpm-lock.yaml
 

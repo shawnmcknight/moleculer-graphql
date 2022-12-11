@@ -9,11 +9,13 @@ module.exports = {
 		'prettier',
 	],
 
+	parserOptions: { project: './tsconfig.eslint.json' },
+
 	env: { es2021: true, node: true, 'jest/globals': true },
 
 	plugins: ['jest'],
 
-	parserOptions: { tsconfigRootDir: __dirname, project: './tsconfig.eslint.json' },
+	ignorePatterns: ['node_modules', 'dist', 'coverage', '**/*.d.ts', '!.*.js', '!.*.cjs', '!.*.mjs'],
 
 	rules: {
 		// enforce curly brace usage
@@ -103,6 +105,11 @@ module.exports = {
 
 		// disallow parameter properties in favor of explicit class declarations
 		'@typescript-eslint/no-parameter-properties': 'error',
+
+		// ensure unused variables are treated as an error
+		// overrides @typescript-eslint/recommended -- '@typescript-eslint/no-unused-vars': 'warn'
+		// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended.ts
+		'@typescript-eslint/no-unused-vars': 'error',
 	},
 
 	overrides: [
@@ -122,6 +129,9 @@ module.exports = {
 
 				// force explicit member accessibility modifiers
 				'@typescript-eslint/explicit-member-accessibility': 'error',
+
+				// disallow boolean comparisons against non-boolean values
+				'@typescript-eslint/strict-boolean-expressions': ['error', { allowNullableBoolean: true }],
 			},
 		},
 
@@ -149,6 +159,12 @@ module.exports = {
 
 				// allow import with CommonJS export
 				'import/no-import-module-exports': 'off',
+
+				// allow dev dependencies
+				'import/no-extraneous-dependencies': [
+					'error',
+					{ devDependencies: true, optionalDependencies: false, peerDependencies: false },
+				],
 
 				// disallow use of "it" for test blocks
 				'jest/consistent-test-it': ['error', { fn: 'test', withinDescribe: 'test' }],
@@ -197,14 +213,26 @@ module.exports = {
 		},
 
 		{
-			files: [
-				'**/__tests__/**/*.[jt]s?(x)',
-				'**/?(*.)+(spec|test).[jt]s?(x)',
-				'**/examples/**/*.ts?(x)',
-				'**/scripts/*.ts?(x)',
-			],
+			files: ['./.*.?(c|m)js', './*.?(c|m)js'],
 			rules: {
-				// allow dev dependencies
+				// allow requires in config files
+				'@typescript-eslint/no-var-requires': 'off',
+
+				// allow dev dependencies in config files
+				'import/no-extraneous-dependencies': [
+					'error',
+					{ devDependencies: true, optionalDependencies: false, peerDependencies: false },
+				],
+			},
+		},
+
+		{
+			files: ['**/scripts/**'],
+			rules: {
+				// allow console in scripts
+				'no-console': 'off',
+
+				// allow dev dependencies in scripts
 				'import/no-extraneous-dependencies': [
 					'error',
 					{ devDependencies: true, optionalDependencies: false, peerDependencies: false },

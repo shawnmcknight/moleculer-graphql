@@ -1,0 +1,45 @@
+{
+  "name": "@shawnmcknight/example-basic",
+  "description": "Basic example of moleculer-graphql",
+  "private": true,
+  "scripts": {
+    "example:networking:author": "ts-node-cwd -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./src/networking.config.ts ./src/author/author.service.ts",
+    "example:networking:post": "ts-node-cwd -- ./node_modules/moleculer/bin/moleculer-runner --instances 2 --config ./src/networking.config.ts ./src/post/post.service.ts",
+    "example:networking:gateway": "ts-node-cwd -- ./node_modules/moleculer/bin/moleculer-runner --repl --config ./src/networking.config.ts ./src/gateway/gateway.service.ts",
+    "example:networking": "concurrently -k --handle-input --default-input-target gateway -n author,post,gateway pnpm:example:networking:author pnpm:example:networking:post pnpm:example:networking:gateway",
+    "example": "ts-node-cwd -- ./node_modules/moleculer/bin/moleculer-runner --repl --config ./src/local.config.ts \"./src/**/*.service.ts\"",
+    "lint": "TIMING=1 eslint . --ext js,ts --cache",
+    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix --cache",
+    "lint:nocache": "TIMING=1 eslint . --ext js,ts",
+    "lint:clear": "rimraf ./.eslintcache",
+    "prettier": "prettier . --ignore-unknown --check",
+    "prettier:fix": "prettier . --ignore-unknown --write",
+    "style:fix": "pnpm run prettier:fix && pnpm run lint:fix",
+    "typecheck": "tsc --noEmit && echo \"tsc: no typecheck errors\""
+  },
+  "dependencies": {
+    "@graphql-tools/utils": "^9.1.3",
+    "@shawnmcknight/moleculer-graphql": "workspace:*",
+    "graphql": "^16.6.0",
+    "graphql-depth-limit": "^1.1.0",
+    "moleculer": "^0.14.26",
+    "moleculer-repl": "^0.7.3",
+    "moleculer-web": "^0.10.4",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@shawnmcknight/eslint-config": "workspace:*",
+    "@shawnmcknight/tsconfig": "workspace:*",
+    "@shawnmcknight/type-overrides": "workspace:*",
+    "@types/graphql-depth-limit": "1.1.3",
+    "@typescript-eslint/eslint-plugin": "5.46.0",
+    "@typescript-eslint/parser": "5.46.0",
+    "concurrently": "7.6.0",
+    "eslint": "8.29.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "17.0.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "27.1.6"
+  }
+}
