@@ -4,7 +4,7 @@
   "private": true,
   "version": "0.0.0-alpha.4",
   "main": "./dist/index.js",
-  "types": "src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "build": "pnpm run build:tsc && pnpm run build:copy-files",
     "build:copy-files": "ts-node ./scripts/copy-files.ts",
