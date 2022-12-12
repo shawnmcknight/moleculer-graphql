@@ -2,7 +2,7 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import { formatError, GraphQLError, specifiedRules } from 'graphql';
+import { GraphQLError, specifiedRules } from 'graphql';
 import type {
 	ExecutionResult,
 	FormattedExecutionResult,
@@ -94,14 +94,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 			}
 
 			if (error.graphqlErrors == null) {
-				const graphqlError = new GraphQLError(
-					error.message,
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					error,
-				);
+				const graphqlError = new GraphQLError(error.message, { originalError: error });
 				result = { data: undefined, errors: [graphqlError] };
 			} else {
 				result = { data: undefined, errors: error.graphqlErrors };
@@ -115,7 +108,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 		// Format any encountered errors.
 		const formattedResult: FormattedExecutionResult = {
 			...result,
-			errors: result.errors?.map(formatError),
+			errors: result.errors?.map((error) => error.toJSON()),
 		};
 
 		res.setHeader('Content-Type', 'application/json');
