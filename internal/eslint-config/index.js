@@ -13,7 +13,7 @@ module.exports = {
 
 	env: { es2021: true, node: true, 'jest/globals': true },
 
-	plugins: ['jest'],
+	plugins: ['jest', 'deprecation'],
 
 	ignorePatterns: ['node_modules', 'dist', 'coverage', '**/*.d.ts', '!.*.js', '!.*.cjs', '!.*.mjs'],
 
@@ -110,6 +110,9 @@ module.exports = {
 		// overrides @typescript-eslint/recommended -- '@typescript-eslint/no-unused-vars': 'warn'
 		// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended.ts
 		'@typescript-eslint/no-unused-vars': 'error',
+
+		// warn on use of deprecated code
+		'deprecation/deprecation': 'warn',
 	},
 
 	overrides: [
