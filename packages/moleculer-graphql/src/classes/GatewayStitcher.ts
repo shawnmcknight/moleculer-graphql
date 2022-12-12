@@ -1,4 +1,5 @@
 import type { SubschemaConfig } from '@graphql-tools/delegate';
+import type { SubschemaConfigTransform } from '@graphql-tools/stitch';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { ExecutionResult, Executor } from '@graphql-tools/utils';
@@ -51,10 +52,12 @@ class GatewayStitcher {
 			throw new Error('No registered GraphQL services');
 		}
 
-		const { stitchingDirectivesTransformer } = stitchingDirectives();
+		const stitchingDirectivesTransformer = stitchingDirectives()
+			.stitchingDirectivesTransformer as unknown as SubschemaConfigTransform<
+			GraphQLContext<TGraphQLContext>
+		>;
 
 		return stitchSchemas<GraphQLContext<TGraphQLContext>>({
-			// @ts-ignore: TODO
 			subschemaConfigTransforms: [stitchingDirectivesTransformer],
 			subschemas,
 		});
@@ -67,7 +70,6 @@ class GatewayStitcher {
 
 		const actionName = buildFullActionName(serviceName, '$handleGraphQLRequest', version);
 
-		// @ts-ignore: TODO
 		return async ({
 			context,
 			document,
@@ -82,7 +84,6 @@ class GatewayStitcher {
 
 			const result = await context.$ctx.call<ExecutionResult, GraphQLRequest>(actionName, {
 				query,
-				// @ts-ignore: TODO
 				variables,
 				operationName,
 			});
