@@ -6,8 +6,9 @@
  *  LICENSE file in the root directory of this source tree.
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<title>GraphiQL</title>
 		<style>
 			body {
 				height: 100%;
@@ -26,10 +27,18 @@
       modern browsers, but can be "polyfilled" for older browsers.
       GraphiQL itself depends on React DOM.
       If you do not want to rely on a CDN, you can host these files locally or
-      include them directly in your favored resource bunder.
+      include them directly in your favored resource bundler.
     -->
-		<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-		<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+		<script
+			src="https://unpkg.com/react@17/umd/react.development.js"
+			integrity="sha512-Vf2xGDzpqUOEIKO+X2rgTLWPY+65++WPwCHkX2nFMu9IcstumPsf/uKKRd5prX3wOu8Q0GBylRpsDB26R6ExOg=="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+			integrity="sha512-Wr9OKCTtq1anK0hq5bY3X/AvDI5EflDSAh0mE9gma+4hl+kXdTJPKZ3TwLMBcrgUeoY0s3dq9JjhCQc7vddtFg=="
+			crossorigin="anonymous"
+		></script>
 
 		<!--
       These two files can be found in the npm module, however you may wish to
@@ -43,28 +52,12 @@
 		<div id="graphiql">Loading...</div>
 		<script src="https://unpkg.com/graphiql/graphiql.min.js" type="application/javascript"></script>
 		<script>
-			function graphQLFetcher(graphQLParams, options = {}) {
-				return fetch(window.location.href, {
-					method: 'post',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-						...options.headers,
-					},
-					body: JSON.stringify(graphQLParams),
-					credentials: 'omit',
-				}).then(function (response) {
-					return response.json().catch(function () {
-						return response.text();
-					});
-				});
-			}
-
 			ReactDOM.render(
 				React.createElement(GraphiQL, {
-					fetcher: graphQLFetcher,
-					defaultVariableEditorOpen: true,
-					headerEditorEnabled: true,
+					fetcher: GraphiQL.createFetcher({
+						url: window.location.href,
+					}),
+					defaultEditorToolsVisibility: true,
 				}),
 				document.getElementById('graphiql'),
 			);
