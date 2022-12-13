@@ -2,20 +2,12 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import { GraphQLError, specifiedRules } from 'graphql';
-import type {
-	ExecutionResult,
-	FormattedExecutionResult,
-	GraphQLSchema,
-	ValidationRule,
-} from 'graphql';
-import httpError from 'http-errors';
+import type { GraphQLSchema, validate, ValidationRule } from 'graphql';
+import { createHandler } from 'graphql-http';
+import type { Context } from 'moleculer';
 import type { IncomingRequest } from 'moleculer-web';
-import { disableIntrospectionRule } from '../validationRules';
+import { createValidate } from '../functions';
 import type { GraphQLContextFactory } from './GraphQLExecutor';
-import GraphQLExecutor from './GraphQLExecutor';
-import type { GraphQLParams } from './RequestParser';
-import RequestParser from './RequestParser';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
@@ -27,103 +19,97 @@ interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>>
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
 class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
-	private requestParser: RequestParser = new RequestParser();
-
-	private graphQLExecutor: GraphQLExecutor<TGraphQLContext>;
-
 	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
 	private playgroundStat = fs.statSync(this.playgroundPath);
 
 	private showGraphiQL: boolean;
 
-	private validationRules: readonly ValidationRule[];
+	private readonly validate: typeof validate;
+
+	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;
+
+	private schema: GraphQLSchema;
 
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
 		const {
 			contextFactory,
-			showGraphiQL,
+			showGraphiQL = process.env.NODE_ENV !== 'production',
 			introspection = process.env.NODE_ENV !== 'production',
-			validationRules = [],
+			validationRules,
 		} = opts;
 
-		this.graphQLExecutor = new GraphQLExecutor(schema, { contextFactory });
+		this.schema = schema;
 
-		this.showGraphiQL = introspection && (showGraphiQL ?? process.env.NODE_ENV !== 'production');
-		this.validationRules = introspection
-			? [...specifiedRules, ...validationRules]
-			: [disableIntrospectionRule, ...specifiedRules, ...validationRules];
+		this.showGraphiQL = introspection && showGraphiQL;
+
+		this.validate = createValidate({ introspection, validationRules });
+
+		this.contextFactory = contextFactory;
 	}
 
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
-		let result: ExecutionResult;
-		try {
-			// GraphQL HTTP only supports GET and POST methods.
-			if (req.method !== 'GET' && req.method !== 'POST') {
-				throw httpError(405, 'GraphQL only supports GET and POST requests.', {
-					headers: { Allow: 'GET, POST' },
-				});
-			}
+		if (req.method == null) {
+			throw new Error();
+		}
 
-			const params = await this.requestParser.parse(req);
+		if (this.canDisplayGraphiQL(req)) {
+			this.respondWithGraphiQL(res);
+			return;
+		}
 
-			const { query, variables, operationName } = params;
+		const graphQLContext = await this.createGraphQLContext(req.$ctx);
 
-			if (query == null) {
-				if (this.canDisplayGraphiQL(req, params)) {
-					this.respondWithGraphiQL(res);
-					return;
+		const handle = createHandler({
+			schema: this.schema,
+			context: graphQLContext,
+			validate: this.validate,
+		});
+
+		const [body, init] = await handle({
+			url: req.url,
+			method: req.method,
+			headers: req.headers,
+			body: () => {
+				if (req.body != null && typeof req.body === 'object') {
+					// in case a body parser parsed already
+					return Promise.resolve(req.body as Record<string, unknown>);
 				}
-				throw httpError(400, 'Must provide query string.');
-			}
-
-			result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName, {
-				validationRules: this.validationRules,
-			});
-		} catch (rawError: unknown) {
-			// If an error was caught, report the httpError status, or 500.
-			const error = httpError(500, rawError instanceof Error ? rawError : String(rawError));
-
-			res.statusCode = error.status;
-
-			const { headers } = error;
-			if (headers != null) {
-				Object.entries(headers).forEach(([key, value]) => {
-					res.setHeader(key, String(value));
+				return new Promise<string>((resolve) => {
+					let parsedBody = '';
+					req.on('data', (chunk) => {
+						parsedBody += chunk;
+					});
+					req.on('end', () => resolve(parsedBody));
 				});
-			}
+			},
+			raw: req,
+			context: undefined,
+		});
+		res.writeHead(init.status, init.statusText, init.headers).end(body);
+	}
 
-			if (error.graphqlErrors == null) {
-				const graphqlError = new GraphQLError(error.message, { originalError: error });
-				result = { data: undefined, errors: [graphqlError] };
-			} else {
-				result = { data: undefined, errors: error.graphqlErrors };
-			}
-		}
-
-		if (res.statusCode === 200 && result.data == null) {
-			res.statusCode = 500;
-		}
-
-		// Format any encountered errors.
-		const formattedResult: FormattedExecutionResult = {
-			...result,
-			errors: result.errors?.map((error) => error.toJSON()),
+	/** Generate the GraphQL Context object */
+	private async createGraphQLContext(ctx: Context) {
+		return {
+			...(await this.contextFactory?.()),
+			$ctx: ctx,
 		};
-
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(formattedResult));
 	}
 
 	/**
 	 * Helper function to determine if GraphiQL can be displayed.
 	 */
-	private canDisplayGraphiQL(request: Request, params: GraphQLParams): boolean {
-		// If `raw` false, GraphiQL mode is not enabled.
-		// Allowed to show GraphiQL if not requested as raw and this request prefers HTML over JSON.
-		return this.showGraphiQL && !params.raw && accepts(request).types(['json', 'html']) === 'html';
+	private canDisplayGraphiQL(req: Request): boolean {
+		return (
+			this.showGraphiQL &&
+			req.method === 'GET' &&
+			Object.keys(req.query).length === 0 &&
+			accepts(req).types(['json', 'html']) === 'html'
+		);
 	}
 
+	/** Render GraphiQL */
 	private respondWithGraphiQL(res: ServerResponse) {
 		const readStream = fs.createReadStream(this.playgroundPath);
 

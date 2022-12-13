@@ -5,5 +5,4 @@ export {
 	type GraphQLContext,
 } from './GraphQLExecutor';
 export { default as RequestHandler, type Request } from './RequestHandler';
-export { default as requestParser } from './RequestParser';
 export { default as SchemaBuilder, type SchemaDirectiveTransformer } from './SchemaBuilder';
