@@ -1,6 +1,5 @@
-import type { ExecutionResult, GraphQLSchema, ValidationRule } from 'graphql';
-import { execute, parse, Source, validate } from 'graphql';
-import httpError from 'http-errors';
+import type { ExecutionResult, GraphQLSchema } from 'graphql';
+import { execute, parse, Source } from 'graphql';
 import type { Context } from 'moleculer';
 
 export type GraphQLContextFactory<TGraphQLContext extends Record<string, unknown>> =
@@ -12,10 +11,6 @@ export type GraphQLContext<TGraphQLContext extends Record<string, unknown>> = TG
 
 interface GraphQLExecutorOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
-}
-
-interface ExecuteOptions {
-	validationRules?: readonly ValidationRule[];
 }
 
 class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
@@ -35,32 +30,18 @@ class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 		query: string,
 		variables: Readonly<Record<string, unknown>> | null,
 		operationName: string | null,
-		opts: ExecuteOptions = {},
 	): Promise<ExecutionResult> {
-		const { validationRules = [] } = opts;
-
 		const documentAST = parse(new Source(query, 'GraphQL request'));
-
-		const validationErrors = validate(this.schema, documentAST, validationRules);
-
-		if (validationErrors.length > 0) {
-			// Return 400: Bad Request if any validation errors exist.
-			throw httpError(400, 'GraphQL validation error.', {
-				graphqlErrors: validationErrors,
-			});
-		}
 
 		const graphQLContext = await this.createGraphQLContext(ctx);
 
-		const result = await execute({
+		return execute({
 			schema: this.schema,
 			document: documentAST,
 			contextValue: graphQLContext,
 			variableValues: variables,
 			operationName,
 		});
-
-		return result;
 	}
 
 	/** Generate the GraphQL Context object */
