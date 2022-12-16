@@ -8,6 +8,7 @@ const brokerOptions: BrokerOptions = {
 			formatter: 'full',
 		},
 	},
+	tracing: { enabled: true, exporter: 'Console' },
 };
 
 export default brokerOptions;
