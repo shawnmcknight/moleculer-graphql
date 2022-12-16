@@ -8,13 +8,13 @@ import { GatewayStitcher, RequestHandler } from '../classes';
 import type { Request } from '../classes';
 import type { GraphQLContextFactory } from '../functions';
 
-interface GatewayService<TGraphQLContext extends object> extends Service {
+interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
 	gatewayStitcher: GatewayStitcher;
 	requestHandler: RequestHandler<TGraphQLContext>;
 }
 
-export interface GatewayMixinOptions<TGraphQLContext extends object> {
+export interface GatewayMixinOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	routeOptions?: Route;
@@ -22,9 +22,9 @@ export interface GatewayMixinOptions<TGraphQLContext extends object> {
 	validationRules?: readonly ValidationRule[];
 }
 
-export default function gatewayMixin<TGraphQLContext extends object = Record<never, never>>(
-	mixinOptions: GatewayMixinOptions<TGraphQLContext> = {},
-): Partial<ServiceSchema> {
+export default function gatewayMixin<
+	TGraphQLContext extends Record<string, unknown> = Record<never, never>,
+>(mixinOptions: GatewayMixinOptions<TGraphQLContext> = {}): Partial<ServiceSchema> {
 	const { introspection, routeOptions, validationRules, showGraphiQL, contextFactory } =
 		mixinOptions;
 

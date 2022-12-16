@@ -17,7 +17,7 @@ class GatewayStitcher {
 		this.service = service;
 	}
 
-	public stitch<TGraphQLContext extends object>(): GraphQLSchema {
+	public stitch<TGraphQLContext extends Record<string, unknown>>(): GraphQLSchema {
 		const allServices = this.service.broker.registry.getServiceList({});
 
 		const processedServiceNames = new Set<string>();
@@ -63,7 +63,7 @@ class GatewayStitcher {
 		});
 	}
 
-	private makeRemoteExecutor<TGraphQLContext extends object>(
+	private makeRemoteExecutor<TGraphQLContext extends Record<string, unknown>>(
 		serviceSchema: ServiceSchema,
 	): Executor<GraphQLContext<TGraphQLContext>> {
 		const { name: serviceName, version } = serviceSchema;

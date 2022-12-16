@@ -4,11 +4,11 @@ import type { Context } from 'moleculer';
 import type { GraphQLContextFactory } from '../functions';
 import { createGraphQLContext } from '../functions';
 
-interface GraphQLExecutorOptions<TGraphQLContext extends object> {
+interface GraphQLExecutorOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 }
 
-class GraphQLExecutor<TGraphQLContext extends object> {
+class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 	private readonly schema: GraphQLSchema;
 
 	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;

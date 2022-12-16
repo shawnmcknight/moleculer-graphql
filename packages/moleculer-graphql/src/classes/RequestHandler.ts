@@ -2,13 +2,14 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import type { GraphQLSchema, validate, ValidationRule } from 'graphql';
+import type { GraphQLSchema, ValidationRule } from 'graphql';
+import type { Handler } from 'graphql-http';
 import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
 import { createGraphQLContext, createValidate } from '../functions';
-import type { GraphQLContextFactory } from '../functions';
+import type { GraphQLContext, GraphQLContextFactory } from '../functions';
 
-interface RequestHandlerOptions<TGraphQLContext extends object> {
+interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	showGraphiQL?: boolean;
@@ -17,18 +18,16 @@ interface RequestHandlerOptions<TGraphQLContext extends object> {
 
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
-class RequestHandler<TGraphQLContext extends object> {
+class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 	private readonly playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
 	private readonly playgroundStat = fs.statSync(this.playgroundPath);
 
 	private readonly showGraphiQL: boolean;
 
-	private readonly validate: typeof validate;
+	private readonly handler: Handler<unknown, TGraphQLContext>;
 
 	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;
-
-	private readonly schema: GraphQLSchema;
 
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
 		const {
@@ -38,13 +37,17 @@ class RequestHandler<TGraphQLContext extends object> {
 			validationRules,
 		} = opts;
 
-		this.schema = schema;
-
 		this.showGraphiQL = introspection && showGraphiQL;
 
-		this.validate = createValidate({ introspection, validationRules });
+		const validate = createValidate({ introspection, validationRules });
 
 		this.contextFactory = contextFactory;
+
+		this.handler = createHandler({
+			schema,
+			validate,
+			context: (req) => Promise.resolve(req.context),
+		});
 	}
 
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
@@ -60,15 +63,9 @@ class RequestHandler<TGraphQLContext extends object> {
 		const graphQLContext =
 			this.contextFactory != null
 				? await createGraphQLContext(req.$ctx, this.contextFactory)
-				: await createGraphQLContext(req.$ctx);
+				: ((await createGraphQLContext(req.$ctx)) as GraphQLContext<TGraphQLContext>);
 
-		const handle = createHandler({
-			schema: this.schema,
-			context: graphQLContext,
-			validate: this.validate,
-		});
-
-		const [body, init] = await handle({
+		const [body, init] = await this.handler({
 			url: req.url,
 			method: req.method,
 			headers: req.headers,
@@ -86,7 +83,7 @@ class RequestHandler<TGraphQLContext extends object> {
 				});
 			},
 			raw: req,
-			context: undefined,
+			context: graphQLContext,
 		});
 		res.writeHead(init.status, init.statusText, init.headers).end(body);
 	}
