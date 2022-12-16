@@ -6,8 +6,8 @@ import type { GraphQLSchema, ValidationRule } from 'graphql';
 import type { Handler } from 'graphql-http';
 import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
-import { createGraphQLContext, createValidate } from '../functions';
-import type { GraphQLContext, GraphQLContextFactory } from '../functions';
+import { createValidate } from '../functions';
+import GraphQLContextCreator, { type GraphQLContextFactory } from './GraphQLContextCreator';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
@@ -27,7 +27,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 	private readonly handler: Handler<unknown, TGraphQLContext>;
 
-	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;
+	private readonly graphqlContextCreator: GraphQLContextCreator<TGraphQLContext>;
 
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
 		const {
@@ -41,7 +41,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 		const validate = createValidate({ introspection, validationRules });
 
-		this.contextFactory = contextFactory;
+		this.graphqlContextCreator = new GraphQLContextCreator(contextFactory);
 
 		this.handler = createHandler({
 			schema,
@@ -60,10 +60,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 			return;
 		}
 
-		const graphQLContext =
-			this.contextFactory != null
-				? await createGraphQLContext(req.$ctx, this.contextFactory)
-				: ((await createGraphQLContext(req.$ctx)) as GraphQLContext<TGraphQLContext>);
+		const graphQLContext = await this.graphqlContextCreator.createGraphQLContext(req.$ctx);
 
 		const [body, init] = await this.handler({
 			url: req.url,

@@ -6,9 +6,9 @@ import type { ExecutionResult, Executor } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import { buildSchema, print } from 'graphql';
 import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
-import type { GraphQLContext } from '../functions';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
+import type { GraphQLContext } from './GraphQLContextCreator';
 
 class GatewayStitcher {
 	private readonly service: Service;

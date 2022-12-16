@@ -5,8 +5,7 @@ import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
-import type { Request } from '../classes';
-import type { GraphQLContextFactory } from '../functions';
+import type { GraphQLContextFactory, Request } from '../classes';
 
 interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
