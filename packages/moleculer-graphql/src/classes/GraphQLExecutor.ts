@@ -9,9 +9,9 @@ interface GraphQLExecutorOptions<TGraphQLContext extends object> {
 }
 
 class GraphQLExecutor<TGraphQLContext extends object> {
-	private schema: GraphQLSchema;
+	private readonly schema: GraphQLSchema;
 
-	private contextFactory?: GraphQLContextFactory<TGraphQLContext>;
+	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 
 	public constructor(schema: GraphQLSchema, opts: GraphQLExecutorOptions<TGraphQLContext> = {}) {
 		const { contextFactory } = opts;

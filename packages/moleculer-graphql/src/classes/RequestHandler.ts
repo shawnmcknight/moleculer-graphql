@@ -18,17 +18,17 @@ interface RequestHandlerOptions<TGraphQLContext extends object> {
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
 class RequestHandler<TGraphQLContext extends object> {
-	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
+	private readonly playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
-	private playgroundStat = fs.statSync(this.playgroundPath);
+	private readonly playgroundStat = fs.statSync(this.playgroundPath);
 
-	private showGraphiQL: boolean;
+	private readonly showGraphiQL: boolean;
 
 	private readonly validate: typeof validate;
 
 	private readonly contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 
-	private schema: GraphQLSchema;
+	private readonly schema: GraphQLSchema;
 
 	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
 		const {

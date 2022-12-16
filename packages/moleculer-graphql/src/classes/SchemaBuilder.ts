@@ -15,13 +15,13 @@ interface SchemaBuilderOptions<TGraphQLContext extends object> {
 }
 
 class SchemaBuilder<TGraphQLContext extends object> {
-	private service: Service;
+	private readonly service: Service;
 
-	private typeDefs: string;
+	private readonly typeDefs: string;
 
-	private resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
+	private readonly resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
 
-	private schemaDirectiveTransformers: readonly SchemaDirectiveTransformer[];
+	private readonly schemaDirectiveTransformers: readonly SchemaDirectiveTransformer[];
 
 	public constructor(
 		service: Service,

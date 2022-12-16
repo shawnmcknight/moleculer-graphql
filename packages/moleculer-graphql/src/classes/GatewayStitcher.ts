@@ -11,7 +11,7 @@ import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMi
 import { buildFullActionName } from '../utils';
 
 class GatewayStitcher {
-	private service: Service;
+	private readonly service: Service;
 
 	public constructor(service: Service) {
 		this.service = service;
@@ -41,7 +41,7 @@ class GatewayStitcher {
 
 			const schema = buildSchema(typeDefs);
 
-			const executor = this.makeRemoteExecutor(service);
+			const executor = this.makeRemoteExecutor<TGraphQLContext>(service);
 
 			acc.push({ ...subschemaConfig, schema, executor });
 
