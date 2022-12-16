@@ -4,9 +4,8 @@ import path from 'path';
 import accepts from 'accepts';
 import type { GraphQLSchema, validate, ValidationRule } from 'graphql';
 import { createHandler } from 'graphql-http';
-import type { Context } from 'moleculer';
 import type { IncomingRequest } from 'moleculer-web';
-import { createValidate } from '../functions';
+import { createGraphQLContext, createValidate } from '../functions';
 import type { GraphQLContextFactory } from './GraphQLExecutor';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
@@ -58,7 +57,10 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 			return;
 		}
 
-		const graphQLContext = await this.createGraphQLContext(req.$ctx);
+		const graphQLContext =
+			this.contextFactory != null
+				? await createGraphQLContext(req.$ctx, this.contextFactory)
+				: await createGraphQLContext(req.$ctx);
 
 		const handle = createHandler({
 			schema: this.schema,
@@ -87,14 +89,6 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 			context: undefined,
 		});
 		res.writeHead(init.status, init.statusText, init.headers).end(body);
-	}
-
-	/** Generate the GraphQL Context object */
-	private async createGraphQLContext(ctx: Context) {
-		return {
-			...(await this.contextFactory?.()),
-			$ctx: ctx,
-		};
 	}
 
 	/**

@@ -1,6 +1,7 @@
 import type { ExecutionResult, GraphQLSchema } from 'graphql';
 import { execute, parse, Source } from 'graphql';
 import type { Context } from 'moleculer';
+import { createGraphQLContext } from '../functions';
 
 export type GraphQLContextFactory<TGraphQLContext extends Record<string, unknown>> =
 	() => Promise<TGraphQLContext>;
@@ -33,7 +34,10 @@ class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 	): Promise<ExecutionResult> {
 		const documentAST = parse(new Source(query, 'GraphQL request'));
 
-		const graphQLContext = await this.createGraphQLContext(ctx);
+		const graphQLContext =
+			this.contextFactory != null
+				? await createGraphQLContext(ctx, this.contextFactory)
+				: await createGraphQLContext(ctx);
 
 		return execute({
 			schema: this.schema,
@@ -42,14 +46,6 @@ class GraphQLExecutor<TGraphQLContext extends Record<string, unknown>> {
 			variableValues: variables,
 			operationName,
 		});
-	}
-
-	/** Generate the GraphQL Context object */
-	private async createGraphQLContext(ctx: Context) {
-		return {
-			...(await this.contextFactory?.()),
-			$ctx: ctx,
-		};
 	}
 }
 
