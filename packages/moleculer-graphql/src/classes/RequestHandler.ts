@@ -14,7 +14,7 @@ interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>>
 	showGraphiQL?: boolean;
 }
 
-export type Request = IncomingRequest & { url: string; body?: unknown };
+export type Request = IncomingRequest & { body?: unknown };
 
 class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 	private readonly playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
@@ -51,8 +51,13 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 	/** Handle an incoming http request */
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
+		if (req.url == null) {
+			res.writeHead(500, 'Missing request URL').end();
+			return;
+		}
 		if (req.method == null) {
-			throw new Error();
+			res.writeHead(500, 'Missing request method').end();
+			return;
 		}
 
 		if (this.canDisplayGraphiQL(req)) {
@@ -62,7 +67,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 		const graphQLContext = await this.graphqlContextCreator.createGraphQLContext(req.$ctx);
 
-		const [body, init] = await this.handler({
+		const [body, { status, statusText, headers }] = await this.handler({
 			url: req.url,
 			method: req.method,
 			headers: req.headers,
@@ -82,7 +87,8 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 			raw: req,
 			context: graphQLContext,
 		});
-		res.writeHead(init.status, init.statusText, init.headers).end(body);
+
+		res.writeHead(status, statusText, headers).end(body);
 	}
 
 	/**
