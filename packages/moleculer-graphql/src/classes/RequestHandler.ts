@@ -2,18 +2,16 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import type { GraphQLSchema, ValidationRule } from 'graphql';
+import type { GraphQLSchema, validate as graphqlValidate } from 'graphql';
 import type { Handler } from 'graphql-http';
 import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
-import { createValidate } from '../functions';
 import GraphQLContextCreator, { type GraphQLContextFactory } from './GraphQLContextCreator';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	showGraphiQL?: boolean;
-	validationRules?: readonly ValidationRule[];
 }
 
 export type Request = IncomingRequest & { url: string; body?: unknown };
@@ -29,17 +27,18 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 	private readonly graphqlContextCreator: GraphQLContextCreator<TGraphQLContext>;
 
-	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
+	public constructor(
+		schema: GraphQLSchema,
+		validate: typeof graphqlValidate,
+		opts: RequestHandlerOptions<TGraphQLContext> = {},
+	) {
 		const {
 			contextFactory,
 			showGraphiQL = process.env.NODE_ENV !== 'production',
 			introspection = process.env.NODE_ENV !== 'production',
-			validationRules,
 		} = opts;
 
 		this.showGraphiQL = introspection && showGraphiQL;
-
-		const validate = createValidate({ introspection, validationRules });
 
 		this.graphqlContextCreator = new GraphQLContextCreator(contextFactory);
 
@@ -50,6 +49,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 		});
 	}
 
+	/** Handle an incoming http request */
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
 		if (req.method == null) {
 			throw new Error();
