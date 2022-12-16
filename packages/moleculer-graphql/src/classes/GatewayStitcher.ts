@@ -8,10 +8,10 @@ import { buildSchema, print } from 'graphql';
 import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
 import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
 import { buildFullActionName } from '../utils';
-import type { GraphQLContext } from '.';
+import type { GraphQLContext } from './GraphQLContextCreator';
 
 class GatewayStitcher {
-	private service: Service;
+	private readonly service: Service;
 
 	public constructor(service: Service) {
 		this.service = service;
@@ -41,7 +41,7 @@ class GatewayStitcher {
 
 			const schema = buildSchema(typeDefs);
 
-			const executor = this.makeRemoteExecutor(service);
+			const executor = this.makeRemoteExecutor<TGraphQLContext>(service);
 
 			acc.push({ ...subschemaConfig, schema, executor });
 

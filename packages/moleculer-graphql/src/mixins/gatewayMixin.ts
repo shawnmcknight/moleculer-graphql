@@ -6,6 +6,7 @@ import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
 import { GatewayStitcher, RequestHandler } from '../classes';
 import type { GraphQLContextFactory, Request } from '../classes';
+import { createValidate } from '../functions';
 
 interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
@@ -39,11 +40,12 @@ export default function gatewayMixin<
 						if (this.rebuildSchema) {
 							const schema = this.gatewayStitcher.stitch();
 
-							this.requestHandler = new RequestHandler(schema, {
+							const validate = createValidate({ introspection, validationRules });
+
+							this.requestHandler = new RequestHandler(schema, validate, {
 								contextFactory,
 								introspection,
 								showGraphiQL,
-								validationRules,
 							});
 							this.rebuildSchema = false;
 

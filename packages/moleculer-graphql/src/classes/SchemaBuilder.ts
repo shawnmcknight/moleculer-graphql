@@ -5,7 +5,7 @@ import type { IFieldResolver, IResolvers } from '@graphql-tools/utils';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
 import { buildFullActionName, ensureArray } from '../utils';
-import type { GraphQLContext } from '.';
+import type { GraphQLContext } from './GraphQLContextCreator';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
 
@@ -15,13 +15,13 @@ interface SchemaBuilderOptions<TGraphQLContext extends Record<string, unknown>> 
 }
 
 class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
-	private service: Service;
+	private readonly service: Service;
 
-	private typeDefs: string;
+	private readonly typeDefs: string;
 
-	private resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
+	private readonly resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
 
-	private schemaDirectiveTransformers: readonly SchemaDirectiveTransformer[];
+	private readonly schemaDirectiveTransformers: readonly SchemaDirectiveTransformer[];
 
 	public constructor(
 		service: Service,

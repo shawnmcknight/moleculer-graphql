@@ -2,128 +2,108 @@ import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
 import accepts from 'accepts';
-import { GraphQLError, specifiedRules } from 'graphql';
-import type {
-	ExecutionResult,
-	FormattedExecutionResult,
-	GraphQLSchema,
-	ValidationRule,
-} from 'graphql';
-import httpError from 'http-errors';
+import type { GraphQLSchema, validate as graphqlValidate } from 'graphql';
+import type { Handler } from 'graphql-http';
+import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
-import { disableIntrospectionRule } from '../validationRules';
-import type { GraphQLContextFactory } from './GraphQLExecutor';
-import GraphQLExecutor from './GraphQLExecutor';
-import type { GraphQLParams } from './RequestParser';
-import RequestParser from './RequestParser';
+import GraphQLContextCreator, { type GraphQLContextFactory } from './GraphQLContextCreator';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	showGraphiQL?: boolean;
-	validationRules?: readonly ValidationRule[];
 }
 
-export type Request = IncomingRequest & { url: string; body?: unknown };
+export type Request = IncomingRequest & { body?: unknown };
 
 class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
-	private requestParser: RequestParser = new RequestParser();
+	private readonly playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
-	private graphQLExecutor: GraphQLExecutor<TGraphQLContext>;
+	private readonly playgroundStat = fs.statSync(this.playgroundPath);
 
-	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
+	private readonly showGraphiQL: boolean;
 
-	private playgroundStat = fs.statSync(this.playgroundPath);
+	private readonly handler: Handler<unknown, TGraphQLContext>;
 
-	private showGraphiQL: boolean;
+	private readonly graphqlContextCreator: GraphQLContextCreator<TGraphQLContext>;
 
-	private validationRules: readonly ValidationRule[];
-
-	public constructor(schema: GraphQLSchema, opts: RequestHandlerOptions<TGraphQLContext> = {}) {
+	public constructor(
+		schema: GraphQLSchema,
+		validate: typeof graphqlValidate,
+		opts: RequestHandlerOptions<TGraphQLContext> = {},
+	) {
 		const {
 			contextFactory,
-			showGraphiQL,
+			showGraphiQL = process.env.NODE_ENV !== 'production',
 			introspection = process.env.NODE_ENV !== 'production',
-			validationRules = [],
 		} = opts;
 
-		this.graphQLExecutor = new GraphQLExecutor(schema, { contextFactory });
+		this.showGraphiQL = introspection && showGraphiQL;
 
-		this.showGraphiQL = introspection && (showGraphiQL ?? process.env.NODE_ENV !== 'production');
-		this.validationRules = introspection
-			? [...specifiedRules, ...validationRules]
-			: [disableIntrospectionRule, ...specifiedRules, ...validationRules];
+		this.graphqlContextCreator = new GraphQLContextCreator(contextFactory);
+
+		this.handler = createHandler({
+			schema,
+			validate,
+			context: (req) => Promise.resolve(req.context),
+		});
 	}
 
+	/** Handle an incoming http request */
 	public async handle(req: Request, res: ServerResponse): Promise<void> {
-		let result: ExecutionResult;
-		try {
-			// GraphQL HTTP only supports GET and POST methods.
-			if (req.method !== 'GET' && req.method !== 'POST') {
-				throw httpError(405, 'GraphQL only supports GET and POST requests.', {
-					headers: { Allow: 'GET, POST' },
-				});
-			}
+		if (req.url == null) {
+			res.writeHead(500, 'Missing request URL').end();
+			return;
+		}
+		if (req.method == null) {
+			res.writeHead(500, 'Missing request method').end();
+			return;
+		}
 
-			const params = await this.requestParser.parse(req);
+		if (this.canDisplayGraphiQL(req)) {
+			this.respondWithGraphiQL(res);
+			return;
+		}
 
-			const { query, variables, operationName } = params;
+		const graphQLContext = await this.graphqlContextCreator.createGraphQLContext(req.$ctx);
 
-			if (query == null) {
-				if (this.canDisplayGraphiQL(req, params)) {
-					this.respondWithGraphiQL(res);
-					return;
+		const [body, { status, statusText, headers }] = await this.handler({
+			url: req.url,
+			method: req.method,
+			headers: req.headers,
+			body: () => {
+				if (req.body != null && typeof req.body === 'object') {
+					// in case a body parser parsed already
+					return Promise.resolve(req.body as Record<string, unknown>);
 				}
-				throw httpError(400, 'Must provide query string.');
-			}
-
-			result = await this.graphQLExecutor.execute(req.$ctx, query, variables, operationName, {
-				validationRules: this.validationRules,
-			});
-		} catch (rawError: unknown) {
-			// If an error was caught, report the httpError status, or 500.
-			const error = httpError(500, rawError instanceof Error ? rawError : String(rawError));
-
-			res.statusCode = error.status;
-
-			const { headers } = error;
-			if (headers != null) {
-				Object.entries(headers).forEach(([key, value]) => {
-					res.setHeader(key, String(value));
+				return new Promise<string>((resolve) => {
+					let parsedBody = '';
+					req.on('data', (chunk) => {
+						parsedBody += chunk;
+					});
+					req.on('end', () => resolve(parsedBody));
 				});
-			}
+			},
+			raw: req,
+			context: graphQLContext,
+		});
 
-			if (error.graphqlErrors == null) {
-				const graphqlError = new GraphQLError(error.message, { originalError: error });
-				result = { data: undefined, errors: [graphqlError] };
-			} else {
-				result = { data: undefined, errors: error.graphqlErrors };
-			}
-		}
-
-		if (res.statusCode === 200 && result.data == null) {
-			res.statusCode = 500;
-		}
-
-		// Format any encountered errors.
-		const formattedResult: FormattedExecutionResult = {
-			...result,
-			errors: result.errors?.map((error) => error.toJSON()),
-		};
-
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(formattedResult));
+		res.writeHead(status, statusText, headers).end(body);
 	}
 
 	/**
 	 * Helper function to determine if GraphiQL can be displayed.
 	 */
-	private canDisplayGraphiQL(request: Request, params: GraphQLParams): boolean {
-		// If `raw` false, GraphiQL mode is not enabled.
-		// Allowed to show GraphiQL if not requested as raw and this request prefers HTML over JSON.
-		return this.showGraphiQL && !params.raw && accepts(request).types(['json', 'html']) === 'html';
+	private canDisplayGraphiQL(req: Request): boolean {
+		return (
+			this.showGraphiQL &&
+			req.method === 'GET' &&
+			Object.keys(req.query).length === 0 &&
+			accepts(req).types(['json', 'html']) === 'html'
+		);
 	}
 
+	/** Render GraphiQL */
 	private respondWithGraphiQL(res: ServerResponse) {
 		const readStream = fs.createReadStream(this.playgroundPath);
 
