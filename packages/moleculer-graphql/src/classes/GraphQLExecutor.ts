@@ -1,14 +1,8 @@
 import type { ExecutionResult, GraphQLSchema } from 'graphql';
 import { execute, parse, Source } from 'graphql';
 import type { Context } from 'moleculer';
+import type { GraphQLContextFactory } from '../functions';
 import { createGraphQLContext } from '../functions';
-
-export type GraphQLContextFactory<TGraphQLContext extends Record<string, unknown>> =
-	() => Promise<TGraphQLContext>;
-
-export type GraphQLContext<TGraphQLContext extends Record<string, unknown>> = TGraphQLContext & {
-	$ctx: Context;
-};
 
 interface GraphQLExecutorOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;

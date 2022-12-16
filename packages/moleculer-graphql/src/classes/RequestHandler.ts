@@ -6,7 +6,7 @@ import type { GraphQLSchema, validate, ValidationRule } from 'graphql';
 import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
 import { createGraphQLContext, createValidate } from '../functions';
-import type { GraphQLContextFactory } from './GraphQLExecutor';
+import type { GraphQLContextFactory } from '../functions';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
