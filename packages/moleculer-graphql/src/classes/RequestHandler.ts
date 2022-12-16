@@ -8,7 +8,7 @@ import type { IncomingRequest } from 'moleculer-web';
 import { createGraphQLContext, createValidate } from '../functions';
 import type { GraphQLContextFactory } from '../functions';
 
-interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
+interface RequestHandlerOptions<TGraphQLContext extends object> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;
 	introspection?: boolean;
 	showGraphiQL?: boolean;
@@ -17,7 +17,7 @@ interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>>
 
 export type Request = IncomingRequest & { url: string; body?: unknown };
 
-class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
+class RequestHandler<TGraphQLContext extends object> {
 	private playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
 
 	private playgroundStat = fs.statSync(this.playgroundPath);

@@ -9,12 +9,12 @@ import { buildFullActionName, ensureArray } from '../utils';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
 
-interface SchemaBuilderOptions<TGraphQLContext extends Record<string, unknown>> {
+interface SchemaBuilderOptions<TGraphQLContext extends object> {
 	resolvers?: IResolvers<unknown, GraphQLContext<TGraphQLContext>>;
 	schemaDirectiveTransformers?: readonly SchemaDirectiveTransformer[];
 }
 
-class SchemaBuilder<TGraphQLContext extends Record<string, unknown>> {
+class SchemaBuilder<TGraphQLContext extends object> {
 	private service: Service;
 
 	private typeDefs: string;
