@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import { serviceMixin } from '@shawnmcknight/moleculer-graphql';
+import { serviceMixin } from '@moleculer-graphql/moleculer-graphql';
 import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import type { AuthorByIdParams, AuthorByIdResult } from '../author/types';

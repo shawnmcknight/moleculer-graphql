@@ -1,5 +1,5 @@
 {
-  "name": "@shawnmcknight/eslint-config",
+  "name": "@moleculer-graphql/eslint-config",
   "description": "Eslint configuration for moleculer-graphql monorepo",
   "private": true,
   "sideEffects": false,
