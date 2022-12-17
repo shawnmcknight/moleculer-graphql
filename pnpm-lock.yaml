@@ -95,9 +95,6 @@ importers:
     dependencies:
       '@tsconfig/node16': 1.0.3
 
-  internal/type-overrides:
-    specifiers: {}
-
   packages/moleculer-graphql:
     specifiers:
       '@graphql-tools/delegate': 9.0.20
