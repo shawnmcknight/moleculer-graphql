@@ -1,10 +1,3 @@
 {
-  "extends": "@shawnmcknight/tsconfig/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
-    "paths": {
-      "moleculer": ["./node_modules/@shawnmcknight/type-overrides/moleculer"],
-      "moleculer-web": ["./node_modules/@shawnmcknight/type-overrides/moleculer-web"]
-    }
-  }
+  "extends": "@shawnmcknight/tsconfig/tsconfig.json"
 }

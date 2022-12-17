@@ -1,6 +1,0 @@
-{
-  "name": "@shawnmcknight/type-overrides",
-  "description": "Type overrides for moleculer-graphql monorepo",
-  "private": true,
-  "sideEffects": false
-}
