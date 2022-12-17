@@ -8,7 +8,8 @@ const buildPath = path.resolve(process.cwd(), './dist');
 const createPackageFile = async (): Promise<void> => {
 	const source = path.resolve(process.cwd(), './package.json');
 	const packageFile = await fse.readFile(source, 'utf8');
-	const { main, types, scripts, devDependencies, ...packageDataOther } = JSON.parse(packageFile);
+	const { publishConfig, main, types, scripts, devDependencies, ...packageDataOther } =
+		JSON.parse(packageFile);
 
 	const newPackageData = {
 		...packageDataOther,
@@ -53,7 +54,7 @@ const copyFile = async (fileName: string): Promise<void> => {
 
 /** Copy meta files to build folder */
 const copyMeta = async (): Promise<void> => {
-	const filesToCopy = ['README.md', 'LICENSE'];
+	const filesToCopy = ['README.md'] as const;
 
 	await Promise.all(filesToCopy.map((fileName) => copyFile(fileName)));
 
