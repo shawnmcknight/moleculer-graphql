@@ -23,9 +23,9 @@ importers:
   examples/basic:
     specifiers:
       '@graphql-tools/utils': 9.1.3
-      '@moleculer-graphql/eslint-config': workspace:*
-      '@moleculer-graphql/moleculer-graphql': workspace:*
-      '@moleculer-graphql/tsconfig': workspace:*
+      '@moleculer-graphql/eslint-config': workspace:^
+      '@moleculer-graphql/moleculer-graphql': workspace:^
+      '@moleculer-graphql/tsconfig': workspace:^
       '@types/graphql-depth-limit': 1.1.3
       '@typescript-eslint/eslint-plugin': 5.46.1
       '@typescript-eslint/parser': 5.46.1
@@ -103,8 +103,8 @@ importers:
       '@graphql-tools/stitch': ^8.7.32
       '@graphql-tools/stitching-directives': ^2.3.23
       '@graphql-tools/utils': ^9.1.3
-      '@moleculer-graphql/eslint-config': workspace:*
-      '@moleculer-graphql/tsconfig': workspace:*
+      '@moleculer-graphql/eslint-config': workspace:^
+      '@moleculer-graphql/tsconfig': workspace:^
       '@types/accepts': 1.3.5
       '@types/content-type': 1.1.5
       '@types/fs-extra': 9.0.13
