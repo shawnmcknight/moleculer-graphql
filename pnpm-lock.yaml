@@ -132,7 +132,7 @@ importers:
       jest: 29.3.1
       lodash: ^4.17.21
       moleculer: 0.14.27
-      moleculer-web: 0.10.4
+      moleculer-web: 0.10.5
       rimraf: 3.0.2
       ts-node: 10.9.1
     dependencies:
@@ -167,7 +167,7 @@ importers:
       graphql: 16.6.0
       jest: 29.3.1_ts-node@10.9.1
       moleculer: 0.14.27
-      moleculer-web: 0.10.4_moleculer@0.14.27
+      moleculer-web: 0.10.5_moleculer@0.14.27
       rimraf: 3.0.2
       ts-node: 10.9.1
 
@@ -4119,8 +4119,8 @@ packages:
       - supports-color
     dev: false
 
-  /moleculer-web/0.10.4_moleculer@0.14.27:
-    resolution: {integrity: sha512-WU5jZRoH53D3Cx2eBPFPlY5+7RI4teb5nlupRZO0N9vkRblGIFm4ySahZxBN4xVXvFSF5EWt/j1BdQr5rBocVw==}
+  /moleculer-web/0.10.5_moleculer@0.14.27:
+    resolution: {integrity: sha512-b4LFl67ESo8tmYtfuu91r8nRyLV158URAbf21dsNvf4hiVJW0u0BFwkkQF7Bn1Y+KRYCnAXNjGt4B+q5+cKnIw==}
     engines: {node: '>= 10.x.x'}
     peerDependencies:
       moleculer: ^0.13.0 || ^0.14.0
