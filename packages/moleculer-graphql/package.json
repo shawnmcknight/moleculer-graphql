@@ -1,5 +1,5 @@
 {
-  "name": "@shawnmcknight/moleculer-graphql",
+  "name": "@moleculer-graphql/moleculer-graphql",
   "description": "GraphQL mixins for Moleculer microservices",
   "private": true,
   "version": "0.0.0-alpha.4",
@@ -53,8 +53,8 @@
   },
   "devDependencies": {
     "@graphql-tools/delegate": "9.0.20",
-    "@shawnmcknight/eslint-config": "workspace:*",
-    "@shawnmcknight/tsconfig": "workspace:*",
+    "@moleculer-graphql/eslint-config": "workspace:*",
+    "@moleculer-graphql/tsconfig": "workspace:*",
     "@types/accepts": "1.3.5",
     "@types/content-type": "1.1.5",
     "@types/fs-extra": "9.0.13",

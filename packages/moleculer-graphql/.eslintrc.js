@@ -1,3 +1,3 @@
 module.exports = {
-	extends: ['@shawnmcknight/eslint-config'],
+	extends: ['@moleculer-graphql/eslint-config'],
 };

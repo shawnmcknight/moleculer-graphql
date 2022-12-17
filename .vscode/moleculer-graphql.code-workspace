@@ -1,29 +1,29 @@
 {
   "folders": [
     {
-      "name": "✨ @shawnmcknight/moleculer-graphql-monorepo",
+      "name": "✨ @moleculer-graphql/moleculer-graphql-monorepo",
       "path": ".."
     },
     {
-      "name": "📜 @shawnmcknight/example-basic",
+      "name": "📜 @moleculer-graphql/example-basic",
       "path": "../examples/basic"
     },
     {
-      "name": "🛠️ @shawnmcknight/eslint-config",
+      "name": "🛠️ @moleculer-graphql/eslint-config",
       "path": "../internal/eslint-config"
     },
     {
-      "name": "🛠️ @shawnmcknight/tsconfig",
+      "name": "🛠️ @moleculer-graphql/tsconfig",
       "path": "../internal/tsconfig"
     },
     {
-      "name": "📦 @shawnmcknight/moleculer-graphql",
+      "name": "📦 @moleculer-graphql/moleculer-graphql",
       "path": "../packages/moleculer-graphql"
     }
   ],
   "settings": {
     "files.eol": "\n",
-    "typescript.tsdk": "✨ @shawnmcknight\\moleculer-graphql-monorepo\\node_modules\\typescript\\lib",
+    "typescript.tsdk": "✨ @moleculer-graphql\\moleculer-graphql-monorepo\\node_modules\\typescript\\lib",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {

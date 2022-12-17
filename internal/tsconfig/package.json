@@ -1,5 +1,5 @@
 {
-  "name": "@shawnmcknight/tsconfig",
+  "name": "@moleculer-graphql/tsconfig",
   "description": "Typescript configuration for moleculer-graphql monorepo",
   "private": true,
   "sideEffects": false,

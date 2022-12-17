@@ -1,12 +1,12 @@
 {
-  "name": "@shawnmcknight/moleculer-graphql-monorepo",
+  "name": "@moleculer-graphql/moleculer-graphql-monorepo",
   "private": true,
   "version": "0.0.0-alpha.4",
   "description": "Monorepo for moleculer-graphql",
   "scripts": {
     "build": "turbo run build",
-    "example": "pnpm run build && pnpm --filter=@shawnmcknight/example-basic run example",
-    "example:networking": "pnpm run build && pnpm --filter=@shawnmcknight/example-basic run example:networking",
+    "example": "pnpm run build && pnpm --filter=@moleculer-graphql/example-basic run example",
+    "example:networking": "pnpm run build && pnpm --filter=@moleculer-graphql/example-basic run example:networking",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
     "test": "concurrently --max-processes 1 pnpm:typecheck pnpm:prettier pnpm:lint",
