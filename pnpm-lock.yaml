@@ -163,6 +163,7 @@ importers:
       moleculer-web: 0.10.5_moleculer@0.14.27
       rimraf: 3.0.2
       ts-node: 10.9.1
+    publishDirectory: dist
 
 packages:
 
