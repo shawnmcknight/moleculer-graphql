@@ -13,7 +13,6 @@ const createPackageFile = async (): Promise<void> => {
 
 	const newPackageData = {
 		...packageDataOther,
-		private: false,
 		main: './index.js',
 		types: './index.d.ts',
 	};

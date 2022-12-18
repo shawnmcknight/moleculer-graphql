@@ -1,7 +1,6 @@
 {
   "name": "@moleculer-graphql/context",
   "description": "Context helpers for moleculer-graphql",
-  "private": true,
   "version": "0.0.0-alpha.4",
   "publishConfig": {
     "directory": "dist"
