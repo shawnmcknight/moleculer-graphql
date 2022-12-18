@@ -5,6 +5,8 @@ import type { IFieldResolver, IResolvers } from '@graphql-tools/utils';
 import type { GraphQLContext } from '@moleculer-graphql/context';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
+// @ts-ignore: TEMPORARY CODE SO UTILS WORKSPACE CAN BE CREATED
+// eslint-disable-next-line
 import { buildFullActionName, ensureArray } from '../utils';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;

@@ -3,8 +3,9 @@ import type { IResolvers } from '@graphql-tools/utils';
 import type { GraphQLContext, GraphQLContextFactory } from '@moleculer-graphql/context';
 import { defaultsDeep } from 'lodash';
 import type { Context, Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
-import { GraphQLExecutor, SchemaBuilder } from '../classes';
-import type { SchemaDirectiveTransformer } from '../classes';
+import GraphQLExecutor from './GraphQLExecutor';
+import type { SchemaDirectiveTransformer } from './SchemaBuilder';
+import SchemaBuilder from './SchemaBuilder';
 
 type SubschemaConfigOmittedProps = 'schema' | 'executor' | 'merge';
 type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedProps>;
