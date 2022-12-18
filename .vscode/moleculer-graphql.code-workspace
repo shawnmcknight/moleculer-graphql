@@ -21,8 +21,8 @@
       "path": "../packages/context"
     },
     {
-      "name": "📦 @moleculer-graphql/moleculer-graphql",
-      "path": "../packages/moleculer-graphql"
+      "name": "📦 @moleculer-graphql/gateway",
+      "path": "../packages/gateway"
     },
     {
       "name": "📦 @moleculer-graphql/service",
