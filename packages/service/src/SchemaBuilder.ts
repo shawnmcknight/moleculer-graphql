@@ -3,11 +3,9 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { IFieldResolver, IResolvers } from '@graphql-tools/utils';
 import type { GraphQLContext } from '@moleculer-graphql/context';
+import { buildFullActionName, ensureArray } from '@moleculer-graphql/utils';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
-// @ts-ignore: TEMPORARY CODE SO UTILS WORKSPACE CAN BE CREATED
-// eslint-disable-next-line
-import { buildFullActionName, ensureArray } from '../utils';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
 

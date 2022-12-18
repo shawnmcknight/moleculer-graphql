@@ -5,10 +5,10 @@ import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { ExecutionResult, Executor } from '@graphql-tools/utils';
 import type { GraphQLContext } from '@moleculer-graphql/context';
 import type { GraphQLRequest, GraphQLServiceSettings } from '@moleculer-graphql/service';
+import { buildFullActionName } from '@moleculer-graphql/utils';
 import type { GraphQLSchema } from 'graphql';
 import { buildSchema, print } from 'graphql';
 import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
-import { buildFullActionName } from '../utils';
 
 class GatewayStitcher {
 	private readonly service: Service;
