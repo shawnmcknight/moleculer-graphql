@@ -17,7 +17,7 @@ interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>>
 export type Request = IncomingRequest & { body?: unknown };
 
 class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
-	private readonly playgroundPath = path.join(__dirname, '..', 'playground', 'playground.html');
+	private readonly playgroundPath = path.join(__dirname, 'playground', 'playground.html');
 
 	private readonly playgroundStat = fs.statSync(this.playgroundPath);
 

@@ -1,6 +1,6 @@
 import type { DocumentNode, GraphQLSchema, ValidationRule } from 'graphql';
 import { specifiedRules, validate } from 'graphql';
-import { disableIntrospectionRule } from '../validationRules';
+import { disableIntrospectionRule } from './validationRules';
 
 interface MakeValidateOptions {
 	/** Allow introspection queries */
