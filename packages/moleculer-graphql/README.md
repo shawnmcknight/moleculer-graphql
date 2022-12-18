@@ -1,1 +1,1 @@
-# moleculer-graphql
+# @moleculer-graphql/moleculer-graphql

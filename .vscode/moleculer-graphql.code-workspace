@@ -17,6 +17,10 @@
       "path": "../internal/tsconfig"
     },
     {
+      "name": "📦 @moleculer-graphql/context",
+      "path": "../packages/context"
+    },
+    {
       "name": "📦 @moleculer-graphql/moleculer-graphql",
       "path": "../packages/moleculer-graphql"
     }
