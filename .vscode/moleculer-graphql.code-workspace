@@ -27,6 +27,10 @@
     {
       "name": "📦 @moleculer-graphql/service",
       "path": "../packages/service"
+    },
+    {
+      "name": "📦 @moleculer-graphql/utils",
+      "path": "../packages/utils"
     }
   ],
   "settings": {
