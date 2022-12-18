@@ -1,7 +1,6 @@
 {
   "name": "@moleculer-graphql/service",
   "description": "Service mixin for moleculer-graphql used for Moleculer microservices",
-  "private": true,
   "version": "0.0.0-alpha.4",
   "publishConfig": {
     "directory": "dist"
