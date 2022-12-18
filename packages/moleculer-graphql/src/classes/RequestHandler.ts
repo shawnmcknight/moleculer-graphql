@@ -1,12 +1,12 @@
 import fs from 'fs';
 import type { ServerResponse } from 'http';
 import path from 'path';
+import { GraphQLContextCreator, type GraphQLContextFactory } from '@moleculer-graphql/context';
 import accepts from 'accepts';
 import type { GraphQLSchema, validate as graphqlValidate } from 'graphql';
 import type { Handler } from 'graphql-http';
 import { createHandler } from 'graphql-http';
 import type { IncomingRequest } from 'moleculer-web';
-import GraphQLContextCreator, { type GraphQLContextFactory } from './GraphQLContextCreator';
 
 interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;

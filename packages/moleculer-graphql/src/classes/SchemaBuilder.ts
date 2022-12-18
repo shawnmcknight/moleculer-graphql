@@ -2,10 +2,10 @@ import { mergeResolvers } from '@graphql-tools/merge';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { IFieldResolver, IResolvers } from '@graphql-tools/utils';
+import type { GraphQLContext } from '@moleculer-graphql/context';
 import type { GraphQLSchema } from 'graphql';
 import type { Service } from 'moleculer';
 import { buildFullActionName, ensureArray } from '../utils';
-import type { GraphQLContext } from './GraphQLContextCreator';
 
 export type SchemaDirectiveTransformer = (schema: GraphQLSchema) => GraphQLSchema;
 
