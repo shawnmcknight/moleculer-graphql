@@ -41,8 +41,8 @@
     "node": ">=16.18.0"
   },
   "devDependencies": {
-    "@moleculer-graphql/eslint-config": "workspace:^",
-    "@moleculer-graphql/tsconfig": "workspace:^",
+    "@moleculer-graphql/eslint-config": "workspace:*",
+    "@moleculer-graphql/tsconfig": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.1",
     "eslint": "8.30.0",
