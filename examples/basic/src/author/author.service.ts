@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import { serviceMixin } from '@moleculer-graphql/moleculer-graphql';
+import { serviceMixin } from '@moleculer-graphql/service';
 import type { Context, ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';
 import { lowerDirectiveFactory } from '../directives';

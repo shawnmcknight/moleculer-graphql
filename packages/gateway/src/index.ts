@@ -1,4 +1,4 @@
-export * from './mixins';
+export { default as gatewayMixin, type GatewayMixinOptions } from './gatewayMixin';
 
 declare module 'moleculer' {
 	export interface GraphQLActionSchema {

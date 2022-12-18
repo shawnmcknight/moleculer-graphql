@@ -1,12 +1,13 @@
 import type { ServerResponse } from 'http';
+import type { GraphQLContextFactory } from '@moleculer-graphql/context';
 import { printSchema } from 'graphql';
 import type { ValidationRule } from 'graphql';
 import { defaultsDeep } from 'lodash';
 import type { Service, ServiceSchema } from 'moleculer';
 import type { Route } from 'moleculer-web';
-import { GatewayStitcher, RequestHandler } from '../classes';
-import type { GraphQLContextFactory, Request } from '../classes';
-import { createValidate } from '../functions';
+import createValidate from './createValidate';
+import GatewayStitcher from './GatewayStitcher';
+import RequestHandler, { type Request } from './RequestHandler';
 
 interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;

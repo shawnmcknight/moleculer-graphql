@@ -1,4 +1,4 @@
-import { gatewayMixin } from '@moleculer-graphql/moleculer-graphql';
+import { gatewayMixin } from '@moleculer-graphql/gateway';
 import depthLimit from 'graphql-depth-limit';
 import type { ServiceBroker } from 'moleculer';
 import { Service } from 'moleculer';

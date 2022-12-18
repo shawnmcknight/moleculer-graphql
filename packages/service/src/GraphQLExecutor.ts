@@ -1,7 +1,7 @@
+import { GraphQLContextCreator, type GraphQLContextFactory } from '@moleculer-graphql/context';
 import type { ExecutionResult, GraphQLSchema } from 'graphql';
 import { execute, parse, Source } from 'graphql';
 import type { Context } from 'moleculer';
-import GraphQLContextCreator, { type GraphQLContextFactory } from './GraphQLContextCreator';
 
 interface GraphQLExecutorOptions<TGraphQLContext extends Record<string, unknown>> {
 	contextFactory?: GraphQLContextFactory<TGraphQLContext>;

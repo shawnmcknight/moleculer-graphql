@@ -17,8 +17,20 @@
       "path": "../internal/tsconfig"
     },
     {
-      "name": "📦 @moleculer-graphql/moleculer-graphql",
-      "path": "../packages/moleculer-graphql"
+      "name": "📦 @moleculer-graphql/context",
+      "path": "../packages/context"
+    },
+    {
+      "name": "📦 @moleculer-graphql/gateway",
+      "path": "../packages/gateway"
+    },
+    {
+      "name": "📦 @moleculer-graphql/service",
+      "path": "../packages/service"
+    },
+    {
+      "name": "📦 @moleculer-graphql/utils",
+      "path": "../packages/utils"
     }
   ],
   "settings": {
@@ -35,7 +47,6 @@
     "monorepoWorkspace.folders.prefix.tools": "🛠️ ",
     "monorepoWorkspace.folders.custom": [
       { "regex": "test", "prefix": "🧪 " },
-      { "regex": "service|api|backend", "prefix": "🏭 " },
       { "regex": "example", "prefix": "📜 " }
     ]
   }

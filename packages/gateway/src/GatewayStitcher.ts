@@ -3,12 +3,12 @@ import type { SubschemaConfigTransform } from '@graphql-tools/stitch';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { stitchingDirectives } from '@graphql-tools/stitching-directives';
 import type { ExecutionResult, Executor } from '@graphql-tools/utils';
+import type { GraphQLContext } from '@moleculer-graphql/context';
+import type { GraphQLRequest, GraphQLServiceSettings } from '@moleculer-graphql/service';
+import { buildFullActionName } from '@moleculer-graphql/utils';
 import type { GraphQLSchema } from 'graphql';
 import { buildSchema, print } from 'graphql';
 import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
-import type { GraphQLRequest, GraphQLServiceSettings } from '../mixins/serviceMixin';
-import { buildFullActionName } from '../utils';
-import type { GraphQLContext } from './GraphQLContextCreator';
 
 class GatewayStitcher {
 	private readonly service: Service;
