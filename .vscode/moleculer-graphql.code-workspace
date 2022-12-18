@@ -23,6 +23,10 @@
     {
       "name": "📦 @moleculer-graphql/moleculer-graphql",
       "path": "../packages/moleculer-graphql"
+    },
+    {
+      "name": "📦 @moleculer-graphql/service",
+      "path": "../packages/service"
     }
   ],
   "settings": {
@@ -39,7 +43,6 @@
     "monorepoWorkspace.folders.prefix.tools": "🛠️ ",
     "monorepoWorkspace.folders.custom": [
       { "regex": "test", "prefix": "🧪 " },
-      { "regex": "service|api|backend", "prefix": "🏭 " },
       { "regex": "example", "prefix": "📜 " }
     ]
   }
