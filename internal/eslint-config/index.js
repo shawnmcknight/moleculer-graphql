@@ -117,7 +117,7 @@ module.exports = {
 
 	overrides: [
 		{
-			files: ['**/*.ts'],
+			files: ['**/*.?(c|m)ts'],
 			extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
 			rules: {
 				// disable rules turned on by @typescript-eslint/recommended-requiring-type-checking which are too noisy
@@ -139,7 +139,7 @@ module.exports = {
 		},
 
 		{
-			files: ['**/index.ts'],
+			files: ['**/index.?(c|m)ts'],
 			rules: {
 				// prefer named exports for certain file types
 				'import/prefer-default-export': 'off',
@@ -202,7 +202,11 @@ module.exports = {
 		},
 
 		{
-			files: ['**/test/**/*.ts?(x)', '**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
+			files: [
+				'**/test/**/*.?(c|m)ts?(x)',
+				'**/__tests__/**/*.?(c|m)ts?(x)',
+				'**/?(*.)+(spec|test).?(c|m)ts?(x)',
+			],
 			rules: {
 				// allow explicit any in tests
 				'@typescript-eslint/no-explicit-any': 'off',
