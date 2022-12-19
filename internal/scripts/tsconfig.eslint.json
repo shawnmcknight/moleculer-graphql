@@ -1,7 +1,7 @@
 {
   "extends": "@moleculer-graphql/tsconfig/tsconfig.eslint.json",
-  "files": ["create-package-json.mjs"],
   "include": [
+    "src/**/*", // source folder
     "./*.js", // root javascript files
     "./.*.js", // root javascript config files
     "./.*.cjs", // root commonjs config files
