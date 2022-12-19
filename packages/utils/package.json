@@ -8,7 +8,8 @@
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "pnpm run build:tsc && pnpm run build:copy-files",
+    "build": "pnpm run build:tsc && pnpm run build:create-package-file",
+    "build:create-package-file": "create-package-json",
     "build:copy-files": "ts-node ./scripts/copy-files.ts",
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@moleculer-graphql/eslint-config": "workspace:*",
+    "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.1",
