@@ -165,7 +165,7 @@ importers:
   packages/gateway:
     specifiers:
       '@graphql-tools/delegate': 9.0.20
-      '@graphql-tools/stitch': ^8.7.32
+      '@graphql-tools/stitch': ^8.7.33
       '@graphql-tools/stitching-directives': ^2.3.23
       '@graphql-tools/utils': 9.1.3
       '@moleculer-graphql/context': workspace:^
@@ -195,7 +195,7 @@ importers:
       moleculer-web: 0.10.5
       rimraf: 3.0.2
     dependencies:
-      '@graphql-tools/stitch': 8.7.32_graphql@16.6.0
+      '@graphql-tools/stitch': 8.7.33_graphql@16.6.0
       '@graphql-tools/stitching-directives': 2.3.23_graphql@16.6.0
       '@moleculer-graphql/context': link:../context
       '@moleculer-graphql/utils': link:../utils
@@ -761,8 +761,8 @@ packages:
       tslib: 2.4.1
       value-or-promise: 1.0.11
 
-  /@graphql-tools/stitch/8.7.32_graphql@16.6.0:
-    resolution: {integrity: sha512-d53Ka836AqEpSK6P56DQxPNvqaXu9yCKjVO9JZC9pGNzWbavVBQsYdV36KXZjB09/3VgPnftvW6CchZKIvcckg==}
+  /@graphql-tools/stitch/8.7.33_graphql@16.6.0:
+    resolution: {integrity: sha512-WZqpz6aorWsUWZR6wRQrIvxuZc2BOlR/ads9fkD1jtGGmqec0ncrR/n+IQDmS7YpsFwgl4ghAYK+HfOZDvr/sQ==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
@@ -771,7 +771,7 @@ packages:
       '@graphql-tools/merge': 8.3.14_graphql@16.6.0
       '@graphql-tools/schema': 9.0.12_graphql@16.6.0
       '@graphql-tools/utils': 9.1.3_graphql@16.6.0
-      '@graphql-tools/wrap': 9.2.21_graphql@16.6.0
+      '@graphql-tools/wrap': 9.2.22_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.4.1
       value-or-promise: 1.0.11
@@ -796,8 +796,8 @@ packages:
       graphql: 16.6.0
       tslib: 2.4.1
 
-  /@graphql-tools/wrap/9.2.21_graphql@16.6.0:
-    resolution: {integrity: sha512-h4S9x9Rh8aSKkBGv+nq43Z0qK7CH8ySl+9RDO0MluscWlqNNECJ34FytwPVd8sXSrS7JwgwmVNcT51EH1n0wRw==}
+  /@graphql-tools/wrap/9.2.22_graphql@16.6.0:
+    resolution: {integrity: sha512-HxkH1IaH8a+57g1OlW9dkMABFLF8w45McoPcA/na/LflbRQrgPYxBPcFGqaQ/yKTNVHohQaM9n+wjQihPBbLDA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:

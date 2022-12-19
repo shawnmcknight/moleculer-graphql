@@ -39,7 +39,7 @@
     "node": ">=16.18.0"
   },
   "dependencies": {
-    "@graphql-tools/stitch": "^8.7.32",
+    "@graphql-tools/stitch": "^8.7.33",
     "@graphql-tools/stitching-directives": "^2.3.23",
     "@moleculer-graphql/context": "workspace:^",
     "@moleculer-graphql/utils": "workspace:^",
