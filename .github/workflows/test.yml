@@ -29,3 +29,5 @@ jobs:
         run: pnpm run prettier
       - name: Run lint
         run: pnpm run lint
+      - name: Run coverage
+        run: pnpm run coverage
