@@ -3,6 +3,10 @@
   "description": "Typescript configuration for moleculer-graphql monorepo",
   "private": true,
   "sideEffects": false,
+  "scripts": {
+    "prettier": "prettier . --ignore-unknown --check",
+    "prettier:fix": "prettier . --ignore-unknown --write"
+  },
   "dependencies": {
     "@tsconfig/node16": "1.0.3"
   },
