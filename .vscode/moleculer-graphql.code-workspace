@@ -13,6 +13,10 @@
       "path": "../internal/eslint-config"
     },
     {
+      "name": "🛠️ @moleculer-graphql/jest-config",
+      "path": "../internal/jest-config"
+    },
+    {
       "name": "🛠️ @moleculer-graphql/scripts",
       "path": "../internal/scripts"
     },
