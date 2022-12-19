@@ -9,7 +9,7 @@
     "example:networking": "pnpm run build && pnpm --filter=@moleculer-graphql/example-basic run example:networking",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
-    "test": "concurrently --max-processes 1 pnpm:typecheck pnpm:prettier pnpm:lint",
+    "test": "concurrently --max-processes 1 pnpm:typecheck pnpm:prettier pnpm:lint pnpm:coverage",
     "typecheck": "turbo run typecheck",
     "prepare": "husky install"
   },
