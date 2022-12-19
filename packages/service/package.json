@@ -14,10 +14,8 @@
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
     "clean:build": "rimraf dist",
-    "lint": "TIMING=1 eslint . --ext js,ts --cache",
-    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix --cache",
-    "lint:nocache": "TIMING=1 eslint . --ext js,ts",
-    "lint:clear": "rimraf ./.eslintcache",
+    "lint": "TIMING=1 eslint . --ext js,ts",
+    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix",
     "prettier": "prettier . --ignore-unknown --check",
     "prettier:fix": "prettier . --ignore-unknown --write",
     "style:fix": "pnpm run prettier:fix && pnpm run lint:fix",
@@ -41,11 +39,12 @@
     "node": ">=16.18.0"
   },
   "dependencies": {
-    "@graphql-tools/merge": "8.3.14",
-    "@graphql-tools/schema": "9.0.12",
-    "@graphql-tools/stitching-directives": "2.3.23",
+    "@graphql-tools/merge": "^8.3.14",
+    "@graphql-tools/schema": "^9.0.12",
+    "@graphql-tools/stitching-directives": "^2.3.23",
     "@moleculer-graphql/context": "workspace:^",
-    "@moleculer-graphql/utils": "workspace:^"
+    "@moleculer-graphql/utils": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "graphql": "^15.0.0 || ^16.0.0"
@@ -56,6 +55,7 @@
     "@moleculer-graphql/eslint-config": "workspace:*",
     "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
+    "@types/lodash": "4.14.191",
     "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.1",
     "cpy-cli": "4.2.0",
