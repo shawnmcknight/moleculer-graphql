@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": false,
   "bin": {
-    "prepare-dist": "./prepare-dist.mjs"
+    "create-package-json": "./create-package-json.mjs"
   },
   "scripts": {
     "lint": "TIMING=1 eslint . --ext js,ts --cache",
