@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+  }
+}
