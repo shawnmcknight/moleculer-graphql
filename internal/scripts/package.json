@@ -7,10 +7,8 @@
     "create-package-json": "./create-package-json.mjs"
   },
   "scripts": {
-    "lint": "TIMING=1 eslint . --ext js,ts --cache",
-    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix --cache",
-    "lint:nocache": "TIMING=1 eslint . --ext js,ts",
-    "lint:clear": "rimraf ./.eslintcache",
+    "lint": "TIMING=1 eslint . --ext js,ts",
+    "lint:fix": "TIMING=1 eslint . --ext js,ts --fix",
     "prettier": "prettier . --ignore-unknown --check",
     "prettier:fix": "prettier . --ignore-unknown --write",
     "style:fix": "pnpm run prettier:fix && pnpm run lint:fix"
