@@ -9,8 +9,8 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "pnpm run build:tsc && pnpm run build:create-package-file && pnpm run build:copy-files",
-    "build:create-package-file": "create-package-json",
     "build:copy-files": "cpy \"./README.md\" dist",
+    "build:create-package-file": "create-package-json",
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
     "clean:build": "rimraf dist",

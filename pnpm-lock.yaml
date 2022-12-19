@@ -128,9 +128,11 @@ importers:
   packages/context:
     specifiers:
       '@moleculer-graphql/eslint-config': workspace:*
+      '@moleculer-graphql/scripts': workspace:*
       '@moleculer-graphql/tsconfig': workspace:*
       '@typescript-eslint/eslint-plugin': 5.46.1
       '@typescript-eslint/parser': 5.46.1
+      cpy-cli: 4.2.0
       eslint: 8.30.0
       eslint-config-airbnb-base: 15.0.0
       eslint-config-airbnb-typescript: 17.0.0
@@ -144,9 +146,11 @@ importers:
       ts-node: 10.9.1
     devDependencies:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
+      '@moleculer-graphql/scripts': link:../../internal/scripts
       '@moleculer-graphql/tsconfig': link:../../internal/tsconfig
       '@typescript-eslint/eslint-plugin': 5.46.1_k64j4kmmt6hmqbosszmu4ra6ae
       '@typescript-eslint/parser': 5.46.1_eslint@8.30.0
+      cpy-cli: 4.2.0
       eslint: 8.30.0
       eslint-config-airbnb-base: 15.0.0_2lbwmhbr7bncddqbzzpg77o75m
       eslint-config-airbnb-typescript: 17.0.0_ibjeedkdboz2lycsyf4fx47iyy
