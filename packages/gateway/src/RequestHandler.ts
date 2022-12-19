@@ -17,9 +17,9 @@ interface RequestHandlerOptions<TGraphQLContext extends Record<string, unknown>>
 export type Request = IncomingRequest & { body?: unknown };
 
 class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
-	private readonly playgroundPath = path.join(__dirname, 'playground', 'playground.html');
+	private readonly graphiqlPath = path.join(__dirname, 'graphiql.html');
 
-	private readonly playgroundStat = fs.statSync(this.playgroundPath);
+	private readonly graphiqlStat = fs.statSync(this.graphiqlPath);
 
 	private readonly showGraphiQL: boolean;
 
@@ -105,7 +105,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 	/** Render GraphiQL */
 	private respondWithGraphiQL(res: ServerResponse) {
-		const readStream = fs.createReadStream(this.playgroundPath);
+		const readStream = fs.createReadStream(this.graphiqlPath);
 
 		readStream.on('error', () => {
 			res.writeHead(500, 'Server error');
@@ -114,7 +114,7 @@ class RequestHandler<TGraphQLContext extends Record<string, unknown>> {
 
 		res.writeHead(200, {
 			'Content-Type': 'text/html',
-			'Content-Length': this.playgroundStat.size,
+			'Content-Length': this.graphiqlStat.size,
 		});
 		readStream.pipe(res);
 

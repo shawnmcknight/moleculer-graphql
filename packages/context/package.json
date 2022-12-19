@@ -8,8 +8,9 @@
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "pnpm run build:tsc && pnpm run build:copy-files",
-    "build:copy-files": "ts-node ./scripts/copy-files.ts",
+    "build": "pnpm run build:tsc && pnpm run build:create-package-file && pnpm run build:copy-files",
+    "build:copy-files": "cpy \"./README.md\" dist",
+    "build:create-package-file": "create-package-json",
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
     "clean:build": "rimraf dist",
@@ -41,9 +42,11 @@
   },
   "devDependencies": {
     "@moleculer-graphql/eslint-config": "workspace:*",
+    "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.46.1",
     "@typescript-eslint/parser": "5.46.1",
+    "cpy-cli": "4.2.0",
     "eslint": "8.30.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-airbnb-typescript": "17.0.0",
@@ -53,7 +56,6 @@
     "eslint-plugin-jest": "27.1.7",
     "jest": "29.3.1",
     "moleculer": "0.14.27",
-    "rimraf": "3.0.2",
-    "ts-node": "10.9.1"
+    "rimraf": "3.0.2"
   }
 }
