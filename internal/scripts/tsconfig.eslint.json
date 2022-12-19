@@ -1,9 +1,5 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "noEmit": true
-  },
-  "extends": "@moleculer-graphql/tsconfig/tsconfig.json",
+  "extends": "@moleculer-graphql/tsconfig/tsconfig.eslint.json",
   "files": ["create-package-json.mjs"],
   "include": [
     "./*.js", // root javascript files
