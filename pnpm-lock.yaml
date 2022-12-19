@@ -240,6 +240,7 @@ importers:
       '@moleculer-graphql/scripts': workspace:*
       '@moleculer-graphql/tsconfig': workspace:*
       '@moleculer-graphql/utils': workspace:^
+      '@types/lodash': 4.14.191
       '@typescript-eslint/eslint-plugin': 5.46.1
       '@typescript-eslint/parser': 5.46.1
       cpy-cli: 4.2.0
@@ -268,6 +269,7 @@ importers:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
       '@moleculer-graphql/scripts': link:../../internal/scripts
       '@moleculer-graphql/tsconfig': link:../../internal/tsconfig
+      '@types/lodash': 4.14.191
       '@typescript-eslint/eslint-plugin': 5.46.1_k64j4kmmt6hmqbosszmu4ra6ae
       '@typescript-eslint/parser': 5.46.1_eslint@8.30.0
       cpy-cli: 4.2.0
