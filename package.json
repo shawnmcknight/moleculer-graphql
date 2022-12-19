@@ -4,6 +4,7 @@
   "description": "Monorepo for moleculer-graphql",
   "scripts": {
     "build": "turbo run build",
+    "coverage": "turbo run coverage",
     "example": "pnpm run build && pnpm --filter=@moleculer-graphql/example-basic run example",
     "example:networking": "pnpm run build && pnpm --filter=@moleculer-graphql/example-basic run example:networking",
     "lint": "turbo run lint",

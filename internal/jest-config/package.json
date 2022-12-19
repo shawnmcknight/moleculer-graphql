@@ -1,0 +1,22 @@
+{
+  "name": "@moleculer-graphql/jest-config",
+  "description": "Jest configuration for moleculer-graphql monorepo",
+  "private": true,
+  "sideEffects": false,
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "prettier": "prettier . --ignore-unknown --check",
+    "prettier:fix": "prettier . --ignore-unknown --write"
+  },
+  "devDependencies": {
+    "jest": "29.3.1",
+    "ts-jest": "29.0.3"
+  },
+  "peerDependencies": {
+    "jest": "^29.3.0",
+    "ts-jest": "^29.0.0"
+  }
+}

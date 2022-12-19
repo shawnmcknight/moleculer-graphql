@@ -12,6 +12,11 @@
       "outputMode": "full",
       "cache": false
     },
+    "coverage": {
+      "dependsOn": ["build"],
+      "outputs": [],
+      "outputMode": "full"
+    },
     "lint": {
       "dependsOn": ["^forceInternalDependencies"],
       "outputs": [],
