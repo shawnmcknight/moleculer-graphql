@@ -16,7 +16,7 @@
   "author": "Shawn McKnight",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "18.11.17",
+    "@types/node": "18.11.18",
     "concurrently": "7.6.0",
     "husky": "8.0.2",
     "lint-staged": "13.1.0",
