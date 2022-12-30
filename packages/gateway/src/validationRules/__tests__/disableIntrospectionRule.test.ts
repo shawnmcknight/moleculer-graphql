@@ -35,7 +35,6 @@ test('should return GraphQLError if introspection query containing __schema', ()
 	const document = parse(query);
 
 	const errors = validate(schema, document, [disableIntrospectionRule]);
-
 	expect(errors).toHaveLength(1);
 	expect(errors[0]).toBeInstanceOf(GraphQLError);
 	expect(errors[0].message).toBe(
@@ -54,7 +53,6 @@ test('should return GraphQLError if introspection query containing __type', () =
 	const document = parse(query);
 
 	const errors = validate(schema, document, [disableIntrospectionRule]);
-
 	expect(errors).toHaveLength(1);
 	expect(errors[0]).toBeInstanceOf(GraphQLError);
 	expect(errors[0].message).toBe(
@@ -71,6 +69,5 @@ test('should not return GraphQLError if not introspection query', () => {
 	const document = parse(query);
 
 	const errors = validate(schema, document, [disableIntrospectionRule]);
-
 	expect(errors).toHaveLength(0);
 });
