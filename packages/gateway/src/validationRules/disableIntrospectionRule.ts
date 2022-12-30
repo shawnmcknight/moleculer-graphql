@@ -8,7 +8,7 @@ const disableIntrospectionRule: ValidationRule = (context: ValidationContext) =>
 			context.reportError(
 				new GraphQLError(
 					'GraphQL introspection is not allowed, but the query contained __schema or __type',
-					{ nodes: node },
+					{ nodes: [node] },
 				),
 			);
 		}

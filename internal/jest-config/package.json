@@ -3,9 +3,9 @@
   "description": "Jest configuration for moleculer-graphql monorepo",
   "private": true,
   "sideEffects": false,
-  "main": "index.js",
+  "main": "index.ts",
   "exports": {
-    ".": "./index.js"
+    ".": "./index.ts"
   },
   "scripts": {
     "prettier": "prettier . --ignore-unknown --check",

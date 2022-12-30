@@ -1,6 +1,14 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-	preset: 'ts-jest',
+import type { JestConfigWithTsJest } from 'ts-jest';
+
+const config: JestConfigWithTsJest = {
+	transform: {
+		'^.+\\.tsx?$': [
+			'ts-jest',
+			{
+				tsconfig: '<rootDir>/tsconfig.test.json',
+			},
+		],
+	},
 	testEnvironment: 'node',
 	modulePathIgnorePatterns: ['<rootDir>/dist'],
 	testMatch: [
@@ -18,6 +26,7 @@ module.exports = {
 		'!**/*.d.ts', // not ambient declarations
 	],
 	coverageThreshold: {
+		global: {},
 		'**/*.?([cm])[jt]s?(x)': {
 			statements: 25,
 			branches: 25,
@@ -26,3 +35,5 @@ module.exports = {
 		},
 	},
 };
+
+export default config;

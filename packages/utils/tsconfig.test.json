@@ -1,0 +1,3 @@
+{
+  "extends": "@moleculer-graphql/tsconfig/tsconfig.test.json"
+}
