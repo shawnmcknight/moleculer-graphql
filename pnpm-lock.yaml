@@ -178,6 +178,7 @@ importers:
       '@graphql-tools/utils': 9.1.3
       '@moleculer-graphql/context': workspace:^
       '@moleculer-graphql/eslint-config': workspace:*
+      '@moleculer-graphql/jest-config': workspace:*
       '@moleculer-graphql/scripts': workspace:*
       '@moleculer-graphql/service': workspace:*
       '@moleculer-graphql/tsconfig': workspace:*
@@ -202,6 +203,7 @@ importers:
       moleculer: 0.14.27
       moleculer-web: 0.10.5
       rimraf: 3.0.2
+      ts-jest: 29.0.3
     dependencies:
       '@graphql-tools/stitch': 8.7.34_graphql@16.6.0
       '@graphql-tools/stitching-directives': 2.3.24_graphql@16.6.0
@@ -214,6 +216,7 @@ importers:
       '@graphql-tools/delegate': 9.0.21_graphql@16.6.0
       '@graphql-tools/utils': 9.1.3_graphql@16.6.0
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
+      '@moleculer-graphql/jest-config': link:../../internal/jest-config
       '@moleculer-graphql/scripts': link:../../internal/scripts
       '@moleculer-graphql/service': link:../service
       '@moleculer-graphql/tsconfig': link:../../internal/tsconfig
@@ -234,6 +237,7 @@ importers:
       moleculer: 0.14.27
       moleculer-web: 0.10.5_moleculer@0.14.27
       rimraf: 3.0.2
+      ts-jest: 29.0.3_jest@29.3.1
     publishDirectory: dist
 
   packages/service:
