@@ -1,5 +1,6 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+import type { JestConfigWithTsJest } from 'ts-jest';
+
+const config: JestConfigWithTsJest = {
 	transform: {
 		'^.+\\.tsx?$': [
 			'ts-jest',
@@ -25,6 +26,7 @@ module.exports = {
 		'!**/*.d.ts', // not ambient declarations
 	],
 	coverageThreshold: {
+		global: {},
 		'**/*.?([cm])[jt]s?(x)': {
 			statements: 25,
 			branches: 25,
@@ -33,3 +35,5 @@ module.exports = {
 		},
 	},
 };
+
+export default config;
