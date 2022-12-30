@@ -12,7 +12,7 @@
       "runtimeArgs": ["--nolazy"],
       "args": [
         "--config",
-        "${workspaceFolder}/jest.config.js",
+        "${workspaceFolder}/jest.config.ts",
         "--runInBand",
         "--no-cache",
         "--runTestsByPath",
