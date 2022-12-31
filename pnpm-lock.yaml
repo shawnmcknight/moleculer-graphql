@@ -304,7 +304,7 @@ importers:
       '@moleculer-graphql/jest-config': workspace:*
       '@moleculer-graphql/scripts': workspace:*
       '@moleculer-graphql/tsconfig': workspace:*
-      '@types/jest': 29.2.4
+      '@types/jest': 29.2.5
       '@typescript-eslint/eslint-plugin': 5.47.1
       '@typescript-eslint/parser': 5.47.1
       cpy-cli: 4.2.0
@@ -323,7 +323,7 @@ importers:
       '@moleculer-graphql/jest-config': link:../../internal/jest-config
       '@moleculer-graphql/scripts': link:../../internal/scripts
       '@moleculer-graphql/tsconfig': link:../../internal/tsconfig
-      '@types/jest': 29.2.4
+      '@types/jest': 29.2.5
       '@typescript-eslint/eslint-plugin': 5.47.1_smw3o7qjeokkcohbvp7rylsoqq
       '@typescript-eslint/parser': 5.47.1_eslint@8.30.0
       cpy-cli: 4.2.0
@@ -1245,8 +1245,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/29.2.4:
-    resolution: {integrity: sha512-PipFB04k2qTRPePduVLTRiPzQfvMeLwUN3Z21hsAKaB/W9IIzgB2pizCL466ftJlcyZqnHoC9ZHpxLGl3fS86A==}
+  /@types/jest/29.2.5:
+    resolution: {integrity: sha512-H2cSxkKgVmqNHXP7TC2L/WUorrZu8ZigyRywfVzv6EyBlxj39n4C00hjXYQWsbwqgElaj/CiAeSRmk5GoaKTgw==}
     dependencies:
       expect: 29.3.1
       pretty-format: 29.3.1
