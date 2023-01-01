@@ -14,7 +14,7 @@
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
     "clean:build": "rimraf dist",
-    "coverage": "jest --collectCoverage --coverageReporters text-summary",
+    "coverage": "jest --collectCoverage --coverageReporters text",
     "lint": "TIMING=1 eslint . --ext js,ts",
     "lint:fix": "TIMING=1 eslint . --ext js,ts --fix",
     "prettier": "prettier . --ignore-unknown --check",
