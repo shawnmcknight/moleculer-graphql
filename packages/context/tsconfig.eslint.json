@@ -3,6 +3,7 @@
   "include": [
     "src/**/*", // source folder
     "./*.js", // root javascript files
+    "./*.ts", // root typescript files
     "./.*.js", // root javascript config files
     "./.*.cjs", // root commonjs config files
     "__mocks__/**/*" // jest mocks

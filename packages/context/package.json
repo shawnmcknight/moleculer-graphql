@@ -14,6 +14,7 @@
     "build:tsc": "tsc --project tsconfig.build.json",
     "clean": "pnpm run clean:build",
     "clean:build": "rimraf dist",
+    "coverage": "jest --collectCoverage --coverageReporters text-summary",
     "lint": "TIMING=1 eslint . --ext js,ts",
     "lint:fix": "TIMING=1 eslint . --ext js,ts --fix",
     "prettier": "prettier . --ignore-unknown --check",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@moleculer-graphql/eslint-config": "workspace:*",
+    "@moleculer-graphql/jest-config": "workspace:*",
     "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
     "@typescript-eslint/eslint-plugin": "5.47.1",
@@ -53,7 +55,9 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "27.1.7",
     "jest": "29.3.1",
+    "jest-mock-extended": "3.0.1",
     "moleculer": "0.14.27",
-    "rimraf": "3.0.2"
+    "rimraf": "3.0.2",
+    "ts-jest": "29.0.3"
   }
 }
