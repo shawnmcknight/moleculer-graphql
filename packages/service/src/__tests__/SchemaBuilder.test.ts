@@ -9,6 +9,10 @@ const broker = new ServiceBroker({ logger: false });
 
 let service: Service;
 
+beforeAll(async () => {
+	await broker.start();
+});
+
 afterEach(async () => {
 	await broker.destroyService(service);
 });
