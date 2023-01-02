@@ -1,22 +1,21 @@
-import type { Service } from 'moleculer';
+import type { Service, ServiceSchema } from 'moleculer';
 import { ServiceBroker } from 'moleculer';
 import serviceMixin from '../serviceMixin';
 
-const broker = new ServiceBroker({ logger: false });
+const setup = async (serviceSchema: ServiceSchema): Promise<[ServiceBroker, Service]> => {
+	const broker = new ServiceBroker({ logger: false });
 
-let service: Service;
+	const service = broker.createService(serviceSchema);
 
-beforeAll(async () => {
 	await broker.start();
-});
 
-afterEach(async () => {
+	return [broker, service];
+};
+
+const teardown = async (broker: ServiceBroker, service: Service) => {
 	await broker.destroyService(service);
-});
-
-afterAll(async () => {
 	await broker.stop();
-});
+};
 
 test('should execute simple query', async () => {
 	const typeDefs = /* GraphQL */ `
@@ -24,8 +23,7 @@ test('should execute simple query', async () => {
 			hello: String!
 		}
 	`;
-
-	service = broker.createService({
+	const serviceSchema = {
 		name: 'test',
 		mixins: [serviceMixin({ typeDefs })],
 		actions: {
@@ -36,19 +34,18 @@ test('should execute simple query', async () => {
 				graphql: { query: 'hello' },
 			},
 		},
-	});
+	};
+	const [broker, service] = await setup(serviceSchema);
 
 	const query = /* GraphQL */ `
 		query {
 			hello
 		}
 	`;
-
-	await broker.waitForServices('test', 1000, 10);
-
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
-
 	expect(result).toEqual({ data: { hello: 'world' } });
+
+	await teardown(broker, service);
 });
 
 test('should execute query using resolvers', async () => {
@@ -66,8 +63,7 @@ test('should execute query using resolvers', async () => {
 			title: String!
 		}
 	`;
-
-	service = broker.createService({
+	const serviceSchema = {
 		name: 'test',
 		mixins: [
 			serviceMixin({
@@ -83,7 +79,8 @@ test('should execute query using resolvers', async () => {
 				graphql: { query: 'author' },
 			},
 		},
-	});
+	};
+	const [broker, service] = await setup(serviceSchema);
 
 	const query = /* GraphQL */ `
 		query {
@@ -97,16 +94,14 @@ test('should execute query using resolvers', async () => {
 			}
 		}
 	`;
-
-	await broker.waitForServices('test', 1000, 10);
-
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
-
 	expect(result).toEqual({
 		data: {
 			author: { id: '1', name: 'John Steinbeck', book: { id: '1', title: 'Of Mice and Men' } },
 		},
 	});
+
+	await teardown(broker, service);
 });
 
 test('should build typeDefs from a factory function', async () => {
@@ -115,8 +110,7 @@ test('should build typeDefs from a factory function', async () => {
 			hello: String!
 		}
 	`;
-
-	service = broker.createService({
+	const serviceSchema = {
 		name: 'test',
 		mixins: [serviceMixin({ typeDefs: typeDefsFactory })],
 		actions: {
@@ -127,19 +121,18 @@ test('should build typeDefs from a factory function', async () => {
 				graphql: { query: 'hello' },
 			},
 		},
-	});
+	};
+	const [broker, service] = await setup(serviceSchema);
 
 	const query = /* GraphQL */ `
 		query {
 			hello
 		}
 	`;
-
-	await broker.waitForServices('test', 1000, 10);
-
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
-
 	expect(result).toEqual({ data: { hello: 'world' } });
+
+	await teardown(broker, service);
 });
 
 test('should build resolvers from a factory function', async () => {
@@ -157,12 +150,10 @@ test('should build resolvers from a factory function', async () => {
 			title: String!
 		}
 	`;
-
 	const resolversFactory = () => ({
 		Author: { book: () => ({ id: '1', title: 'Of Mice and Men' }) },
 	});
-
-	service = broker.createService({
+	const serviceSchema = {
 		name: 'test',
 		mixins: [serviceMixin({ typeDefs, resolvers: resolversFactory })],
 		actions: {
@@ -173,7 +164,8 @@ test('should build resolvers from a factory function', async () => {
 				graphql: { query: 'author' },
 			},
 		},
-	});
+	};
+	const [broker, service] = await setup(serviceSchema);
 
 	const query = /* GraphQL */ `
 		query {
@@ -187,14 +179,12 @@ test('should build resolvers from a factory function', async () => {
 			}
 		}
 	`;
-
-	await broker.waitForServices('test', 1000, 10);
-
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
-
 	expect(result).toEqual({
 		data: {
 			author: { id: '1', name: 'John Steinbeck', book: { id: '1', title: 'Of Mice and Men' } },
 		},
 	});
+
+	await teardown(broker, service);
 });
