@@ -44,7 +44,7 @@ test('should execute simple query', async () => {
 		}
 	`;
 
-	await broker.waitForServices('test', 1000, 50);
+	await broker.waitForServices('test', 1000, 10);
 
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
 
@@ -98,7 +98,7 @@ test('should execute query using resolvers', async () => {
 		}
 	`;
 
-	await broker.waitForServices('test', 1000, 50);
+	await broker.waitForServices('test', 1000, 10);
 
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
 
@@ -135,7 +135,7 @@ test('should build typeDefs from a factory function', async () => {
 		}
 	`;
 
-	await broker.waitForServices('test', 1000, 50);
+	await broker.waitForServices('test', 1000, 10);
 
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
 
@@ -188,7 +188,7 @@ test('should build resolvers from a factory function', async () => {
 		}
 	`;
 
-	await broker.waitForServices('test', 1000, 50);
+	await broker.waitForServices('test', 1000, 10);
 
 	const result = await broker.call('test.$handleGraphQLRequest', { query });
 
