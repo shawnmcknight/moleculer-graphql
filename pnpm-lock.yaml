@@ -205,6 +205,7 @@ importers:
       graphql: 16.6.0
       graphql-http: ^1.10.0
       jest: 29.3.1
+      jest-mock-extended: 3.0.1
       lodash: ^4.17.21
       moleculer: 0.14.27
       moleculer-web: 0.10.5
@@ -240,6 +241,7 @@ importers:
       eslint-plugin-jest: 27.2.0_ejranoj46qqsbprlxeelud62h4
       graphql: 16.6.0
       jest: 29.3.1
+      jest-mock-extended: 3.0.1_jest@29.3.1
       moleculer: 0.14.27
       moleculer-web: 0.10.5_moleculer@0.14.27
       rimraf: 3.0.2
