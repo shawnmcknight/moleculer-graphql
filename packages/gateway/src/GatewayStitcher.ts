@@ -10,14 +10,14 @@ import type { GraphQLSchema } from 'graphql';
 import { buildSchema, print } from 'graphql';
 import type { Service, ServiceSchema, ServiceSettingSchema } from 'moleculer';
 
-class GatewayStitcher {
+class GatewayStitcher<TGraphQLContext extends Record<string, unknown>> {
 	private readonly service: Service;
 
 	public constructor(service: Service) {
 		this.service = service;
 	}
 
-	public stitch<TGraphQLContext extends Record<string, unknown>>(): GraphQLSchema {
+	public stitch(): GraphQLSchema {
 		const allServices = this.service.broker.registry.getServiceList({});
 
 		const processedServiceNames = new Set<string>();
@@ -41,7 +41,7 @@ class GatewayStitcher {
 
 			const schema = buildSchema(typeDefs);
 
-			const executor = this.makeRemoteExecutor<TGraphQLContext>(service);
+			const executor = this.makeRemoteExecutor(service);
 
 			acc.push({ ...subschemaConfig, schema, executor });
 
@@ -63,7 +63,7 @@ class GatewayStitcher {
 		});
 	}
 
-	private makeRemoteExecutor<TGraphQLContext extends Record<string, unknown>>(
+	private makeRemoteExecutor(
 		serviceSchema: ServiceSchema,
 	): Executor<GraphQLContext<TGraphQLContext>> {
 		const { name: serviceName, version } = serviceSchema;
@@ -94,7 +94,7 @@ class GatewayStitcher {
 
 	private isGraphQLServiceSettings(
 		settings?: ServiceSettingSchema,
-	): settings is GraphQLServiceSettings {
+	): settings is GraphQLServiceSettings<TGraphQLContext> {
 		return settings?.$graphql != null;
 	}
 }

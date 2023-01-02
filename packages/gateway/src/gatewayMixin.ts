@@ -11,7 +11,7 @@ import RequestHandler, { type Request } from './RequestHandler';
 
 interface GatewayService<TGraphQLContext extends Record<string, unknown>> extends Service {
 	rebuildSchema: boolean;
-	gatewayStitcher: GatewayStitcher;
+	gatewayStitcher: GatewayStitcher<TGraphQLContext>;
 	requestHandler: RequestHandler<TGraphQLContext>;
 }
 

@@ -8,7 +8,10 @@ import type { SchemaDirectiveTransformer } from './SchemaBuilder';
 import SchemaBuilder from './SchemaBuilder';
 
 type SubschemaConfigOmittedProps = 'schema' | 'executor' | 'merge';
-type ServiceMixinSubschemaConfig = Omit<SubschemaConfig, SubschemaConfigOmittedProps>;
+type ServiceMixinSubschemaConfig<TGraphQLContext extends Record<string, unknown>> = Omit<
+	SubschemaConfig<unknown, unknown, unknown, GraphQLContext<TGraphQLContext>>,
+	SubschemaConfigOmittedProps
+>;
 
 export type TypeDefsFactory<TGraphQLContext extends Record<string, unknown>> = (
 	this: GraphQLService<TGraphQLContext>,
@@ -24,19 +27,20 @@ export interface ServiceMixinOptions<TGraphQLContext extends Record<string, unkn
 		| IResolvers<unknown, GraphQLContext<TGraphQLContext>>
 		| ResolversFactory<TGraphQLContext>;
 	schemaDirectiveTransformers?: readonly SchemaDirectiveTransformer[];
-	subschemaConfig?: ServiceMixinSubschemaConfig;
+	subschemaConfig?: ServiceMixinSubschemaConfig<TGraphQLContext>;
 }
 
-interface GraphQLSettings {
+interface GraphQLSettings<TGraphQLContext extends Record<string, unknown>> {
 	typeDefs: string;
-	subschemaConfig: ServiceMixinSubschemaConfig;
+	subschemaConfig: ServiceMixinSubschemaConfig<TGraphQLContext>;
 }
-export interface GraphQLServiceSettings extends ServiceSettingSchema {
-	$graphql: GraphQLSettings;
+export interface GraphQLServiceSettings<TGraphQLContext extends Record<string, unknown>>
+	extends ServiceSettingSchema {
+	$graphql: GraphQLSettings<TGraphQLContext>;
 }
 
 export interface GraphQLService<TGraphQLContext extends Record<string, unknown>>
-	extends Service<GraphQLServiceSettings> {
+	extends Service<GraphQLServiceSettings<TGraphQLContext>> {
 	graphQLExecutor: GraphQLExecutor<TGraphQLContext>;
 }
 
@@ -51,9 +55,11 @@ export default function serviceMixin<
 >(opts: ServiceMixinOptions<TGraphQLContext>): Partial<ServiceSchema> {
 	const { schemaDirectiveTransformers, contextFactory } = opts;
 
-	const subschemaConfig: ServiceMixinSubschemaConfig = defaultsDeep({}, opts.subschemaConfig, {
-		batch: true,
-	});
+	const subschemaConfig: ServiceMixinSubschemaConfig<TGraphQLContext> = defaultsDeep(
+		{},
+		opts.subschemaConfig,
+		{ batch: true },
+	);
 
 	return {
 		created(this: GraphQLService<TGraphQLContext>) {
