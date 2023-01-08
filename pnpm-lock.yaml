@@ -40,7 +40,7 @@ importers:
       eslint-plugin-jest: 27.2.1
       graphql: 16.6.0
       graphql-depth-limit: 1.1.0
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       moleculer-repl: 0.7.3
       moleculer-web: 0.10.5
       ts-node: 10.9.1
@@ -50,9 +50,9 @@ importers:
       '@moleculer-graphql/service': link:../../packages/service
       graphql: 16.6.0
       graphql-depth-limit: 1.1.0_graphql@16.6.0
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       moleculer-repl: 0.7.3
-      moleculer-web: 0.10.5_moleculer@0.14.27
+      moleculer-web: 0.10.5_moleculer@0.14.28
       ts-node: 10.9.1
     devDependencies:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
@@ -151,7 +151,7 @@ importers:
       eslint-plugin-jest: 27.2.1
       jest: 29.3.1
       jest-mock-extended: 3.0.1
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       rimraf: 3.0.2
       ts-jest: 29.0.3
     devDependencies:
@@ -171,7 +171,7 @@ importers:
       eslint-plugin-jest: 27.2.1_sjoooccop23vfwju3yn36cdjoa
       jest: 29.3.1
       jest-mock-extended: 3.0.1_jest@29.3.1
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       rimraf: 3.0.2
       ts-jest: 29.0.3_jest@29.3.1
     publishDirectory: dist
@@ -207,7 +207,7 @@ importers:
       jest: 29.3.1
       jest-mock-extended: 3.0.1
       lodash: ^4.17.21
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       moleculer-web: 0.10.5
       rimraf: 3.0.2
       ts-jest: 29.0.3
@@ -242,8 +242,8 @@ importers:
       graphql: 16.6.0
       jest: 29.3.1
       jest-mock-extended: 3.0.1_jest@29.3.1
-      moleculer: 0.14.27
-      moleculer-web: 0.10.5_moleculer@0.14.27
+      moleculer: 0.14.28
+      moleculer-web: 0.10.5_moleculer@0.14.28
       rimraf: 3.0.2
       ts-jest: 29.0.3_jest@29.3.1
     publishDirectory: dist
@@ -276,7 +276,7 @@ importers:
       jest: 29.3.1
       jest-mock-extended: 3.0.1
       lodash: ^4.17.21
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       rimraf: 3.0.2
       ts-jest: 29.0.3
     dependencies:
@@ -307,7 +307,7 @@ importers:
       graphql: 16.6.0
       jest: 29.3.1
       jest-mock-extended: 3.0.1_jest@29.3.1
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       rimraf: 3.0.2
       ts-jest: 29.0.3_jest@29.3.1
     publishDirectory: dist
@@ -4145,7 +4145,7 @@ packages:
       yargs-parser: 21.1.1
     dev: false
 
-  /moleculer-web/0.10.5_moleculer@0.14.27:
+  /moleculer-web/0.10.5_moleculer@0.14.28:
     resolution: {integrity: sha512-b4LFl67ESo8tmYtfuu91r8nRyLV158URAbf21dsNvf4hiVJW0u0BFwkkQF7Bn1Y+KRYCnAXNjGt4B+q5+cKnIw==}
     engines: {node: '>= 10.x.x'}
     peerDependencies:
@@ -4159,15 +4159,15 @@ packages:
       isstream: 0.1.2
       kleur: 4.1.5
       lodash: 4.17.21
-      moleculer: 0.14.27
+      moleculer: 0.14.28
       path-to-regexp: 3.2.0
       qs: 6.11.0
       serve-static: 1.15.0
     transitivePeerDependencies:
       - supports-color
 
-  /moleculer/0.14.27:
-    resolution: {integrity: sha512-+bY8j9zteK7gwXQIzToumOFFwdI6vZqOCeewEi6fo81ft/8RuCLb52TRe0x3pe/9ZQhr2ajvdaPXLXVuNu9kBg==}
+  /moleculer/0.14.28:
+    resolution: {integrity: sha512-HTOtejMpb14oBtW0kKVoYLK6MgZA4NdPEppOf69yJhF1qlqXRGujAXE2ij2wWyXJNf31l84ZZRh+xXXQmRJaOQ==}
     engines: {node: '>= 10.x.x'}
     hasBin: true
     peerDependencies:
