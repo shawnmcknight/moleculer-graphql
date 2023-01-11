@@ -78,6 +78,6 @@
     "moleculer": "0.14.28",
     "moleculer-web": "0.10.5",
     "rimraf": "3.0.2",
-    "ts-jest": "29.0.3"
+    "ts-jest": "29.0.4"
   }
 }
