@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "jest": "29.3.1",
-    "ts-jest": "29.0.4"
+    "ts-jest": "29.0.5"
   },
   "peerDependencies": {
     "jest": "^29.3.0",

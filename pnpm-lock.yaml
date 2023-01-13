@@ -94,10 +94,10 @@ importers:
   internal/jest-config:
     specifiers:
       jest: 29.3.1
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
     devDependencies:
       jest: 29.3.1
-      ts-jest: 29.0.4_jest@29.3.1
+      ts-jest: 29.0.5_jest@29.3.1
 
   internal/scripts:
     specifiers:
@@ -153,7 +153,7 @@ importers:
       jest-mock-extended: 3.0.1
       moleculer: 0.14.28
       rimraf: 3.0.2
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
     devDependencies:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
       '@moleculer-graphql/jest-config': link:../../internal/jest-config
@@ -173,7 +173,7 @@ importers:
       jest-mock-extended: 3.0.1_jest@29.3.1
       moleculer: 0.14.28
       rimraf: 3.0.2
-      ts-jest: 29.0.4_jest@29.3.1
+      ts-jest: 29.0.5_jest@29.3.1
     publishDirectory: dist
 
   packages/gateway:
@@ -210,7 +210,7 @@ importers:
       moleculer: 0.14.28
       moleculer-web: 0.10.5
       rimraf: 3.0.2
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
     dependencies:
       '@graphql-tools/stitch': 8.7.35_graphql@16.6.0
       '@graphql-tools/stitching-directives': 2.3.25_graphql@16.6.0
@@ -245,7 +245,7 @@ importers:
       moleculer: 0.14.28
       moleculer-web: 0.10.5_moleculer@0.14.28
       rimraf: 3.0.2
-      ts-jest: 29.0.4_jest@29.3.1
+      ts-jest: 29.0.5_jest@29.3.1
     publishDirectory: dist
 
   packages/service:
@@ -278,7 +278,7 @@ importers:
       lodash: ^4.17.21
       moleculer: 0.14.28
       rimraf: 3.0.2
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
     dependencies:
       '@graphql-tools/merge': 8.3.15_graphql@16.6.0
       '@graphql-tools/schema': 9.0.13_graphql@16.6.0
@@ -309,7 +309,7 @@ importers:
       jest-mock-extended: 3.0.1_jest@29.3.1
       moleculer: 0.14.28
       rimraf: 3.0.2
-      ts-jest: 29.0.4_jest@29.3.1
+      ts-jest: 29.0.5_jest@29.3.1
     publishDirectory: dist
 
   packages/utils:
@@ -331,7 +331,7 @@ importers:
       eslint-plugin-jest: 27.2.1
       jest: 29.3.1
       rimraf: 3.0.2
-      ts-jest: 29.0.4
+      ts-jest: 29.0.5
     devDependencies:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
       '@moleculer-graphql/jest-config': link:../../internal/jest-config
@@ -350,7 +350,7 @@ importers:
       eslint-plugin-jest: 27.2.1_7vyg734mvpr2n3qj2kjvurlrwu
       jest: 29.3.1
       rimraf: 3.0.2
-      ts-jest: 29.0.4_jest@29.3.1
+      ts-jest: 29.0.5_jest@29.3.1
     publishDirectory: dist
 
 packages:
@@ -5241,8 +5241,8 @@ packages:
       typescript: '>=3.7.0'
     dev: true
 
-  /ts-jest/29.0.4_jest@29.3.1:
-    resolution: {integrity: sha512-YdNofkoyzeinwjIqLSYQeAM+GTmFQ7xFNtWcR5OyitY5VLzzNINrNmfhP5H3daA/V+RGQR7O3g1K6ysRgu5xIQ==}
+  /ts-jest/29.0.5_jest@29.3.1:
+    resolution: {integrity: sha512-PL3UciSgIpQ7f6XjVOmbi96vmDHUqAyqDr8YxzopDqX3kfgYtX1cuNeBjP+L9sFXi6nzsGGA6R3fP3DDDJyrxA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
