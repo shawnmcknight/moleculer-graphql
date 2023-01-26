@@ -40,9 +40,9 @@
     "node": ">=16.18.0"
   },
   "dependencies": {
-    "@graphql-tools/merge": "^8.3.15",
-    "@graphql-tools/schema": "^9.0.13",
-    "@graphql-tools/stitching-directives": "^2.3.25",
+    "@graphql-tools/merge": "^8.3.16",
+    "@graphql-tools/schema": "^9.0.14",
+    "@graphql-tools/stitching-directives": "^2.3.26",
     "@moleculer-graphql/context": "workspace:^",
     "@moleculer-graphql/utils": "workspace:^",
     "lodash": "^4.17.21"
@@ -51,7 +51,7 @@
     "graphql": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@graphql-tools/delegate": "9.0.22",
+    "@graphql-tools/delegate": "9.0.23",
     "@graphql-tools/utils": "9.1.4",
     "@moleculer-graphql/eslint-config": "workspace:*",
     "@moleculer-graphql/jest-config": "workspace:*",
