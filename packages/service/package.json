@@ -57,7 +57,7 @@
     "@moleculer-graphql/jest-config": "workspace:*",
     "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
-    "@types/lodash": "4.14.191",
+    "@types/lodash": "4.14.192",
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
     "cpy-cli": "4.2.0",
