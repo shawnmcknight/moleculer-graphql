@@ -179,7 +179,7 @@ importers:
   packages/gateway:
     specifiers:
       '@graphql-tools/delegate': 9.0.28
-      '@graphql-tools/stitch': ^8.7.43
+      '@graphql-tools/stitch': ^8.7.44
       '@graphql-tools/stitching-directives': ^2.3.31
       '@graphql-tools/utils': 9.2.1
       '@moleculer-graphql/context': workspace:^
@@ -212,7 +212,7 @@ importers:
       rimraf: 3.0.2
       ts-jest: 29.0.5
     dependencies:
-      '@graphql-tools/stitch': 8.7.43_graphql@16.6.0
+      '@graphql-tools/stitch': 8.7.44_graphql@16.6.0
       '@graphql-tools/stitching-directives': 2.3.31_graphql@16.6.0
       '@moleculer-graphql/context': link:../context
       '@moleculer-graphql/utils': link:../utils
@@ -744,8 +744,8 @@ packages:
     dependencies:
       text-decoding: 1.0.0
 
-  /@graphql-tools/batch-delegate/8.4.21_graphql@16.6.0:
-    resolution: {integrity: sha512-NrnMGF6SHv7b0OWSyPUURZDoPGKEFTmTyYwVQ+iM950ZPBx3gOUPODZaXWpFVlFK2UGVNk6atvbigPDHnwSZnw==}
+  /@graphql-tools/batch-delegate/8.4.22_graphql@16.6.0:
+    resolution: {integrity: sha512-yLQ1MzjFWDh8RBjmAqrkZgHVyCJGJVcsb5e0PFgTaX1jqCVZSqu3PluPlfMzV/UPM/X6CguAm5uItDKID4rrMA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
@@ -835,12 +835,12 @@ packages:
       value-or-promise: 1.0.12
     dev: false
 
-  /@graphql-tools/stitch/8.7.43_graphql@16.6.0:
-    resolution: {integrity: sha512-XfZEtGU/zKUuAvVdRl+ZyZuZra67wwg0BqDvYJJ4gzhm9X2JcV8jALEqrTMVuFn4xK5oxcTe1uLlaLmhxQXHWQ==}
+  /@graphql-tools/stitch/8.7.44_graphql@16.6.0:
+    resolution: {integrity: sha512-Sv/gpFHy4mBMrdVKK+4sb6U2rqtKfBH1vCDM80nN1u1+YE7sQcSdf2plfbhzsF2BvonQMy7w2PB0Ele1BVjwug==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/batch-delegate': 8.4.21_graphql@16.6.0
+      '@graphql-tools/batch-delegate': 8.4.22_graphql@16.6.0
       '@graphql-tools/delegate': 9.0.28_graphql@16.6.0
       '@graphql-tools/merge': 8.4.0_graphql@16.6.0
       '@graphql-tools/schema': 9.0.17_graphql@16.6.0
