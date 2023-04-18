@@ -53,7 +53,7 @@
     "moleculer-web": "^0.10.0"
   },
   "devDependencies": {
-    "@graphql-tools/delegate": "9.0.31",
+    "@graphql-tools/delegate": "9.0.32",
     "@graphql-tools/utils": "9.2.1",
     "@moleculer-graphql/eslint-config": "workspace:*",
     "@moleculer-graphql/jest-config": "workspace:*",
