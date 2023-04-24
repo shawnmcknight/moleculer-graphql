@@ -178,7 +178,7 @@ importers:
 
   packages/gateway:
     specifiers:
-      '@graphql-tools/delegate': 9.0.33
+      '@graphql-tools/delegate': 9.0.34
       '@graphql-tools/stitch': ^8.7.48
       '@graphql-tools/stitching-directives': ^2.3.34
       '@graphql-tools/utils': 9.2.1
@@ -220,7 +220,7 @@ importers:
       graphql-http: 1.18.0_graphql@16.6.0
       lodash: 4.17.21
     devDependencies:
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
       '@moleculer-graphql/jest-config': link:../../internal/jest-config
@@ -250,7 +250,7 @@ importers:
 
   packages/service:
     specifiers:
-      '@graphql-tools/delegate': 9.0.33
+      '@graphql-tools/delegate': 9.0.34
       '@graphql-tools/merge': ^8.4.1
       '@graphql-tools/schema': ^9.0.19
       '@graphql-tools/stitching-directives': ^2.3.34
@@ -287,7 +287,7 @@ importers:
       '@moleculer-graphql/utils': link:../utils
       lodash: 4.17.21
     devDependencies:
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
       '@moleculer-graphql/jest-config': link:../../internal/jest-config
@@ -749,15 +749,15 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
       dataloader: 2.2.2
       graphql: 16.6.0
       tslib: 2.5.0
     dev: false
 
-  /@graphql-tools/batch-execute/8.5.20_graphql@16.6.0:
-    resolution: {integrity: sha512-0Y3xHweyDBPxWfIazxys1Jl3a9R8L9uPU39K2wx4T/GDi+5cugYP+e4urD5/f9yNs/fgxju2RrB2IpkdsKSbfg==}
+  /@graphql-tools/batch-execute/8.5.21_graphql@16.6.0:
+    resolution: {integrity: sha512-DDyCPUSUjc0he/I9byguxohW/owQyVEO/gJcXLFAbHtTjORci3gRaRwLw24j0WaP+ZAlxYTMQs1HSlyJFaUArA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
@@ -767,12 +767,12 @@ packages:
       tslib: 2.5.0
       value-or-promise: 1.0.12
 
-  /@graphql-tools/delegate/9.0.33_graphql@16.6.0:
-    resolution: {integrity: sha512-rPPdXot06yYAEGyfUz0gwRfqNIC3s5+GWu4RHJfGOWGlwI6R+S0CCh2HQGlKZVVfWTZ3b5yZiai1QCLWy04NlQ==}
+  /@graphql-tools/delegate/9.0.34_graphql@16.6.0:
+    resolution: {integrity: sha512-qVTeq+0nxiDo54f28r0tOoXE6nipzGyDp5uuNMJJRvmIWjFGiyOBI8IsynPvLb2nCwhcpaTVJ2Bqswk/3DNO4w==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/batch-execute': 8.5.20_graphql@16.6.0
+      '@graphql-tools/batch-execute': 8.5.21_graphql@16.6.0
       '@graphql-tools/executor': 0.0.19_graphql@16.6.0
       '@graphql-tools/schema': 9.0.19_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
@@ -831,7 +831,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@graphql-tools/batch-delegate': 8.4.25_graphql@16.6.0
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/merge': 8.4.1_graphql@16.6.0
       '@graphql-tools/schema': 9.0.18_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
@@ -846,7 +846,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.5.0
@@ -866,7 +866,7 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/delegate': 9.0.33_graphql@16.6.0
+      '@graphql-tools/delegate': 9.0.34_graphql@16.6.0
       '@graphql-tools/schema': 9.0.19_graphql@16.6.0
       '@graphql-tools/utils': 9.2.1_graphql@16.6.0
       graphql: 16.6.0
