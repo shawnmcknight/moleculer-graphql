@@ -51,7 +51,7 @@
     "graphql": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@graphql-tools/delegate": "9.0.34",
+    "@graphql-tools/delegate": "9.0.35",
     "@graphql-tools/utils": "9.2.1",
     "@moleculer-graphql/eslint-config": "workspace:*",
     "@moleculer-graphql/jest-config": "workspace:*",
