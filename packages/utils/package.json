@@ -44,7 +44,7 @@
     "@moleculer-graphql/jest-config": "workspace:*",
     "@moleculer-graphql/scripts": "workspace:*",
     "@moleculer-graphql/tsconfig": "workspace:*",
-    "@types/jest": "29.5.1",
+    "@types/jest": "29.5.2",
     "@typescript-eslint/eslint-plugin": "5.59.8",
     "@typescript-eslint/parser": "5.59.8",
     "cpy-cli": "4.2.0",
