@@ -58,6 +58,6 @@
     "jest-mock-extended": "3.0.4",
     "moleculer": "0.14.28",
     "rimraf": "3.0.2",
-    "ts-jest": "29.1.0"
+    "ts-jest": "29.1.1"
   }
 }
