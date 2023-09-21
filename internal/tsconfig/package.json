@@ -8,7 +8,7 @@
     "prettier:fix": "prettier . --ignore-unknown --write"
   },
   "dependencies": {
-    "@tsconfig/node16": "1.0.4"
+    "@tsconfig/node16": "16.1.1"
   },
   "peerDependencies": {
     "typescript": "^4.9.4"

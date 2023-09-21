@@ -129,9 +129,9 @@ importers:
 
   internal/tsconfig:
     specifiers:
-      '@tsconfig/node16': 1.0.4
+      '@tsconfig/node16': 16.1.1
     dependencies:
-      '@tsconfig/node16': 1.0.4
+      '@tsconfig/node16': 16.1.1
 
   packages/context:
     specifiers:
@@ -1243,8 +1243,8 @@ packages:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
     dev: false
 
-  /@tsconfig/node16/1.0.4:
-    resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+  /@tsconfig/node16/16.1.1:
+    resolution: {integrity: sha512-+pio93ejHN4nINX4pXqfnR/fPLRtJBaT4ORaa5RH0Oc1zoYmo2B2koG+M328CQhHKn1Wj6FcOxCDFXAot9NhvA==}
     dev: false
 
   /@types/accepts/1.3.5:
