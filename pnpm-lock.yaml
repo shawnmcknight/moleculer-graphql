@@ -40,7 +40,7 @@ importers:
       eslint-plugin-jest: 27.2.2
       graphql: 16.8.1
       graphql-depth-limit: 1.1.0
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       moleculer-repl: 0.7.3
       moleculer-web: 0.10.5
       ts-node: 10.9.1
@@ -50,9 +50,9 @@ importers:
       '@moleculer-graphql/service': link:../../packages/service
       graphql: 16.8.1
       graphql-depth-limit: 1.1.0_graphql@16.8.1
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       moleculer-repl: 0.7.3
-      moleculer-web: 0.10.5_moleculer@0.14.28
+      moleculer-web: 0.10.5_moleculer@0.14.32
       ts-node: 10.9.1
     devDependencies:
       '@moleculer-graphql/eslint-config': link:../../internal/eslint-config
@@ -151,7 +151,7 @@ importers:
       eslint-plugin-jest: 27.2.2
       jest: 29.6.1
       jest-mock-extended: 3.0.4
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       rimraf: 3.0.2
       ts-jest: 29.1.1
     devDependencies:
@@ -171,7 +171,7 @@ importers:
       eslint-plugin-jest: 27.2.2_jvr2jvjuhqv7dn5s3llua3xhk4
       jest: 29.6.1
       jest-mock-extended: 3.0.4_jest@29.6.1
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       rimraf: 3.0.2
       ts-jest: 29.1.1_jest@29.6.1
     publishDirectory: dist
@@ -207,7 +207,7 @@ importers:
       jest: 29.6.1
       jest-mock-extended: 3.0.4
       lodash: ^4.17.21
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       moleculer-web: 0.10.5
       rimraf: 3.0.2
       ts-jest: 29.1.1
@@ -242,8 +242,8 @@ importers:
       graphql: 16.8.1
       jest: 29.6.1
       jest-mock-extended: 3.0.4_jest@29.6.1
-      moleculer: 0.14.28
-      moleculer-web: 0.10.5_moleculer@0.14.28
+      moleculer: 0.14.32
+      moleculer-web: 0.10.5_moleculer@0.14.32
       rimraf: 3.0.2
       ts-jest: 29.1.1_jest@29.6.1
     publishDirectory: dist
@@ -276,7 +276,7 @@ importers:
       jest: 29.6.1
       jest-mock-extended: 3.0.4
       lodash: ^4.17.21
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       rimraf: 3.0.2
       ts-jest: 29.1.1
     dependencies:
@@ -307,7 +307,7 @@ importers:
       graphql: 16.8.1
       jest: 29.6.1
       jest-mock-extended: 3.0.4_jest@29.6.1
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       rimraf: 3.0.2
       ts-jest: 29.1.1_jest@29.6.1
     publishDirectory: dist
@@ -2891,8 +2891,8 @@ packages:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: true
 
-  /fastest-validator/1.16.0:
-    resolution: {integrity: sha512-+C1cFoLboOZIZs2PWhceNtJ15zCoiRalu1LnJB4hy63Y8Tto9bkqGcTGkzegt+Xu4qy3LE9GL6CLzEdpZ5xJBQ==}
+  /fastest-validator/1.17.0:
+    resolution: {integrity: sha512-37U/JDP72QSFqcvNnO81f0Aeu9og+5I3mc55b2v2RbV0S2I7KvQEdBtrFeIvaYVgam1bDUgy9F9AK9HolByogA==}
 
   /fastq/1.14.0:
     resolution: {integrity: sha512-eR2D+V9/ExcbF9ls441yIuN6TI2ED1Y2ZcA5BmMtJsOkWOFRJQ0Jt0g1UwqXJJVAb+V+umH5Dfr8oh4EVP7VVg==}
@@ -3260,8 +3260,8 @@ packages:
       side-channel: 1.0.4
     dev: true
 
-  /ipaddr.js/2.0.1:
-    resolution: {integrity: sha512-1qTgH9NG+IIJ4yfKs2e6Pp1bZg8wbDbKHT21HrLIeYBTRLgMYKnMTPAuI3Lcs61nfx5h1xlXnbJtH1kX5/d/ng==}
+  /ipaddr.js/2.1.0:
+    resolution: {integrity: sha512-LlbxQ7xKzfBusov6UMi4MFpEg0m+mAm9xyNGEduwXMEDuf4WfzB/RZwMVYEd7IKGvh4IUkEXYxtAVu9T3OelJQ==}
     engines: {node: '>= 10'}
 
   /is-arrayish/0.2.1:
@@ -4272,7 +4272,7 @@ packages:
       yargs-parser: 21.1.1
     dev: false
 
-  /moleculer-web/0.10.5_moleculer@0.14.28:
+  /moleculer-web/0.10.5_moleculer@0.14.32:
     resolution: {integrity: sha512-b4LFl67ESo8tmYtfuu91r8nRyLV158URAbf21dsNvf4hiVJW0u0BFwkkQF7Bn1Y+KRYCnAXNjGt4B+q5+cKnIw==}
     engines: {node: '>= 10.x.x'}
     peerDependencies:
@@ -4286,15 +4286,15 @@ packages:
       isstream: 0.1.2
       kleur: 4.1.5
       lodash: 4.17.21
-      moleculer: 0.14.28
+      moleculer: 0.14.32
       path-to-regexp: 3.2.0
       qs: 6.11.0
       serve-static: 1.15.0
     transitivePeerDependencies:
       - supports-color
 
-  /moleculer/0.14.28:
-    resolution: {integrity: sha512-HTOtejMpb14oBtW0kKVoYLK6MgZA4NdPEppOf69yJhF1qlqXRGujAXE2ij2wWyXJNf31l84ZZRh+xXXQmRJaOQ==}
+  /moleculer/0.14.32:
+    resolution: {integrity: sha512-N5RXKS9Z01Gl6gLkf3snLgYbzU0bLci1WNEIuy2D+cjEg7i3XEArsiFHKnmNYWF6L5DajVrT8dw9EqGgvmjmOw==}
     engines: {node: '>= 10.x.x'}
     hasBin: true
     peerDependencies:
@@ -4309,7 +4309,7 @@ packages:
       jaeger-client: ^3.0.0
       kafka-node: ^5.0.0
       log4js: ^6.0.0
-      mqtt: ^4.0.0
+      mqtt: ^4.0.0 || ^5.0.0
       msgpack5: ^5.0.0 || ^6.0.0
       nats: ^1.0.0 || ^2.0.0
       node-nats-streaming: ^0.0.51 || ^0.2.0 || ^0.3.0
@@ -4368,9 +4368,9 @@ packages:
     dependencies:
       args: 5.0.3
       eventemitter2: 6.4.9
-      fastest-validator: 1.16.0
+      fastest-validator: 1.17.0
       glob: 7.2.3
-      ipaddr.js: 2.0.1
+      ipaddr.js: 2.1.0
       kleur: 4.1.5
       lodash: 4.17.21
       lru-cache: 6.0.0
